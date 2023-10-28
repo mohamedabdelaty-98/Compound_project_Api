@@ -46,6 +46,11 @@ namespace Compound_project
             });
             //configration for automapper
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+            //Configuration for cors
+            builder.Services.AddCors(option =>
+                option.AddPolicy("AllowAnyOrigin", builder =>
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
+            );
             builder.Services.AddScoped<IUnit, UnitRepo>();
             //Configuration for Raghad
 
@@ -83,7 +88,7 @@ namespace Compound_project
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("AllowAnyOrigin");
             app.UseAuthorization();
 
 
