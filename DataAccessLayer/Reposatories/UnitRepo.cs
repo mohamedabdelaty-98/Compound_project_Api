@@ -18,6 +18,16 @@ namespace BussienesLayer.Reposatories
             this.context = context;
         }
 
+        public List<Unit> FilterByBuildingNumber(int num)
+        {
+            return FilterByStatus().Where(u => u.building.BulidingNumber == num).ToList(); ;
+        }
+
+        public List<Unit> FilterByNumOfFloor(int num)
+        {
+            return FilterByStatus().Where(u=>u.Floor==num).ToList();
+        }
+
         public List<Unit> FilterByStatus()
         {
             return context.units.Where(u=>u.status==Status.active).ToList();

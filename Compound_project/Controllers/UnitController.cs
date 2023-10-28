@@ -54,5 +54,37 @@ namespace Compound_project.Controllers
             result.Data = dTOUnits;
             return result;
         }
+        [HttpGet("UnitsInFloor/{num}")]
+        public ActionResult<DTOResult> UnitsInFloor(int num)
+        {
+            List<Unit> units = _unit.FilterByNumOfFloor(num);
+            List<DTOUnit> dTOUnits = units.Select(item => _mapper.Map<DTOUnit>(item)).ToList();
+            foreach (var dtoUnit in dTOUnits)
+            {
+                dtoUnit.unitcomponents = _unitComponent.GetUnitComponents(dtoUnit.Id)
+                    .Select(c => _mapper.Map<DTOUnitComponent>(c)).ToList();
+            }
+            DTOResult result = new DTOResult();
+            if (dTOUnits == null || dTOUnits.Count == 0) result.IsPass = false;
+            else result.IsPass = true;
+            result.Data = dTOUnits;
+            return result;
+        }
+        [HttpGet("UnitInBuilding/{num}")]
+        public ActionResult<DTOResult> UnitInBuilding(int num)
+        {
+            List<Unit> units = _unit.FilterByBuildingNumber(num);
+            List<DTOUnit> dTOUnits = units.Select(item => _mapper.Map<DTOUnit>(item)).ToList();
+            foreach (var dtoUnit in dTOUnits)
+            {
+                dtoUnit.unitcomponents = _unitComponent.GetUnitComponents(dtoUnit.Id)
+                    .Select(c => _mapper.Map<DTOUnitComponent>(c)).ToList();
+            }
+            DTOResult result = new DTOResult();
+            if (dTOUnits == null || dTOUnits.Count == 0) result.IsPass = false;
+            else result.IsPass = true;
+            result.Data = dTOUnits;
+            return result;
+        }
     }
 }

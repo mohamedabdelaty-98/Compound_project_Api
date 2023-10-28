@@ -11,5 +11,7 @@ namespace BussienesLayer.Reposatories
     public interface IUnit:ICrudOperation<Unit>
     {
         List<Unit> FilterByStatus();
+        List<Unit> FilterByNumOfFloor(int num);
+        List<Unit> FilterByBuildingNumber(int num);
     }
 }
