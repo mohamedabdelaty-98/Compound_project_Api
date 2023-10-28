@@ -1,5 +1,3 @@
-
-
 using BussienesLayer.Reposatories;
 using Compound_project.AutoMapper;
 using DataAccessLayer.Data;

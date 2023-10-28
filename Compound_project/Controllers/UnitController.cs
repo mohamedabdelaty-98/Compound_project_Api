@@ -42,10 +42,16 @@ namespace Compound_project.Controllers
         public ActionResult<DTOResult> UnitsActive()
         {
             List<Unit> units = _unit.FilterByStatus();
+            List<DTOUnit> dTOUnits= units.Select(item => _mapper.Map<DTOUnit>(item)).ToList();
+            foreach (var dtoUnit in dTOUnits)
+            {
+                dtoUnit.unitcomponents = _unitComponent.GetUnitComponents(dtoUnit.Id)
+                    .Select(c => _mapper.Map<DTOUnitComponent>(c)).ToList();
+            }
             DTOResult result = new DTOResult();
-            if (units == null || units.Count == 0) result.IsPass = false;
+            if (dTOUnits == null || dTOUnits.Count == 0) result.IsPass = false;
             else result.IsPass=true;
-            result.Data = units;
+            result.Data = dTOUnits;
             return result;
         }
     }
