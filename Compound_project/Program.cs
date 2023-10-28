@@ -4,6 +4,7 @@ using BussienesLayer.Reposatories;
 using DataAccessLayer.Data;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 namespace Compound_project
 {
@@ -18,7 +19,24 @@ namespace Compound_project
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            //for test autorize in swagger
+            builder.Services.AddSwaggerGen(swagger =>
+            {
+                swagger.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version="v1",
+                    Title="Asp.Net 6 Web Api",
+                    Description="Compound Project"
+                });
+                swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name="Authorization",
+                    Type=SecuritySchemeType.ApiKey,
+                    BearerFormat="JWT",
+                    In=ParameterLocation.Header,
+                    Description="Enter Bearer [space] and then your valid token in the text input "
+                });
+            });
             //configration for dbcontext
             builder.Services.AddDbContext<Context>(option =>
             {
@@ -29,6 +47,34 @@ namespace Compound_project
             //configration for automapper
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
             builder.Services.AddScoped<IUnit, UnitRepo>();
+            //Configuration for Raghad
+
+
+
+
+
+            //Configuration for Shrouk
+
+
+
+
+            //Configuration for Men3m
+
+
+
+            //Configuration for Salah
+
+
+
+
+            //Configuration for Zaki
+
+
+            
+            
+            //Configuration for Amr
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
