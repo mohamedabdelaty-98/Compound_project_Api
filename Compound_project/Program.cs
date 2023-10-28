@@ -1,6 +1,7 @@
 
+using AutoMapperLayer;
+using BussienesLayer.Reposatories;
 using DataAccessLayer.Data;
-
 
 using Microsoft.EntityFrameworkCore;
 
@@ -18,12 +19,16 @@ namespace Compound_project
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            //configration for dbcontext
             builder.Services.AddDbContext<Context>(option =>
             {
                 option.UseLazyLoadingProxies()
                 .UseSqlServer(builder.Configuration.GetConnectionString("sql"),
                 b=>b.MigrationsAssembly("Compound_project"));
             });
+            //configration for automapper
+            builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+            builder.Services.AddScoped<IUnit, UnitRepo>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
