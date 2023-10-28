@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAcce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BussienesLayer", "BussienesLayer\BussienesLayer.csproj", "{401D5A11-658E-4BED-8BE5-B84D1C8586A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoMapperLayer", "AutoMapper\AutoMapperLayer.csproj", "{ED946934-7225-4E76-AE1B-F37E64BAAF5F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{401D5A11-658E-4BED-8BE5-B84D1C8586A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{401D5A11-658E-4BED-8BE5-B84D1C8586A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{401D5A11-658E-4BED-8BE5-B84D1C8586A4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED946934-7225-4E76-AE1B-F37E64BAAF5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED946934-7225-4E76-AE1B-F37E64BAAF5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED946934-7225-4E76-AE1B-F37E64BAAF5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED946934-7225-4E76-AE1B-F37E64BAAF5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
