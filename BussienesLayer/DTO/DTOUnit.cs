@@ -13,7 +13,7 @@ namespace Compound_project.DTO
         public double Area { get; set; }
         public string status { get; set; }
         public int BulidingNumber { get; set; }
-        public List<DTOUnitComponent> unitcomponents { get; set; }
+        public List<DTOUnitComponent>? unitcomponents { get; set; }
 
     }
 }
