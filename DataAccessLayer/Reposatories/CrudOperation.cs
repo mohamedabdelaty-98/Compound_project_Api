@@ -40,7 +40,8 @@ namespace DataAccessLayer.Reposatories
         }
         public void update(T Entity)
         {
-            context.Set<T>().Update(Entity);
+            context.Entry(Entity).State = EntityState.Modified;
+            //context.Set<T>().Update(Entity);
         }
         public void Delete(int id)
         {
