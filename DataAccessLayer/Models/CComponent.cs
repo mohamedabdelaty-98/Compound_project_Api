@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Models
 {
-    public class Component
+    public class CComponent
     {
         public int Id { get; set; }
         [MaxLength(100)]

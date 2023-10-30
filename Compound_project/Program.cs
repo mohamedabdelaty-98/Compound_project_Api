@@ -1,9 +1,11 @@
+
 using BussienesLayer.Reposatories;
 using Compound_project.AutoMapper;
 using DataAccessLayer.Data;
-
+using DataAccessLayer.Reposatories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+
 
 namespace Compound_project
 {
@@ -52,6 +54,8 @@ namespace Compound_project
             );
             builder.Services.AddScoped<IUnit, UnitRepo>();
             builder.Services.AddScoped<IUnitComponent, UnitComponentRepo>();
+            builder.Services.AddScoped<Icomponent, ComponentRepo>();
+            
             //Configuration for Raghad
 
 

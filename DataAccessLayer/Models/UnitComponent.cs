@@ -16,7 +16,7 @@ namespace DataAccessLayer.Models
         public int NumberComponent { get; set; }
         [ForeignKey("component")]
         public int ComponentId { get; set; }
-        public virtual Component? component { get; set; }
+        public virtual CComponent? component { get; set; }
         [ForeignKey("unit")]
         public int UnitId { get; set; }
         public virtual Unit? unit { get; set; }
