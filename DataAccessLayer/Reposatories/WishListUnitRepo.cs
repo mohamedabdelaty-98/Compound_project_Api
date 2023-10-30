@@ -16,5 +16,12 @@ namespace DataAccessLayer.Reposatories
     {
       this.context = context;
     }
+
+    public List<WishlistUnit> FilterByUnitId(int unitid)
+    {
+     return context.wishlistUnits.Where(x=>x.unit.Id == unitid).ToList();
+    }
+
+   
   }
 }

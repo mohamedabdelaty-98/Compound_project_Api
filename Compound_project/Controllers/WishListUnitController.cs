@@ -3,6 +3,7 @@ using Compound_project.DTO;
 using DataAccessLayer.Models;
 using DataAccessLayer.Reposatories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Compound_project.Controllers
@@ -17,6 +18,35 @@ namespace Compound_project.Controllers
     {
       this.wishListUnit = wishListUnit;
     }
+
+    [HttpGet("api/filterByunitid/{id}")]
+    public ActionResult<DTOResult> FilterByUnitId(int id)
+    {
+     List<WishlistUnit>wishunits= wishListUnit.FilterByUnitId(id);
+      List<DTOWishListUnit> dTOWishListUnits = new List<DTOWishListUnit>();
+      foreach (var item in wishunits)
+      {
+        DTOWishListUnit dTO = new DTOWishListUnit();
+        dTO.Id = item.Id;
+        dTO.user_Id = item.wishlist.UserId;
+        dTO.UnitId = item.UnitId;
+        dTO.WihslistId = item.WihslistId;
+        dTO.unit = item.unit;
+        dTO.UserName = item.wishlist.user.UserName;
+        dTO.wishlist = item.wishlist;
+
+
+      }
+      DTOResult result = new DTOResult();
+      if (dTOWishListUnits == null || dTOWishListUnits.Count == 0) result.IsPass = false;
+      else result.IsPass = true;
+      result.Data = dTOWishListUnits;
+      return result;
+
+
+    }
+
+
     [HttpGet("GetAllWishlistUnit")]
     public ActionResult<DTOResult> GetAllWishlistUnit()
     {
@@ -67,16 +97,23 @@ namespace Compound_project.Controllers
     [HttpPost]
     public ActionResult<DTOResult> AddWishlistUnit(WishlistUnit wish)
     {
-
-      if (!ModelState.IsValid) return BadRequest(ModelState);
-      else
+      DTOResult result = new DTOResult();
+      if (!ModelState.IsValid)
+       
+        {
+          result.IsPass = false;
+          result.Data = ModelState.Values.SelectMany(v => v.Errors)
+        .Select(e => e.ErrorMessage).ToList();
+        }
+        else
       {
         wishListUnit.insert(wish);
         wishListUnit.save();
-        return CreatedAtAction("GetWishUnitById", new { id = wish.Id }, wish);
+        result.IsPass = true;
+        result.Data = $"created wish with id{wish.Id}";
       }
 
-
+      return result;
     }
 
 

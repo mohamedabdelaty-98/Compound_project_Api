@@ -9,6 +9,7 @@ namespace DataAccessLayer.Reposatories
 {
   public interface IWishListUnit:ICrudOperation<WishlistUnit>
   {
+    List<WishlistUnit> FilterByUnitId(int unitid);
 
   }
 }

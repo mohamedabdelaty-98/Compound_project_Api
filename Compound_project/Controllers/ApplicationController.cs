@@ -82,14 +82,21 @@ namespace Compound_project.Controllers
           ContactEmail = dTO.ContactEmail
 
         };
-      if (!ModelState.IsValid) return BadRequest(ModelState);
+      DTOResult result = new DTOResult();
+      if (!ModelState.IsValid)
+      {
+        result.IsPass = false;
+        result.Data = ModelState.Values.SelectMany(v => v.Errors)
+      .Select(e => e.ErrorMessage).ToList();
+      }
       else
       {
         App.insert(application);
         App.save();
-       return CreatedAtAction("GetApplicationById", new {id=application.Id},application);
+        result.IsPass = true;
+        result.Data = $"created wish with id{application.Id}";
       }
-
+      return result;
 
     }
     [HttpPut("id")]
