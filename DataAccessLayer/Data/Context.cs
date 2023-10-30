@@ -23,7 +23,8 @@ namespace DataAccessLayer.Data
         public DbSet<Building> buildings { get; set; }
         public DbSet<CComponent> components { get; set; }
         public DbSet<Compound> compounds { get; set; }
-        public DbSet<ImageBuilding> imageBuildings { get; set; }
+        public DbSet<BuildingImage> BuildingImages { get; set; }
+        public DbSet<CompoundImage> CompundImages { get; set; }
         public DbSet<Landmark> landmarks { get; set; }
         public DbSet<LandMarksCompound> landMarksCompounds { get; set; }
         public DbSet<Review> reviews { get; set; }

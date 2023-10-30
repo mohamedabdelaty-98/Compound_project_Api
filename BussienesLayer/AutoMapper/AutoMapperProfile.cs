@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BussienesLayer.DTO;
 using Compound_project.DTO;
 using DataAccessLayer.Models;
 
@@ -16,6 +17,33 @@ namespace Compound_project.AutoMapper
             CreateMap<UnitComponent, DTOUnitComponent>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.component.Name));
 
+           
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            CreateMap<CompoundImage, DTOCompoundImage>();
+            CreateMap<BuildingImage, DTOBuildingImage>();
+            CreateMap<UnitImage, DTOUnitImage>();
+
+            CreateMap<DTOCompoundImage, CompoundImage>();
+            CreateMap<DTOBuildingImage, BuildingImage>();
+            CreateMap<DTOUnitImage, UnitImage>();
+
+
+
+
             CreateMap<DTOUnitComponent, UnitComponent>()
                 .ForPath(dest => dest.component.Name, opt => opt.Ignore());
 
@@ -24,6 +52,7 @@ namespace Compound_project.AutoMapper
            .ForMember(dest => dest.status, opt => opt.MapFrom(src => Enum.Parse(typeof(Status), src.status)))
            .ForMember(dest => dest.BuildingId, opt => opt.MapFrom(src => src.BulidingNumber))
            .ForMember(dest => dest.Id, opt => opt.Ignore());
+
 
         }
     }

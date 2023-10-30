@@ -29,7 +29,7 @@ namespace DataAccessLayer.Models
         public double BuildingArea { get; set; }
         public virtual List<Building>? buildings { get; set; } = new List<Building>();
         public virtual List<LandMarksCompound>? landMarksCompounds { get; set; } = new List<LandMarksCompound>();
-        public virtual List<ImageCompound>? imageCompounds { get; set; } = new List<ImageCompound>();
+        public virtual List<CompoundImage>? imageCompounds { get; set; } = new List<CompoundImage>();
         public virtual List<ServicesCompound>? servicesCompounds { get; set; } = new List<ServicesCompound>();
     }
 }
