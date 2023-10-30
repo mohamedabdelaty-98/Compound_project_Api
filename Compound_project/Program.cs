@@ -60,6 +60,9 @@ namespace Compound_project
 
             //Configuration for Shrouk
 
+            builder.Services.AddScoped<ICompoundImage, CompoundImageRepo>();
+            builder.Services.AddScoped<IBuildingImage, BuildingImageRepo>();
+            builder.Services.AddScoped<IUnitImage, UnitImageRepo>();
 
 
 
@@ -75,8 +78,8 @@ namespace Compound_project
             //Configuration for Zaki
 
 
-            
-            
+
+
             //Configuration for Amr
 
 

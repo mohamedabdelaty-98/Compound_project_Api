@@ -15,7 +15,6 @@ namespace Compound_project.Controllers
         private readonly IUnit _unit;
         private readonly IUnitComponent _unitComponent;
         private readonly IMapper _mapper;
-
         public UnitController(IUnit _unit,IUnitComponent _unitComponent,IMapper _mapper)
         {
             this._unit = _unit;
