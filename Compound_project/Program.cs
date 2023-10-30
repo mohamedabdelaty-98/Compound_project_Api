@@ -54,6 +54,9 @@ namespace Compound_project
             );
             builder.Services.AddScoped<IUnit, UnitRepo>();
             builder.Services.AddScoped<IUnitComponent, UnitComponentRepo>();
+
+
+
             builder.Services.AddScoped<Icomponent, ComponentRepo>();
             
             //Configuration for Raghad
@@ -62,29 +65,32 @@ namespace Compound_project
 
 
 
-            //Configuration for Shrouk
+      //Configuration for Shrouk
 
 
 
 
-            //Configuration for Men3m
+      //Configuration for Men3m
 
 
 
-            //Configuration for Salah
+      //Configuration for Salah
 
 
 
 
-            //Configuration for Zaki
+      //Configuration for Zaki
+      builder.Services.AddScoped<IApplication, ApplicationRepo>();
+      builder.Services.AddScoped<IWishList,WishListRepo>();
+      builder.Services.AddScoped<IWishListUnit, WishListUnitRepo>();
+     
 
 
-            
-            
-            //Configuration for Amr
+
+      //Configuration for Amr
 
 
-            var app = builder.Build();
+      var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
