@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.Data;
+using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -45,13 +45,13 @@ namespace DataAccessLayer.Reposatories
         public void Delete(int id)
         {
             T Entity = GetById(id);
-            context.Set<T>().Remove(Entity);
+            context.Set<T>().Remove(Entity); 
         }
 
         public int save()
         {
-            return context.SaveChanges();
-
+             return context.SaveChanges();
+            
         }
     }
 }
