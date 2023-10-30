@@ -1,7 +1,7 @@
 using BussienesLayer.Reposatories;
 using Compound_project.AutoMapper;
 using DataAccessLayer.Data;
-
+using DataAccessLayer.Reposatories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -65,6 +65,7 @@ namespace Compound_project
 
             //Configuration for Men3m
 
+            builder.Services.AddScoped<ICompound, CompoundRepo>();
 
 
             //Configuration for Salah
@@ -75,8 +76,8 @@ namespace Compound_project
             //Configuration for Zaki
 
 
-            
-            
+
+
             //Configuration for Amr
 
 

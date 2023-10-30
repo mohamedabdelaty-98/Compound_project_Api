@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BussienesLayer.DTO;
 using Compound_project.DTO;
 using DataAccessLayer.Models;
 
@@ -13,6 +14,9 @@ namespace Compound_project.AutoMapper
           .ForMember(dest => dest.BulidingNumber, opt => opt.MapFrom(src => src.building != null ? src.building.BulidingNumber : default));
             CreateMap<UnitComponent, DTOUnitComponent>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.component.Name));
+
+            CreateMap<Compound, DTOCompound>();
+            CreateMap<DTOCompound, Compound>();
         }
     }
 }
