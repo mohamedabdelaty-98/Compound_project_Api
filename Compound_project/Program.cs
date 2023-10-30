@@ -1,9 +1,11 @@
+
 using BussienesLayer.Reposatories;
 using Compound_project.AutoMapper;
 using DataAccessLayer.Data;
-
+using DataAccessLayer.Reposatories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+
 
 namespace Compound_project
 {
@@ -52,13 +54,18 @@ namespace Compound_project
             );
             builder.Services.AddScoped<IUnit, UnitRepo>();
             builder.Services.AddScoped<IUnitComponent, UnitComponentRepo>();
+
+
+
+            builder.Services.AddScoped<Icomponent, ComponentRepo>();
+            
             //Configuration for Raghad
 
 
 
 
 
-            //Configuration for Shrouk
+      //Configuration for Shrouk
 
             builder.Services.AddScoped<ICompoundImage, CompoundImageRepo>();
             builder.Services.AddScoped<IBuildingImage, BuildingImageRepo>();
@@ -66,24 +73,29 @@ namespace Compound_project
 
 
 
-            //Configuration for Men3m
+      //Configuration for Men3m
 
 
 
-            //Configuration for Salah
-
-
-
-
-            //Configuration for Zaki
+      //Configuration for Salah
 
 
 
 
-            //Configuration for Amr
+      //Configuration for Zaki
+      builder.Services.AddScoped<IApplication, ApplicationRepo>();
+      builder.Services.AddScoped<IWishList,WishListRepo>();
+      builder.Services.AddScoped<IWishListUnit, WishListUnitRepo>();
+     
 
 
-            var app = builder.Build();
+
+
+      //Configuration for Amr
+
+
+
+      var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

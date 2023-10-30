@@ -26,7 +26,7 @@ namespace DataAccessLayer.Models
         public virtual List<ServiceUnit>? serviceUnits { get; set; } = new List<ServiceUnit>();
         public virtual List<WishlistUnit>? wishlistUnits { get; set; } = new List<WishlistUnit>();
         [ForeignKey("building")]
-        public int? BuildingId { get; set; }
+        public int BuildingId { get; set; }
         public virtual Building? building { get; set; }
     }
 }
