@@ -27,8 +27,7 @@ namespace Compound_project.Controllers
 
             List<DTOBuildingImage> dTOBuildingImages = buildingImages.Select(item => _mapper.Map<DTOBuildingImage>(item)).ToList();
             DTOResult result = new DTOResult();
-            if (dTOBuildingImages == null || dTOBuildingImages.Count == 0) result.IsPass = false;
-            else result.IsPass = true;
+            result.IsPass = dTOBuildingImages.Count != 0 ? true : false;
             result.Data = dTOBuildingImages;
             return result;
         }
@@ -36,27 +35,44 @@ namespace Compound_project.Controllers
         [HttpGet("GetById/{Id}")]
         public ActionResult<DTOResult> GetById(int Id)
         {
-            BuildingImage buildingImage = _buildingImage.GetById(Id);
-            DTOBuildingImage dTOBuildingImage = _mapper.Map<DTOBuildingImage>(buildingImage);
             DTOResult result = new DTOResult();
-            if (dTOBuildingImage == null) result.IsPass = false;
-            else result.IsPass = true;
-            result.Data = dTOBuildingImage;
+            BuildingImage buildingImage = _buildingImage.GetById(Id);
+            if(buildingImage!=null)
+            {
+                DTOBuildingImage dTOBuildingImage = _mapper.Map<DTOBuildingImage>(buildingImage);
+                result.IsPass = true;
+                result.Data = dTOBuildingImage;
+
+            }
+            else
+            {
+                result.IsPass=false;
+                result.Data = "Building Image not found";
+            }
             return result;
         }
 
         [HttpPost("AddBuildingImage")]
         public ActionResult<DTOResult> AddBuildingImage(DTOBuildingImage dtobuildingImage) {
 
-            BuildingImage buildingImage = new BuildingImage();
-            buildingImage = _mapper.Map<BuildingImage>(dtobuildingImage);
+            
+            BuildingImage buildingImage = _mapper.Map<BuildingImage>(dtobuildingImage);
             DTOResult result = new DTOResult();
             if (ModelState.IsValid)
             {
-                result.IsPass = true;
-                result.Data = dtobuildingImage;
-                _buildingImage.insert(buildingImage);
-                _buildingImage.save();
+                try
+                {
+                    result.IsPass = true;
+                    result.Data = $"Added BuildingImage with ID {buildingImage.Id}";
+                    _buildingImage.insert(buildingImage);
+                    _buildingImage.save();
+                }
+                catch (Exception ex)
+                {
+                    result.IsPass = false;
+                    result.Data = "An error occurred while Adding the buildingimage.";
+                }
+                
             }
             else
             {

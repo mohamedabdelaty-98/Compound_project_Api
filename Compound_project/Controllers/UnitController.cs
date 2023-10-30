@@ -132,7 +132,7 @@ namespace Compound_project.Controllers
                 catch (Exception ex)
                 {
                     result.IsPass = false;
-                    result.Data = $"An error occurred while creating the unit.";
+                    result.Data = "An error occurred while creating the unit.";
                 }
             }
             else
