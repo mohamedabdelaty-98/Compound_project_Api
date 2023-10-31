@@ -14,7 +14,7 @@ namespace Compound_project.AutoMapper
           .ForMember(dest => dest.BulidingNumber, opt => opt.MapFrom(src => src.building != null ? src.building.BulidingNumber : default));
             CreateMap<UnitComponent, DTOUnitComponent>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.component.Name));
-            
+
             CreateMap<ServiceUnit, DTOServicesUnit>();
             CreateMap<DTOServicesUnit, ServiceUnit>();
 
@@ -26,6 +26,11 @@ namespace Compound_project.AutoMapper
 
             CreateMap<ServicesCompound, DTOServicesCompound>();
             CreateMap<DTOServicesCompound, ServicesCompound>();
+
+
+            CreateMap<Compound, DTOCompound>();
+            CreateMap<DTOCompound, Compound>();
+
         }
     }
 }

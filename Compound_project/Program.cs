@@ -2,12 +2,9 @@
 using BussienesLayer.Reposatories;
 using Compound_project.AutoMapper;
 using DataAccessLayer.Data;
-//<<<<<<< Updated upstream
 
-
-//=======
 using DataAccessLayer.Reposatories;
-//>>>>>>> Stashed changes
+using DataAccessLayer.Reposatories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Compound_project
@@ -30,8 +27,6 @@ namespace Compound_project
                 .UseSqlServer(builder.Configuration.GetConnectionString("sql"),
                 b=>b.MigrationsAssembly("Compound_project"));
             });
-//<<<<<<< Updated upstream
-//=======
             //configration for automapper
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
             //Configuration for cors
@@ -54,6 +49,7 @@ namespace Compound_project
 
             //Configuration for Men3m
 
+            builder.Services.AddScoped<ICompound, CompoundRepo>();
 
 
             //Configuration for Salah
@@ -67,11 +63,10 @@ namespace Compound_project
 
 
 
-
             //Configuration for Amr
 
 
-//>>>>>>> Stashed changes
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
