@@ -26,39 +26,7 @@ namespace Compound_project
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
             //Configuration for cors
-            builder.Services.AddCors(option =>
-                option.AddPolicy("AllowAnyOrigin", builder =>
-                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
-            );
-            builder.Services.AddScoped<IUnit, UnitRepo>();
-            builder.Services.AddScoped<IUnitComponent, UnitComponentRepo>();
-            //Configuration for Raghad
-            builder.Services.AddScoped<IBuilding, BuildingRepo>();
-
-
-
-
-
-            //Configuration for Shrouk
-
-
-
-
-            //Configuration for Men3m
-
-
-
-            //Configuration for Salah
-
-
-
-
-            //Configuration for Zaki
-
-
-
-
-            //Configuration for Amr
+            builder.RegsterationCors();
 
             //Configuration for Services
             builder.RegsterationService();

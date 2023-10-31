@@ -38,6 +38,27 @@ namespace BussienesLayer.AutoMapper
             CreateMap<Compound, DTOCompound>();
             CreateMap<DTOCompound, Compound>();
 
+            //Raghad
+            CreateMap<Building, DTOBuilding>()
+                .ForMember(dest => dest.status, opt => opt.MapFrom(src => src.status.ToString()));
+            CreateMap<DTOBuilding, Building>()
+                .ForMember(dest => dest.status, opt => opt.MapFrom(src => Enum.Parse(typeof(Status), src.status)));
+
+            //Zaki
+            CreateMap<Application, DTOApplication>();
+            CreateMap<DTOApplication, Application>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+           
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -52,9 +73,6 @@ namespace BussienesLayer.AutoMapper
 
             CreateMap<ServicesCompound, DTOServicesCompound>();
             CreateMap<DTOServicesCompound, ServicesCompound>();
-
-
-           
 
 
         }

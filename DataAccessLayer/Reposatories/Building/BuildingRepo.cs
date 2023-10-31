@@ -1,14 +1,9 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.Reposatories
 {
-    public class BuildingRepo : CrudOperation<Building>, IBuilding
+    public class BuildingRepo : GenericReposatory<Building>, IBuilding
     {
         private readonly Context _context;
         public BuildingRepo(Context context) :base(context)

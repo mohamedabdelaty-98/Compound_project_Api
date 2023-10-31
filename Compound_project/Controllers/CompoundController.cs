@@ -14,11 +14,13 @@ namespace Compound_project.Controllers
     {
         private readonly ICompound _compound;
         private readonly IMapper _mapper;
+        private readonly IBuilding _building;
 
-        public CompoundController(ICompound _Compound, IMapper _mapper)
+        public CompoundController(ICompound _Compound, IMapper _mapper,IBuilding _building)
         {
             this._compound= _Compound;
             this._mapper = _mapper;
+            this._building = _building;
         }
         [HttpGet("GetAllCompounds")]
         public ActionResult<DTOResult> GetAllCompounds()
@@ -27,8 +29,8 @@ namespace Compound_project.Controllers
             List<DTOCompound> dTOCompounds = compounds.Select(item => _mapper.Map<DTOCompound>(item)).ToList();
             foreach (var dtoCompound in dTOCompounds)
             {
-                //dtoCompound.buildings = _compoundbuilding.GetUnitComponents(dtoCompound.Id)
-                //    .Select(c => _mapper.Map<DTOUnitComponent>(c)).ToList();
+                dtoCompound.buildings = _building.FilterByCompoundNumber(dtoCompound.CompoundId)
+                   .Select(c => _mapper.Map<DTOBuilding>(c)).ToList();
             }
             DTOResult result = new DTOResult();
             result.IsPass=dTOCompounds.Count!=0?true:false;

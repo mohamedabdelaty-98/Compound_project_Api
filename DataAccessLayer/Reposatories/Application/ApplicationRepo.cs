@@ -16,5 +16,10 @@ namespace DataAccessLayer.Reposatories
       this.context = context;
 
     }
-  }
+
+        public List<Application> GetApplicationsByUserId(string userid)
+        {
+            return context.applications.Where(a => a.UserId == userid).ToList();
+        }
+    }
 }

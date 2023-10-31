@@ -32,8 +32,7 @@ namespace Compound_project
             builder.Services.AddScoped<IWishListUnit, WishListUnitRepo>();
 
             //Configuration for Raghad
-
-
+            builder.Services.AddScoped<IBuilding, BuildingRepo>();
 
             //Configuration for Amr
             return builder;
