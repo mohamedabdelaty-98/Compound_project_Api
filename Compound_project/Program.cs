@@ -93,11 +93,6 @@ namespace Compound_project
       var app = builder.Build();
 
 
-            //Configuration for Amr
-
-
-
-            var app = builder.Build();
 
 
             // Configure the HTTP request pipeline.

@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace BussienesLayer.DTO
 {
@@ -19,7 +20,7 @@ namespace BussienesLayer.DTO
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public DateTime? DateAdded { get; set; }
-        public string File { get; set; }
+        public IFormFile File { get; set; }
         public double Street_area { get; set; }
         public double GreenArea { get; set; }
         public double BuildingArea { get; set; }

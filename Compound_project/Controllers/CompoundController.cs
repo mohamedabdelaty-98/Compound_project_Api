@@ -28,6 +28,15 @@ namespace Compound_project.Controllers
             this._compound= _Compound;
             this._mapper = _mapper;
         }
+
+        //private byte[] ReadFileData(IFormFile file)
+        //{
+        //    using (var stream = new MemoryStream())
+        //    {
+        //        file.CopyTo(stream);
+        //        return stream.ToArray();
+        //    }
+        //} 
         [HttpGet("GetAllCompounds")]
         public ActionResult<DTOResult> GetAllCompounds()
         {
@@ -44,29 +53,62 @@ namespace Compound_project.Controllers
             result.Data = dTOCompounds;
             return result;
         }
+        //[HttpPost("NewCompound")]
+        // public Task<ActionResult<DTOResult>> NewCompound ([FromBody]DTOCompound? newcompound )
+        //{
+        //    DTOResult result = new DTOResult();
+        //    Compound com = _mapper.Map<Compound>(newcompound);
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (com == null) result.IsPass = false;
+        //        else result.IsPass = true;
+        //        result.Data = com;
+        //        _compound.insert(com);
+        //        _compound.save();
+        //        //return Ok(result.Data);
+        //    }
+        //    else
+        //    {
+        //        result.Data = ModelState.Values.SelectMany(v => v.Errors)
+        //            .Select(e => e.ErrorMessage).ToList();
+        //    }
+
+        //    return result;
+        //}
+
         [HttpPost("NewCompound")]
-         public ActionResult<DTOResult> NewCompound ([FromBody]DTOCompound? newcompound)
+        public async Task<ActionResult<DTOResult>> NewCompound([FromForm] DTOCompound newcompound)
         {
             DTOResult result = new DTOResult();
             Compound com = _mapper.Map<Compound>(newcompound);
 
-            if (ModelState.IsValid)
+            if (newcompound.File != null)
             {
-                if (com == null) result.IsPass = false;
-                else result.IsPass = true;
-                result.Data = com;
-                _compound.insert(com);
-                _compound.save();
-                //return Ok(result.Data);
+                using (var memoryStream = new MemoryStream())
+                {
+                    await newcompound.File.CopyToAsync(memoryStream);
+                    com.File = memoryStream.ToArray();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    if (com == null) result.IsPass = false;
+                    else result.IsPass = true;
+                    result.Data = com;
+                    _compound.insert(com);
+                    _compound.save();
+                }
+                else
+                {
+                    result.Data = ModelState.Values.SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage).ToList();
+                }
             }
-            else
-            {
-                result.Data = ModelState.Values.SelectMany(v => v.Errors)
-                    .Select(e => e.ErrorMessage).ToList();
-            }
-            
+
             return result;
         }
+ 
         [HttpDelete("RemoveCompound")]
         public ActionResult<DTOResult> RemoveCompound(int id)
         {
