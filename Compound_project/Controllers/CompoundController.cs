@@ -71,12 +71,17 @@ namespace Compound_project.Controllers
         public ActionResult<DTOResult> RemoveCompound(int id)
         {
             var result = new DTOResult();
-            if (id == null) result.IsPass = false;
-            else result.IsPass = true;
-            result.Data = _compound.GetById(id);
-            _compound.Delete(id);
-            _compound.save();
-            //Compound c = _compound.GetById(id);
+            Compound deletedCompound= _compound.GetById(id);
+
+            if (deletedCompound == null) { result.IsPass = false; }
+            else
+            {
+                _compound.Delete(id);
+                _compound.save();
+                result.IsPass = true;
+                result.Data = "deleted";
+            }
+         
             return Ok(result);
 
         }
@@ -88,8 +93,6 @@ namespace Compound_project.Controllers
             Compound oldCompound = _compound.GetById(newcompound.Id);
             var result = new DTOResult();
           
-
-
             _mapper.Map(newcompound, oldCompound);
 
             _compound.update(oldCompound); 
