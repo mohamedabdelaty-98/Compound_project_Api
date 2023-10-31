@@ -1,17 +1,8 @@
 ﻿using AutoMapper;
 using BussienesLayer.DTO;
-using BussienesLayer.Reposatories;
-using Compound_project.DTO;
-using Compound_project.Migrations;
-using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using DataAccessLayer.Reposatories;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using System.Data;
 
 namespace Compound_project.Controllers
@@ -45,19 +36,26 @@ namespace Compound_project.Controllers
             return result;
         }
         [HttpPost("NewCompound")]
-         public ActionResult<DTOResult> NewCompound ([FromBody]DTOCompound? newcompound)
+         public ActionResult<DTOResult> NewCompound (DTOCompound newcompound)
         {
             DTOResult result = new DTOResult();
-            Compound com = _mapper.Map<Compound>(newcompound);
 
             if (ModelState.IsValid)
             {
-                if (com == null) result.IsPass = false;
-                else result.IsPass = true;
-                result.Data = com;
-                _compound.insert(com);
-                _compound.save();
-                //return Ok(result.Data);
+                try
+                {
+                    Compound compound = _mapper.Map<Compound>(newcompound);
+                    _compound.insert(compound);
+                    _compound.save();
+                    result.IsPass = true;
+                    result.Data = $"Created unit with ID {compound.Id}";
+                }
+                catch(Exception ex)
+                {
+                    result.IsPass = false;
+                    result.Data = "An error occurred while Adding the Compound";
+                }
+                
             }
             else
             {

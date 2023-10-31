@@ -1,6 +1,6 @@
 ﻿using DataAccessLayer.Models;
 
-namespace Compound_project.DTO
+namespace BussienesLayer.DTO
 {
     public class DTOUnit
     {

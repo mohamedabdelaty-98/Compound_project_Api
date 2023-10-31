@@ -1,16 +1,11 @@
 using BussienesLayer.DTO;
-using Compound_project.DTO;
-using DataAccessLayer.Models;
 using DataAccessLayer.Reposatories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using static System.Net.Mime.MediaTypeNames;
 using Application = DataAccessLayer.Models.Application;
 
 namespace Compound_project.Controllers
 {
-  [Route("api/[controller]")]
+    [Route("api/[controller]")]
   [ApiController]
   public class ApplicationController : ControllerBase
   {
@@ -24,11 +19,11 @@ namespace Compound_project.Controllers
     public ActionResult<DTOResult>GetAll()
     {
       List<Application>Apps = App.GetAll();
-      List<ApplicationDTO> Applications = new List<ApplicationDTO>();
+      List<DTOApplication> Applications = new List<DTOApplication>();
       foreach (Application app in Apps)
 
       {
-        ApplicationDTO appDTO = new ApplicationDTO();
+        DTOApplication appDTO = new DTOApplication();
         {
           appDTO.Id = app.Id;
          appDTO.Name = app.Name;
@@ -53,7 +48,7 @@ namespace Compound_project.Controllers
     public ActionResult<DTOResult> GetApplicationById(int id)
     {
      Application application= App.GetById(id);
-     ApplicationDTO appDTO = new ApplicationDTO()
+     DTOApplication appDTO = new DTOApplication()
      {
        Id = application.Id,
       SSN = application.SSN,
@@ -70,7 +65,7 @@ namespace Compound_project.Controllers
 
     }
     [HttpPost]
-    public ActionResult<DTOResult> AddApplication(ApplicationDTO dTO)
+    public ActionResult<DTOResult> AddApplication(DTOApplication dTO)
     {
         Application application=new Application()
         {

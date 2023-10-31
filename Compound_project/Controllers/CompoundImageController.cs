@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using BussienesLayer.DTO;
-using BussienesLayer.Reposatories;
-using Compound_project.DTO;
+using DataAccessLayer.Reposatories;
 using DataAccessLayer.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Compound_project.Controllers

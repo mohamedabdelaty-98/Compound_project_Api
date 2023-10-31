@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using BussienesLayer.DTO;
-using Compound_project.DTO;
 using DataAccessLayer.Models;
 
-namespace Compound_project.AutoMapper
+namespace BussienesLayer.AutoMapper
 {
     public class AutoMapperProfile : Profile
     {
@@ -35,10 +34,11 @@ namespace Compound_project.AutoMapper
             CreateMap<DTOBuildingImage, BuildingImage>();
             CreateMap<DTOUnitImage, UnitImage>();
 
+            //Men3m
+            CreateMap<Compound, DTOCompound>();
+            CreateMap<DTOCompound, Compound>();
 
 
-
-           
 
 
             CreateMap<ServiceUnit, DTOServicesUnit>();
@@ -54,8 +54,7 @@ namespace Compound_project.AutoMapper
             CreateMap<DTOServicesCompound, ServicesCompound>();
 
 
-            CreateMap<Compound, DTOCompound>();
-            CreateMap<DTOCompound, Compound>();
+           
 
 
         }
