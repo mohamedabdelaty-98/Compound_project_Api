@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BussienesLayer.DTO;
+using Compound_project.Migrations;
 using DataAccessLayer.Models;
 using DataAccessLayer.Reposatories;
 using Microsoft.AspNetCore.Mvc;
@@ -30,8 +31,7 @@ namespace Compound_project.Controllers
                 //    .Select(c => _mapper.Map<DTOUnitComponent>(c)).ToList();
             }
             DTOResult result = new DTOResult();
-            if (dTOCompounds == null || dTOCompounds.Count == 0) result.IsPass = false;
-            else result.IsPass = true;
+            result.IsPass=dTOCompounds.Count!=0?true:false;
             result.Data = dTOCompounds;
             return result;
         }
@@ -71,34 +71,57 @@ namespace Compound_project.Controllers
             var result = new DTOResult();
             Compound deletedCompound= _compound.GetById(id);
 
-            if (deletedCompound == null) { result.IsPass = false; }
+            if (deletedCompound == null) 
+            { result.IsPass = false;result.Data = "Not Found"; }
             else
             {
                 _compound.Delete(id);
                 _compound.save();
                 result.IsPass = true;
-                result.Data = "deleted";
+                result.Data = "Deleted";
             }
          
-            return Ok(result);
+            return result;
 
         }
 
        
-        [HttpPut]
+        [HttpPut("EditCompound")]
         public ActionResult<DTOResult> EditCompound([FromBody] DTOCompound? newcompound)
         {
-            Compound oldCompound = _compound.GetById(newcompound.Id);
             var result = new DTOResult();
-          
-            _mapper.Map(newcompound, oldCompound);
-
-            _compound.update(oldCompound); 
-            _compound.save();
-            if (newcompound.Id == null) result.IsPass = false;
-            else result.IsPass = true;
-            result.Data = newcompound;
-            return Ok(result);
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    Compound oldCompound = _compound.GetById(newcompound.Id);
+                    if (oldCompound != null)
+                    {
+                        _mapper.Map(newcompound, oldCompound);
+                        _compound.update(oldCompound);
+                        _compound.save();
+                        result.IsPass = true;
+                        result.Data = "Updated";
+                    }
+                    else
+                    {
+                        result.IsPass = false;
+                        result.Data = "Unit not found";
+                    }
+                }
+                catch(Exception ex)
+                {
+                    result.IsPass = false;
+                    result.Data = "An error occurred during update ";
+                }
+            }
+            else
+            {
+                result.IsPass = false;
+                result.Data = ModelState.Values.SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage).ToList();
+            }
+            return result;
             
         }
 
