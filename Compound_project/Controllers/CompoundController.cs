@@ -35,7 +35,7 @@ namespace Compound_project.Controllers
             List<DTOCompound> dTOCompounds = compounds.Select(item => _mapper.Map<DTOCompound>(item)).ToList();
             foreach (var dtoCompound in dTOCompounds)
             {
-                //dtoCompound.bulidingComponents = _compoundbuilding.GetUnitComponents(dtoCompound.Id)
+                //dtoCompound.buildings = _compoundbuilding.GetUnitComponents(dtoCompound.Id)
                 //    .Select(c => _mapper.Map<DTOUnitComponent>(c)).ToList();
             }
             DTOResult result = new DTOResult();
