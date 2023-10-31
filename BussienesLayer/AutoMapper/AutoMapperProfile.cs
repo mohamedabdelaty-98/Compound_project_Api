@@ -15,8 +15,22 @@ namespace Compound_project.AutoMapper
             CreateMap<UnitComponent, DTOUnitComponent>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.component.Name));
 
+            CreateMap<ServiceUnit, DTOServicesUnit>();
+            CreateMap<DTOServicesUnit, ServiceUnit>();
+
+            CreateMap<Service, DTOServices>();
+            CreateMap<DTOServices, Service>();
+
+            CreateMap<ServiceBuilding, DTOServicesBuilding>();
+            CreateMap<DTOServicesBuilding, ServiceBuilding>();
+
+            CreateMap<ServicesCompound, DTOServicesCompound>();
+            CreateMap<DTOServicesCompound, ServicesCompound>();
+
+
             CreateMap<Compound, DTOCompound>();
             CreateMap<DTOCompound, Compound>();
+
         }
     }
 }
