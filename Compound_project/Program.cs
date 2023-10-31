@@ -1,9 +1,14 @@
+
 using BussienesLayer.Reposatories;
 using Compound_project.AutoMapper;
 using DataAccessLayer.Data;
+//<<<<<<< Updated upstream
 
+
+//=======
+using DataAccessLayer.Reposatories;
+//>>>>>>> Stashed changes
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 
 namespace Compound_project
 {
@@ -18,31 +23,15 @@ namespace Compound_project
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            //for test autorize in swagger
-            builder.Services.AddSwaggerGen(swagger =>
-            {
-                swagger.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version="v1",
-                    Title="Asp.Net 6 Web Api",
-                    Description="Compound Project"
-                });
-                swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-                {
-                    Name="Authorization",
-                    Type=SecuritySchemeType.ApiKey,
-                    BearerFormat="JWT",
-                    In=ParameterLocation.Header,
-                    Description="Enter Bearer [space] and then your valid token in the text input "
-                });
-            });
-            //configration for dbcontext
+            builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<Context>(option =>
             {
                 option.UseLazyLoadingProxies()
                 .UseSqlServer(builder.Configuration.GetConnectionString("sql"),
                 b=>b.MigrationsAssembly("Compound_project"));
             });
+//<<<<<<< Updated upstream
+//=======
             //configration for automapper
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
             //Configuration for cors
@@ -68,18 +57,21 @@ namespace Compound_project
 
 
             //Configuration for Salah
-
-
+            builder.Services.AddScoped<IServices, Services_Repo>();
+            builder.Services.AddScoped<IServicesBuilding, ServicesBuilding_Repo>();
+            builder.Services.AddScoped<IServicesCompound, ServicesCompound_Repo>();
+            builder.Services.AddScoped<IServicesUnit, ServicesUnit_Repo>();
 
 
             //Configuration for Zaki
 
 
-            
-            
+
+
             //Configuration for Amr
 
 
+//>>>>>>> Stashed changes
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -88,7 +80,7 @@ namespace Compound_project
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.UseCors("AllowAnyOrigin");
+
             app.UseAuthorization();
 
 
