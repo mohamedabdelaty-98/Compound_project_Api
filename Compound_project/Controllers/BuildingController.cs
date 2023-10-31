@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using BussienesLayer.DTO;
-using BussienesLayer.Reposatories;
-using Compound_project.DTO;
+using Compound_project.Migrations;
 using DataAccessLayer.Models;
 using DataAccessLayer.Reposatories;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Compound_project.Controllers
@@ -36,8 +33,7 @@ namespace Compound_project.Controllers
 
             DTOResult result = new DTOResult();
             result.Data = dTOBuildings;
-            if (dTOBuildings != null || dTOBuildings.Count != 0) result.IsPass = true;
-            else result.IsPass = false;
+            result.IsPass = dTOBuildings.Count != 0 ? true : false;
             return result;
         }
 
@@ -95,9 +91,39 @@ namespace Compound_project.Controllers
             return result;
         }
 
+        //For Admin
+       
+        [HttpPost("AddBuilding")]
+        public ActionResult<DTOResult> AddBuilding (DTOBuilding dTOBuilding)
+        {
+            DTOResult result = new DTOResult();
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    Building building = _mapper.Map<Building>(dTOBuilding);
+                    _building.insert(building);
+                    _building.save();
+                    result.IsPass = true;
+                    result.Data = $"Created unit with ID {building.Id}";
+                }
+                catch (Exception ex)
+                {
+                    result.IsPass = false;
+                    result.Data = "An error occurred while creating the Building.";
+                }
+            }
+            else
+            {
+                result.IsPass = false;
+                result.Data = ModelState.Values.SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage).ToList();
+            }
+            return result;
+        }
 
         [HttpGet("BuildingById/{id}")]
-        public ActionResult<DTOResult> BuildingById (int id)
+        public ActionResult<DTOResult> BuildingById(int id)
         {
             Building building = _building.GetById(id);
             DTOResult result = new DTOResult();
@@ -108,7 +134,7 @@ namespace Compound_project.Controllers
                 dTOBuilding.Units = _unit.FilterByBuildingNumber(id).Select(u => _mapper.Map<DTOUnit>(u)).ToList();
                 result.Data = dTOBuilding;
                 result.IsPass = true;
-                
+
             }
             else
             {
@@ -119,71 +145,40 @@ namespace Compound_project.Controllers
         }
 
 
-        [HttpPost("AddBuilding")]
-        public ActionResult<DTOResult> AddBuilding (DTOBuilding building)
+        [HttpPut("EditBuilding")]
+        public ActionResult<DTOResult> EditBuilding (DTOBuilding dTOBuilding)
         {
             DTOResult result = new DTOResult();
-
-            if (building == null)
+            if(ModelState.IsValid)
             {
-                result.IsPass = false;
-                result.Data = "Please Fill The Data";
-
-            }
-            else
-            {
-                if (ModelState.IsValid)
+                try
                 {
-                    Building building1 = _mapper.Map<Building>(building);
-                    _building.insert(building1);
-                    try
+                    Building building = _building.GetById(dTOBuilding.Id);
+                    if(building!=null)
                     {
+                        _mapper.Map(building, dTOBuilding);
+                        _building.update(building);
                         _building.save();
                         result.IsPass = true;
-                        result.Data = "Building has been added successfully";
+                        result.Data = "Updated";
                     }
-                    catch
+                    else
                     {
-                        result.Data = ModelState;
-                        result.IsPass= false;
+                        result.IsPass = false;
+                        result.Data = "Building not found";
                     }
-
                 }
-                else
+                catch(Exception ex)
                 {
-                    result.Data = ModelState;
                     result.IsPass = false;
+                    result.Data = "An error occurred during update ";
                 }
-            }
-            return result;
-        }
-
-
-        [HttpPut("EditBuilding")]
-        public ActionResult<DTOResult> EditBuilding (DTOBuilding building)
-        {
-            DTOResult result = new DTOResult();
-            if (building == null)
-            {
-                result.IsPass = false;
-                result.Data = "Please Fill The Data";
             }
             else
             {
-                if (ModelState.IsValid)
-                {
-                    Building b = _building.GetById(building.Id);
-                    _mapper.Map(b, building);
-                    _building.update(b);
-                    _building.save();
-                    result.IsPass = true;
-                    result.Data = building;
-                }
-                else {
-                    result.IsPass = false;
-                    result.Data = "Please Enter a Valid Data";
-                }
-                
+                result.IsPass = false;
+                result.Data = ModelState.Values.SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage).ToList();
             }
             return result;
         }
@@ -205,7 +200,7 @@ namespace Compound_project.Controllers
                 _building.Delete(id);
                 _building.save();
                 result.IsPass=true;
-                result.Data = "Item Has been deleted successfully";
+                result.Data = "Building Has been deleted successfully";
             }
             return result;
 

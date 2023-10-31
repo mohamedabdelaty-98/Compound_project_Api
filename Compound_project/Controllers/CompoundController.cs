@@ -1,17 +1,9 @@
 ﻿using AutoMapper;
 using BussienesLayer.DTO;
-using BussienesLayer.Reposatories;
-using Compound_project.DTO;
 using Compound_project.Migrations;
-using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using DataAccessLayer.Reposatories;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using System.Data;
 
 namespace Compound_project.Controllers
@@ -22,11 +14,13 @@ namespace Compound_project.Controllers
     {
         private readonly ICompound _compound;
         private readonly IMapper _mapper;
+        private readonly IBuilding _building;
 
-        public CompoundController(ICompound _Compound, IMapper _mapper)
+        public CompoundController(ICompound _Compound, IMapper _mapper,IBuilding _building)
         {
             this._compound= _Compound;
             this._mapper = _mapper;
+            this._building = _building;
         }
 
         //private byte[] ReadFileData(IFormFile file)
@@ -44,12 +38,11 @@ namespace Compound_project.Controllers
             List<DTOCompound> dTOCompounds = compounds.Select(item => _mapper.Map<DTOCompound>(item)).ToList();
             foreach (var dtoCompound in dTOCompounds)
             {
-                //dtoCompound.buildings = _compoundbuilding.GetUnitComponents(dtoCompound.Id)
-                //    .Select(c => _mapper.Map<DTOUnitComponent>(c)).ToList();
+                dtoCompound.buildings = _building.FilterByCompoundNumber(dtoCompound.CompoundId)
+                   .Select(c => _mapper.Map<DTOBuilding>(c)).ToList();
             }
             DTOResult result = new DTOResult();
-            if (dTOCompounds == null || dTOCompounds.Count == 0) result.IsPass = false;
-            else result.IsPass = true;
+            result.IsPass=dTOCompounds.Count!=0?true:false;
             result.Data = dTOCompounds;
             return result;
         }
@@ -78,34 +71,33 @@ namespace Compound_project.Controllers
         //}
 
         [HttpPost("NewCompound")]
-        public async Task<ActionResult<DTOResult>> NewCompound([FromForm] DTOCompound newcompound)
+         public ActionResult<DTOResult> NewCompound (DTOCompound newcompound)
         {
             DTOResult result = new DTOResult();
-            Compound com = _mapper.Map<Compound>(newcompound);
 
-            if (newcompound.File != null)
+            if (ModelState.IsValid)
             {
-                using (var memoryStream = new MemoryStream())
+                try
                 {
-                    await newcompound.File.CopyToAsync(memoryStream);
-                    com.File = memoryStream.ToArray();
-                }
-
-                if (ModelState.IsValid)
-                {
-                    if (com == null) result.IsPass = false;
-                    else result.IsPass = true;
-                    result.Data = com;
-                    _compound.insert(com);
+                    Compound compound = _mapper.Map<Compound>(newcompound);
+                    _compound.insert(compound);
                     _compound.save();
+                    result.IsPass = true;
+                    result.Data = $"Created unit with ID {compound.Id}";
                 }
-                else
+                catch(Exception ex)
                 {
-                    result.Data = ModelState.Values.SelectMany(v => v.Errors)
-                        .Select(e => e.ErrorMessage).ToList();
+                    result.IsPass = false;
+                    result.Data = "An error occurred while Adding the Compound";
                 }
+                
             }
-
+            else
+            {
+                result.Data = ModelState.Values.SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage).ToList();
+            }
+            
             return result;
         }
  
@@ -115,34 +107,57 @@ namespace Compound_project.Controllers
             var result = new DTOResult();
             Compound deletedCompound= _compound.GetById(id);
 
-            if (deletedCompound == null) { result.IsPass = false; }
+            if (deletedCompound == null) 
+            { result.IsPass = false;result.Data = "Not Found"; }
             else
             {
                 _compound.Delete(id);
                 _compound.save();
                 result.IsPass = true;
-                result.Data = "deleted";
+                result.Data = "Deleted";
             }
          
-            return Ok(result);
+            return result;
 
         }
 
        
-        [HttpPut]
+        [HttpPut("EditCompound")]
         public ActionResult<DTOResult> EditCompound([FromBody] DTOCompound? newcompound)
         {
-            Compound oldCompound = _compound.GetById(newcompound.Id);
             var result = new DTOResult();
-          
-            _mapper.Map(newcompound, oldCompound);
-
-            _compound.update(oldCompound); 
-            _compound.save();
-            if (newcompound.Id == null) result.IsPass = false;
-            else result.IsPass = true;
-            result.Data = newcompound;
-            return Ok(result);
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    Compound oldCompound = _compound.GetById(newcompound.Id);
+                    if (oldCompound != null)
+                    {
+                        _mapper.Map(newcompound, oldCompound);
+                        _compound.update(oldCompound);
+                        _compound.save();
+                        result.IsPass = true;
+                        result.Data = "Updated";
+                    }
+                    else
+                    {
+                        result.IsPass = false;
+                        result.Data = "Unit not found";
+                    }
+                }
+                catch(Exception ex)
+                {
+                    result.IsPass = false;
+                    result.Data = "An error occurred during update ";
+                }
+            }
+            else
+            {
+                result.IsPass = false;
+                result.Data = ModelState.Values.SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage).ToList();
+            }
+            return result;
             
         }
 

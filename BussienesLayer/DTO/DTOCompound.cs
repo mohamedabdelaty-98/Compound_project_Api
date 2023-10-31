@@ -24,10 +24,8 @@ namespace BussienesLayer.DTO
         public double Street_area { get; set; }
         public double GreenArea { get; set; }
         public double BuildingArea { get; set; }
-        //public  List<DTOBuilding>? buildings { get; set; } = new List<DTOBuilding>();
-        //public  List<DTOLandMarksCompound>? landMarksCompounds { get; set; } = new List<DTOLandMarksCompound>();
-        //public  List<DTOImageCompound>? imageCompounds { get; set; } = new List<DTOImageCompound>();
-        //public  List<DTOServicesCompound>? servicesCompounds { get; set; } = new List<DTOServicesCompound>();
+        public int CompoundId { get; set; }
+        public  List<DTOBuilding>? buildings { get; set; } = new List<DTOBuilding>();
 
 
     }

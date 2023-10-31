@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
-using BussienesLayer.Reposatories;
-using Compound_project.DTO;
-using Compound_project.Migrations;
+using BussienesLayer.DTO;
 using DataAccessLayer.Models;
 using DataAccessLayer.Reposatories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel;
 
 namespace Compound_project.Controllers
 {
@@ -24,6 +20,18 @@ namespace Compound_project.Controllers
             this._unitcomponent = _unitcomponent;
             this._mapper = _mapper;
             this._component = _component;
+        }
+        [HttpGet("GetunitComponentByUnitId/{id}")]
+        public ActionResult<DTOResult> GetunitComponentByUnitId(int id)
+        {
+            List<UnitComponent> unitComponents = _unitcomponent.GetUnitComponents(id);
+            List<DTOUnitComponent> dTOUnitComponents =
+                unitComponents.Select(item => _mapper.Map<DTOUnitComponent>(item)).ToList();
+            DTOResult result = new DTOResult();
+            result.IsPass = dTOUnitComponents.Count != 0 ? true : false;
+            result.Data = dTOUnitComponents;
+            return result;
+
         }
         [HttpPost("InsertUnitComponent")]
         public ActionResult<DTOResult> InsertUnitComponent(DTOUnitComponent dTOUnitComponent)
