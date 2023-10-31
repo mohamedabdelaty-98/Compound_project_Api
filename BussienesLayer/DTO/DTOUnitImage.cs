@@ -5,14 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.Models
+namespace BussienesLayer.DTO
 {
-    public class ImageBuilding
+    public class DTOUnitImage
     {
+
         public int Id { get; set; }
         public string ImageUrl { get; set; }
-        [ForeignKey("building")]
-        public int BuildingId { get; set; }
-        public virtual Building? building { get; set; }
+        public int UnitId { get; set; }
     }
 }

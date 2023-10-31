@@ -1,5 +1,9 @@
+
+using DataAccessLayer.Data;
+
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Models;
+
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -42,18 +46,22 @@ namespace DataAccessLayer.Reposatories
         public void update(T Entity)
         {
             context.Entry(Entity).State = EntityState.Modified;
+
+            //context.Set<T>().Update(Entity);
+
             context.Set<T>().Update(Entity);
+
         }
         public void Delete(int id)
         {
             T Entity = GetById(id);
-            context.Set<T>().Remove(Entity);
+            context.Set<T>().Remove(Entity); 
         }
 
         public int save()
         {
-            return context.SaveChanges();
-
+             return context.SaveChanges();
+            
         }
     }
 }

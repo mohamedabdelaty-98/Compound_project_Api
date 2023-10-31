@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Models
 {
-    public class ImageCompound
+    public class BuildingImage
     {
         public int Id { get; set; }
         public string ImageUrl { get; set; }
-        [ForeignKey("compound")]
-        public int CompoundId { get; set; }
-        public virtual Compound? compound { get; set; }
+        [ForeignKey("building")]
+        public int BuildingId { get; set; }
+        public virtual Building? building { get; set; }
     }
 }
