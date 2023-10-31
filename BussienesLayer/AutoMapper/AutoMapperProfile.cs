@@ -41,6 +41,23 @@ namespace Compound_project.AutoMapper
            
 
 
+            CreateMap<ServiceUnit, DTOServicesUnit>();
+            CreateMap<DTOServicesUnit, ServiceUnit>();
+
+            CreateMap<Service, DTOServices>();
+            CreateMap<DTOServices, Service>();
+
+            CreateMap<ServiceBuilding, DTOServicesBuilding>();
+            CreateMap<DTOServicesBuilding, ServiceBuilding>();
+
+            CreateMap<ServicesCompound, DTOServicesCompound>();
+            CreateMap<DTOServicesCompound, ServicesCompound>();
+
+
+            CreateMap<Compound, DTOCompound>();
+            CreateMap<DTOCompound, Compound>();
+
+
         }
     }
 }
