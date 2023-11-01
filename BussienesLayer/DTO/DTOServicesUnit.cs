@@ -14,13 +14,16 @@ namespace BussienesLayer.DTO
     public class DTOServicesUnit
     {
         public int Id { get; set; }
-        public  DTOUnit? unit { get; set; }
+        public int Unit_Name { get; set; }
+        public string Service_Name { get; set; }
+
+        public string Service_Description { get; set; }
 
 
 
 
-       // public int UnitId { get; set; }
-       // public virtual DTOUnit? unit { get; set; }
+        // public int UnitId { get; set; }
+        // public virtual DTOUnit? unit { get; set; }
         //[ForeignKey("service")]
 
         //public int ServiceId { get; set; }

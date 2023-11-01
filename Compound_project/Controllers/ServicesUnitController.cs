@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BussienesLayer.DTO;
+using BussienesLayer.Reposatories;
 using Compound_project.DTO;
 using DataAccessLayer.Models;
 using DataAccessLayer.Reposatories;
@@ -15,11 +16,14 @@ namespace Compound_project.Controllers
 
 
         private readonly IServicesUnit _ammenitiesUnit;
+        private readonly IUnit _unit;
+
         private readonly IMapper _mapper;
 
-        public ServicesUnitController(IServicesUnit _AmmenitiesUnit, IMapper _mapper)
+        public ServicesUnitController(IServicesUnit _AmmenitiesUnit, IUnit _unit, IMapper _mapper)
         {
             this._ammenitiesUnit = _AmmenitiesUnit;
+            this._unit = _unit;
             this._mapper = _mapper;
         }
 
@@ -40,6 +44,60 @@ namespace Compound_project.Controllers
             return result;
         }
 
+        //
+
+
+
+        [HttpGet("GetInfomationNeeded")]
+        public ActionResult<DTOResult> GetInfomationNeeded(int id)
+        {
+
+            Unit units = _unit.GetById(id);
+
+            DTOUnit dTOCompound = _mapper.Map<DTOUnit>(units);
+            List<DTOServicesUnit> Needed_Info = new List<DTOServicesUnit>() { };
+            // dTOCompound.servicesCompounds;
+            
+            foreach (var x in units.serviceUnits)
+            {
+                DTOServicesUnit zz = new DTOServicesUnit()
+                {
+                    Id=x.Id,
+                    Service_Name = x.service.Name,
+                    Service_Description = x.service.Description,
+                    Unit_Name = x.unit.UnitNumber
+                };
+                Needed_Info.Add(zz);
+            }
+
+
+            //List<ServiceUnit> servicesUnit = _ammenitiesUnit.GetAll();
+            //List<DTOServicesUnit> DTOAmmenitiesUnits = servicesUnit.Select(item => _mapper.Map<DTOServicesUnit>(item)).ToList();
+            //foreach (var dtoAmmenitiesCompound in DTOAmmenitiesUnits)
+            //{
+            //    //dtoCompound.bulidingComponents = _compoundbuilding.GetUnitComponents(dtoCompound.Id)
+            //    //    .Select(c => _mapper.Map<DTOUnitComponent>(c)).ToList();
+            //}
+            DTOResult result = new DTOResult();
+            if (Needed_Info == null || Needed_Info.Count == 0) result.IsPass = false;
+            else result.IsPass = true;
+            result.Data = Needed_Info;
+            return result;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //
 
 
         [HttpPost("NewAmmenitiesUnit")]

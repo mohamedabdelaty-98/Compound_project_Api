@@ -20,11 +20,14 @@ namespace Compound_project.Controllers
     public class ServicesCompoundController : ControllerBase
     {
         private readonly IServicesCompound _ammenitiesCompound;
+        private readonly ICompound _compound;
+
         private readonly IMapper _mapper;
 
-        public ServicesCompoundController(IServicesCompound _AmmenitiesCompound, IMapper _mapper)
+        public ServicesCompoundController(IServicesCompound _AmmenitiesCompound, ICompound _compound, IMapper _mapper)
         {
             this._ammenitiesCompound = _AmmenitiesCompound;
+            this._compound = _compound;
             this._mapper = _mapper;
         }
 
@@ -45,7 +48,53 @@ namespace Compound_project.Controllers
             return result;
         }
 
+        //
 
+        [HttpGet("GetInformationNeeded")]
+        public ActionResult<DTOResult> GetInformationNeeded(int id)
+        {
+            Compound compounds = _compound.GetById(id);
+
+            DTOCompound dTOCompound = _mapper.Map<DTOCompound>(compounds);
+            List<DTOServicesCompound> Needed_Info = new List<DTOServicesCompound>() { };
+               // dTOCompound.servicesCompounds;
+            int a = 0;
+            foreach(var x in compounds.servicesCompounds)
+            {
+                DTOServicesCompound  zz=new DTOServicesCompound ()
+                {
+                    Id=x.Id,
+                    Service_Name=x.services.Name,
+                    Service_Description=x.services.Description,
+                    Compound_Name=x.compound.Name,
+                };
+                Needed_Info.Add(zz);
+            }
+
+
+            //List<ServicesCompound> servicesCompounds = _ammenitiesCompound.GetAll();
+            //List<DTOServicesCompound> DTOAmmenitiesCompounds = servicesCompounds.Select(item => _mapper.Map<DTOServicesCompound>(item)).ToList();
+            //foreach (var dtoAmmenitiesCompound in DTOAmmenitiesCompounds)
+            //{
+            //    //dtoCompound.bulidingComponents = _compoundbuilding.GetUnitComponents(dtoCompound.Id)
+            //    //    .Select(c => _mapper.Map<DTOUnitComponent>(c)).ToList();
+            //}
+            DTOResult result = new DTOResult();
+            if (Needed_Info == null ) result.IsPass = false;
+            else result.IsPass = true;
+            result.Data = Needed_Info;
+            return result;
+        }
+
+
+
+
+
+
+
+
+
+        //
 
         [HttpPost("NewAmmenitiesCompound")]
         public ActionResult<DTOResult> NewAmmenitiesCompound([FromBody] DTOServicesCompound? newammenitiesCompound)

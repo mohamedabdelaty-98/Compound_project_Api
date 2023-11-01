@@ -12,11 +12,14 @@ namespace Compound_project.Controllers
     [ApiController]
     public class ServicesController : ControllerBase
     {
+        private readonly ICompound _compound;
+
         private readonly IServices _ammenities;
         private readonly IMapper _mapper;
 
-        public ServicesController(IServices _Ammenities, IMapper _mapper)
+        public ServicesController(IServices _Ammenities, ICompound _Compound, IMapper _mapper)
         {
+            this._compound = _Compound;
             this._ammenities = _Ammenities;
             this._mapper = _mapper;
         }
@@ -37,6 +40,14 @@ namespace Compound_project.Controllers
             result.Data = dTOAmmenities;
             return result;
         }
+        
+        
+
+
+
+
+
+
 
 
         [HttpPost("NewAmmenities")]

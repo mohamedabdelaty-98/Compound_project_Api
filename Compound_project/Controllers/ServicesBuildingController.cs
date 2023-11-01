@@ -15,6 +15,8 @@ namespace Compound_project.Controllers
 
 
         private readonly IServicesBuilding _ammenitiesBuilding;
+        //private readonly IBuilding _building;
+
         private readonly IMapper _mapper;
 
         public ServicesBuildingController(IServicesBuilding _AmmenitiesBuilding, IMapper _mapper)

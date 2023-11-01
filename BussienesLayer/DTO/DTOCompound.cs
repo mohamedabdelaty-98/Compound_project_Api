@@ -26,7 +26,7 @@ namespace BussienesLayer.DTO
         //public  List<DTOBuilding>? buildings { get; set; } = new List<DTOBuilding>();
         //public  List<DTOLandMarksCompound>? landMarksCompounds { get; set; } = new List<DTOLandMarksCompound>();
         //public  List<DTOImageCompound>? imageCompounds { get; set; } = new List<DTOImageCompound>();
-        //public  List<DTOServicesCompound>? servicesCompounds { get; set; } = new List<DTOServicesCompound>();
+        public  List<DTOServicesCompound>? servicesCompounds { get; set; } = new List<DTOServicesCompound>();
 
 
     }

@@ -13,6 +13,12 @@ namespace BussienesLayer.DTO
     {
         public int Id { get; set; }
 
+        public string Compound_Name { get; set; }
+        public string Service_Name { get; set; }
+
+        public string Service_Description { get; set; }
+
+
         // public Compound? compound { get; set; }
         //public int ServiceId { get; set; }
 
