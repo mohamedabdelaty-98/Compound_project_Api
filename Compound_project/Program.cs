@@ -1,8 +1,15 @@
 using BussienesLayer.Reposatories;
 using Compound_project.AutoMapper;
+using Compound_project.Reposatories.LandmarkReposatory;
+using Compound_project.Reposatories.Landmarks;
+using Compound_project.Reposatories.LandMarksCompoundReposatory;
+using Compound_project.Reposatories.ReviewReposatory;
 using DataAccessLayer.Data;
-
+using DataAccessLayer.Reposatories.LandmarkReposatory;
+using DataAccessLayer.Reposatories.LandMarksCompoundReposatory;
+using DataAccessLayer.Reposatories.ReviewReposatory;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 
 namespace Compound_project
@@ -52,35 +59,45 @@ namespace Compound_project
             );
             builder.Services.AddScoped<IUnit, UnitRepo>();
             builder.Services.AddScoped<IUnitComponent, UnitComponentRepo>();
-            //Configuration for Raghad
+
+         //Configuration for Raghad
 
 
 
 
 
-            //Configuration for Shrouk
+         //Configuration for Shrouk
 
 
 
 
-            //Configuration for Men3m
+         //Configuration for Men3m
 
 
 
-            //Configuration for Salah
+         //Configuration for Salah
 
 
 
 
-            //Configuration for Zaki
+         //Configuration for Zaki
 
 
-            
-            
-            //Configuration for Amr
 
 
-            var app = builder.Build();
+         //Configuration for Amr
+
+         builder.Services.AddScoped<ILandmarkOperationsReposatory, LandmarkOperationsReposatory>();
+         builder.Services.AddScoped<ILandmarksCompoundOperationsReposatory, LandmarksCompoundOperationsReposatory>();
+         builder.Services.AddScoped<ILandmarkReposatory, LandmarkReposatory>();
+         builder.Services.AddScoped<IGetAllDTOReposatories, GetAllDTOReposatories>();
+         builder.Services.AddScoped<ILandMarksCompoundReposatory, LandMarksCompoundReposatory>();
+         builder.Services.AddScoped<IReviewReposatory, ReviewReposatory>();
+         builder.Services.AddScoped<IReviewOperationsReposatory, ReviewOperationsReposatory>();
+
+         
+
+         var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
