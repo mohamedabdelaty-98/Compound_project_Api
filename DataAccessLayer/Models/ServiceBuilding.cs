@@ -14,7 +14,7 @@ namespace DataAccessLayer.Models
         public int BuildingId { get; set; }
         public virtual Building? building { get; set; }
         [ForeignKey("services")]
-        public int ServiceId { get; set; }
+        public int? ServiceId { get; set; }
         public virtual Service? service { get; set; }
     }
 }
