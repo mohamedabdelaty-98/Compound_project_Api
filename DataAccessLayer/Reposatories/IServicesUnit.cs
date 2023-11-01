@@ -9,6 +9,8 @@ namespace DataAccessLayer.Reposatories
 {
     public interface IServicesUnit:ICrudOperation<ServiceUnit>
     {
+        public Service GetbyName(string name);
+
         object Entry(ServiceUnit Ammenitiesunit);
 
 

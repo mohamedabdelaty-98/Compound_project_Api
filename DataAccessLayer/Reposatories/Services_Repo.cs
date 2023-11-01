@@ -22,7 +22,11 @@ namespace DataAccessLayer.Reposatories
         {
             throw new NotImplementedException();
         }
-
         
+
+        public Service GetbyName(string name)
+        {
+            return context.services.FirstOrDefault(c => c.Name == name);
+        }
     }
 }

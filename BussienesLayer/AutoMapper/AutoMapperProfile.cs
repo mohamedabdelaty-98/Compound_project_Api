@@ -56,16 +56,20 @@ namespace Compound_project.AutoMapper
 
 
             CreateMap<ServiceUnit, DTOServicesUnit>();
-            CreateMap<DTOServicesUnit, ServiceUnit>();
-
+            CreateMap<DTOServicesUnit, ServiceUnit>()
+                 .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<Service, DTOServices>();
             CreateMap<DTOServices, Service>();
-
+              
             CreateMap<ServiceBuilding, DTOServicesBuilding>();
-            CreateMap<DTOServicesBuilding, ServiceBuilding>();
+            CreateMap<DTOServicesBuilding, ServiceBuilding>()
+                 .ForMember(dest => dest.Id, opt => opt.Ignore());
+
 
             CreateMap<ServicesCompound, DTOServicesCompound>();
-            CreateMap<DTOServicesCompound, ServicesCompound>();
+            CreateMap<DTOServicesCompound, ServicesCompound>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+
 
 
             CreateMap<Compound, DTOCompound>();

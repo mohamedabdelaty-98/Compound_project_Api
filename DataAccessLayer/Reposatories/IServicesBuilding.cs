@@ -9,6 +9,8 @@ namespace DataAccessLayer.Reposatories
 {
     public interface IServicesBuilding:ICrudOperation<ServiceBuilding>
     {
+        public Service GetbyName(string name);
+
         object Entry(ServiceBuilding AmmenitiesBuilding);
 
     }
