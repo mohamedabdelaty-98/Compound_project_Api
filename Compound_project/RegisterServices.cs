@@ -3,6 +3,7 @@ using DataAccessLayer.Reposatories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Compound_project
 {
@@ -62,7 +63,7 @@ namespace Compound_project
 
         public static WebApplicationBuilder RegestriationIdentity(this WebApplicationBuilder builder)
         {
-            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DbContext>();
+            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DbContext>();    
             return builder;
         }
     }
