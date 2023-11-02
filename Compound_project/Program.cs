@@ -22,6 +22,11 @@ namespace Compound_project
             //Configration for DB
             builder.RegsterationDB();
 
+
+            //Configration for Identity
+            builder.RegestriationIdentity();
+
+
             //configration for automapper
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
