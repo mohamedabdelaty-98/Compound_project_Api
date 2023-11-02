@@ -1,6 +1,9 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Reposatories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Compound_project
 {
@@ -55,6 +58,12 @@ namespace Compound_project
                option.AddPolicy("AllowAnyOrigin", builder =>
                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
            );
+            return builder;
+        }
+
+        public static WebApplicationBuilder RegestriationIdentity(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DbContext>();    
             return builder;
         }
     }

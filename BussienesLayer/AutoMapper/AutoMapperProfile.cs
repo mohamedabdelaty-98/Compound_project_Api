@@ -29,6 +29,9 @@ namespace BussienesLayer.AutoMapper
             CreateMap<CompoundImage, DTOCompoundImage>();
             CreateMap<BuildingImage, DTOBuildingImage>();
             CreateMap<UnitImage, DTOUnitImage>();
+            CreateMap<User, DTORegisterUser>();
+            CreateMap<DTORegisterUser, User>();
+
 
             CreateMap<DTOCompoundImage, CompoundImage>();
             CreateMap<DTOBuildingImage, BuildingImage>();

@@ -1,6 +1,8 @@
 using BussienesLayer.AutoMapper;
 using DataAccessLayer.Data;
+using DataAccessLayer.Models;
 using DataAccessLayer.Reposatories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -22,6 +24,12 @@ namespace Compound_project
             //Configration for DB
             builder.RegsterationDB();
 
+
+            //Configration for Identity
+            // builder.RegestriationIdentity();
+            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<Context>();
+
+
             //configration for automapper
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
@@ -39,6 +47,7 @@ namespace Compound_project
                 app.UseSwaggerUI();
             }
             app.UseCors("AllowAnyOrigin");
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
