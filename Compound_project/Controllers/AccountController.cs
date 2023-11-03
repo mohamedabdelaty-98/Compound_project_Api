@@ -3,7 +3,10 @@ using BussienesLayer.DTO;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Compound_project.Controllers
 {
@@ -47,6 +50,59 @@ namespace Compound_project.Controllers
             {
                 result.IsPass = false;
                 result.Data = "Data is not vaild";
+            }
+            return result;
+        }
+
+
+        [HttpPost("Login")]
+        public async Task<ActionResult<DTOResult>> Login(DTOLoginUser userLogin)
+        {
+            DTOResult result = new DTOResult();
+
+            if (ModelState.IsValid)
+            {
+                User user = await userManager.FindByNameAsync(userLogin.userName);
+                if (user != null && await userManager.CheckPasswordAsync(user, userLogin.password)) {
+
+                   
+                    var claims = new List<Claim>();
+                    claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+                    claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
+                    claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+
+                    var roles = await userManager.GetRolesAsync(user);
+
+                    foreach( var role in roles)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, role));
+                    }
+
+                    SecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Securitykey"]));
+                    SigningCredentials signInCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+                    JwtSecurityToken Token = new JwtSecurityToken(
+                        issuer: configuration["JWT:ValidIssuer"],
+                        audience: configuration["JWT:ValidAudience"],
+                        claims:claims,
+                        expires:DateTime.Now.AddHours(1),
+                        signingCredentials:signInCredentials
+                        );
+
+                    result.IsPass = true;
+                    result.Data = new
+                    {
+                        Token = new JwtSecurityTokenHandler().WriteToken(Token),
+                        expiration = Token.ValidTo
+                    };
+                
+                }
+                else
+                {
+                    result.IsPass = false;
+                    result.Data = "Unauthorized";
+                }
+
             }
             return result;
         }

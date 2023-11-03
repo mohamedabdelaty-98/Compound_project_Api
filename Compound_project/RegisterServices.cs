@@ -4,11 +4,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Runtime.CompilerServices;
 
 namespace Compound_project
 {
     public static class RegisterServices
     {
+       
         public static WebApplicationBuilder RegsterationService(this WebApplicationBuilder builder) 
         {
             builder.Services.AddScoped<IUnit, UnitRepo>();
@@ -66,5 +71,34 @@ namespace Compound_project
             builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DbContext>();    
             return builder;
         }
+
+
+        //private static readonly IConfiguration Configuration;
+        //public static WebApplicationBuilder RegestriationJWTToken (this WebApplicationBuilder builder, IConfiguration   _Configuration)
+        //{
+        //    _Configuration = new ConfigurationBuilder();
+
+        //    //[Authoriz] used JWT Token in Check Authantiaction
+        //    builder.Services.AddAuthentication(options =>
+        //    {
+        //        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        //        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        //        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        //    }).AddJwtBearer(options => {
+        //        options.SaveToken = true;
+        //        options.RequireHttpsMetadata = false;
+        //        options.TokenValidationParameters = new TokenValidationParameters()
+        //        {
+        //            ValidateIssuer = true,
+        //            ValidIssuer = Configuration["JWT:ValidIssuer"],
+        //            ValidateAudience = true,
+        //            ValidAudience = Configuration["JWT:ValidAudience"],
+        //            IssuerSigningKey =
+        //            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:SecurityKey"]))
+        //        };
+        //    });
+
+        //    return builder;
+        //}
     }
 }
