@@ -48,37 +48,25 @@ namespace BussienesLayer.AutoMapper
             CreateMap<Application, DTOApplication>();
             CreateMap<DTOApplication, Application>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
-           
 
-
-
-
-
-
-
-
-
-
-
-
-
-            CreateMap<ServiceUnit, DTOServicesUnit>();
-            CreateMap<DTOServicesUnit, ServiceUnit>()
-                 .ForMember(dest => dest.Id, opt => opt.Ignore());
-            CreateMap<Service, DTOServices>();
-            CreateMap<DTOServices, Service>();
-              
-            CreateMap<ServiceBuilding, DTOServicesBuilding>();
-            CreateMap<DTOServicesBuilding, ServiceBuilding>()
-                 .ForMember(dest => dest.Id, opt => opt.Ignore());
-
-
-            CreateMap<ServicesCompound, DTOServicesCompound>();
+            //Salah
+            CreateMap<ServicesCompound, DTOServicesCompound>()
+                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.services.Name))
+                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.services.Description));
             CreateMap<DTOServicesCompound, ServicesCompound>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
+            CreateMap<ServiceBuilding, DTOServicesBuilding>()
+                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.service.Name))
+                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.service.Description));
+            CreateMap<DTOServicesBuilding, ServiceBuilding>()
+                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
-
+            CreateMap<ServiceUnit, DTOServicesUnit>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.service.Name))
+                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.service.Description));
+            CreateMap<DTOServicesUnit, ServiceUnit>()
+                 .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }

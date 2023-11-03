@@ -18,15 +18,10 @@ namespace DataAccessLayer.Reposatories
             this.context = context;
 
         }
-        public object Entry(Service Ammenities)
-        {
-            throw new NotImplementedException();
-        }
-        
 
         public Service GetbyName(string name)
         {
-            return context.services.FirstOrDefault(c => c.Name == name);
+            return context.services.FirstOrDefault(c => c.Name.ToLower() == name.ToLower());
         }
     }
 }

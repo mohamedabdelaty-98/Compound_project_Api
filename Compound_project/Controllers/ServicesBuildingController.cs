@@ -23,21 +23,26 @@ namespace Compound_project.Controllers
             this._services = _services;
         }
 
-        [HttpGet("GetAllAmmenitiesBuilding")]
-        public ActionResult<DTOResult> GetAllAmmenitiesBuilding()
+   
+        [HttpGet("GetServicesBuildingByBuilding/{id}")]
+        public ActionResult<DTOResult> GetServicesBuildingByBuilding(int id)
         {
-            List<ServiceBuilding> servicesBuilsings = _servicebuilding.GetAll();
-            List<DTOServicesBuilding> DTOAmmenitiesBuildingss = servicesBuilsings.
-                Select(item => _mapper.Map<DTOServicesBuilding>(item)).ToList();
-            foreach (var dtoAmmenitiesCompound in DTOAmmenitiesBuildingss)
-            {
-                //dtoCompound.bulidingComponents = _compoundbuilding.GetUnitComponents(dtoCompound.Id)
-                //    .Select(c => _mapper.Map<DTOUnitComponent>(c)).ToList();
-            }
+            List<ServiceBuilding> serviceBuildings = _servicebuilding.GetServiceBuilding(id);
+            List<DTOServicesBuilding> dTOServicesBuildings =
+                serviceBuildings.Select(item => _mapper.Map<DTOServicesBuilding>(item)).ToList();
             DTOResult result = new DTOResult();
-            if (DTOAmmenitiesBuildingss == null || DTOAmmenitiesBuildingss.Count == 0) result.IsPass = false;
-            else result.IsPass = true;
-            result.Data = DTOAmmenitiesBuildingss;
+            result.IsPass = dTOServicesBuildings.Count != 0 ? true : false;
+            result.Data = dTOServicesBuildings;
+            return result;
+        }
+        [HttpGet("GetServiceBuilding/{id}")]
+        public ActionResult<DTOResult> GetServiceBuilding(int id)
+        {
+            DTOResult result = new DTOResult();
+            ServiceBuilding serviceBuilding = _servicebuilding.GetById(id);
+            DTOServicesBuilding dTOServicesBuilding = _mapper.Map<DTOServicesBuilding>(serviceBuilding);
+            result.IsPass = dTOServicesBuilding != null ? true : false;
+            result.Data = dTOServicesBuilding;
             return result;
         }
 
@@ -93,7 +98,7 @@ namespace Compound_project.Controllers
             {
                 try
                 {
-                    Service serv = _servicebuilding.GetbyName(dTOservicsbuilding.Name);
+                    Service serv = _services.GetbyName(dTOservicsbuilding.Name);
                     if (serv == null)
                     {
                         serv = new Service() { Name = dTOservicsbuilding.Name, Description = dTOservicsbuilding.Description };
@@ -102,7 +107,15 @@ namespace Compound_project.Controllers
                         dTOservicsbuilding.ServiceId = serv.Id;
                     }
                     else
+                    {
                         dTOservicsbuilding.ServiceId = serv.Id;
+                        if (serv.Description.ToLower() != dTOservicsbuilding.Description.ToLower())
+                        {
+                            serv.Description = dTOservicsbuilding.Description;
+                            _services.update(serv);
+                            _services.save();
+                        }
+                    }
                     ServiceBuilding servicebuilding = _servicebuilding.GetById(id);
                     if (servicebuilding != null)
                     {
@@ -134,26 +147,29 @@ namespace Compound_project.Controllers
             return result;
         }
 
-
-
-
-        [HttpDelete("RemoveAmmenitiesCompound")]
-        public ActionResult<DTOResult> RemoveAmmenitiesCompound(int id)
+        [HttpDelete("DeleteBuildingServices/{id}")]
+        public ActionResult<DTOResult> DeleteBuildingServices(int id)
         {
-            var result = new DTOResult();
-            if (id == null) result.IsPass = false;
-            else result.IsPass = true;
-            result.Data = _servicebuilding.GetById(id);
-            _servicebuilding.Delete(id);
-            _servicebuilding.save();
-            //Compound c = _compound.GetById(id);
-            return Ok(result);
-
+            DTOResult result = new DTOResult();
+            ServiceBuilding serviceBuilding = _servicebuilding.GetById(id);
+            if (serviceBuilding != null)
+            {
+                _servicebuilding.Delete(id);
+                _servicebuilding.save();
+                result.IsPass = true;
+                result.Data = "Deleted";
+            }
+            else
+            {
+                result.IsPass = false;
+                result.Data = "Service Building Not Found";
+            }
+            return result;
         }
 
 
 
-       
+
 
 
 

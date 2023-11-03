@@ -23,25 +23,31 @@ namespace Compound_project.Controllers
             this._services = _services;
         }
 
-        [HttpGet("GetAllAmmenitiesCompound")]
-        public ActionResult<DTOResult> GetAllAmmenitiesCompound()
+        [HttpGet("GetServicesUnitByUnit/{id}")]
+        public ActionResult<DTOResult> GetServicesUnitByUnit(int id)
         {
-            List<ServiceUnit> servicesUnit = _serviceunit.GetAll();
-            List<DTOServicesUnit> DTOAmmenitiesUnits = servicesUnit.Select(item => _mapper.Map<DTOServicesUnit>(item)).ToList();
-            foreach (var dtoAmmenitiesCompound in DTOAmmenitiesUnits)
-            {
-                //dtoCompound.bulidingComponents = _compoundbuilding.GetUnitComponents(dtoCompound.Id)
-                //    .Select(c => _mapper.Map<DTOUnitComponent>(c)).ToList();
-            }
+            List<ServiceUnit> serviceUnits = _serviceunit.GetServicesUnitByUint(id);
+            List<DTOServicesUnit> dTOServicesUnits =
+                serviceUnits.Select(item => _mapper.Map<DTOServicesUnit>(item)).ToList();
             DTOResult result = new DTOResult();
-            if (DTOAmmenitiesUnits == null || DTOAmmenitiesUnits.Count == 0) result.IsPass = false;
-            else result.IsPass = true;
-            result.Data = DTOAmmenitiesUnits;
+            result.IsPass = dTOServicesUnits.Count != 0 ? true : false;
+            result.Data = dTOServicesUnits;
             return result;
         }
 
-        [HttpPost("Insertbuildingservice")]
-        public ActionResult<DTOResult> Insertbuildingservice(DTOServicesUnit dTOservicsunit)
+        [HttpGet("GetServiceUnit/{id}")]
+        public ActionResult<DTOResult> GetServiceUnit(int id)
+        {
+            DTOResult result = new DTOResult();
+            ServiceUnit serviceUnit = _serviceunit.GetById(id);
+            DTOServicesUnit dTOServicesUnit = _mapper.Map<DTOServicesUnit>(serviceUnit);
+            result.IsPass = dTOServicesUnit != null ? true : false;
+            result.Data = dTOServicesUnit;
+            return result;
+        }
+
+        [HttpPost("InsertUnitservice")]
+        public ActionResult<DTOResult> InsertUnitservice(DTOServicesUnit dTOservicsunit)
         {
             DTOResult result = new DTOResult();
             if (ModelState.IsValid)
@@ -84,15 +90,15 @@ namespace Compound_project.Controllers
             return result;
         }
 
-        [HttpPut("EditbuildingService/{id}")]
-        public ActionResult<DTOResult> EditbuildingService(int id, DTOServicesUnit dTOservicsunit)
+        [HttpPut("EditUnitService/{id}")]
+        public ActionResult<DTOResult> EditUnitService(int id, DTOServicesUnit dTOservicsunit)
         {
             DTOResult result = new DTOResult();
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Service serv = _serviceunit.GetbyName(dTOservicsunit.Name);
+                    Service serv = _services.GetbyName(dTOservicsunit.Name);
                     if (serv == null)
                     {
                         serv = new Service() { Name = dTOservicsunit.Name ,Description = dTOservicsunit.Description };
@@ -101,7 +107,15 @@ namespace Compound_project.Controllers
                         dTOservicsunit.ServiceId = serv.Id;
                     }
                     else
+                    {
                         dTOservicsunit.ServiceId = serv.Id;
+                        if (serv.Description.ToLower() != dTOservicsunit.Description.ToLower())
+                        {
+                            serv.Description = dTOservicsunit.Description;
+                            _services.update(serv);
+                            _services.save();
+                        }
+                    }
                     ServiceUnit serviceunit = _serviceunit.GetById(id);
                     if (serviceunit != null)
                     {
@@ -133,65 +147,24 @@ namespace Compound_project.Controllers
             return result;
         }
 
-
-
-
-
-        [HttpDelete("RemoveAmmenitiesUnit")]
-        public ActionResult<DTOResult> RemoveAmmenitiesUnit(int id)
+        [HttpDelete("DeleteUnitServices/{id}")]
+        public ActionResult<DTOResult> DeleteUnitServices(int id)
         {
-            var result = new DTOResult();
-            if (id == null) result.IsPass = false;
-            else result.IsPass = true;
-            result.Data = _serviceunit.GetById(id);
-            _serviceunit.Delete(id);
-            _serviceunit.save();
-            //Compound c = _compound.GetById(id);
-            return Ok(result);
-
+            DTOResult result = new DTOResult();
+            ServiceUnit serviceUnit = _serviceunit.GetById(id);
+            if (serviceUnit != null)
+            {
+                _serviceunit.Delete(id);
+                _serviceunit.save();
+                result.IsPass = true;
+                result.Data = "Deleted";
+            }
+            else
+            {
+                result.IsPass = false;
+                result.Data = "Service Compound Not Found";
+            }
+            return result;
         }
-
-        //[HttpPut("EditAmmenitiesUnit")]
-        //public ActionResult<DTOResult> EditAmmenitiesUnit([FromBody] DTOServicesUnit? newamenitiesUnit)
-        //{
-        //    ServiceUnit oldCompound = _ammenitiesUnit.GetById(newamenitiesUnit.Id);
-        //    var result = new DTOResult();
-
-        //    _mapper.Map(newamenitiesUnit, oldCompound);
-
-        //    _ammenitiesUnit.update(oldCompound);
-        //    _ammenitiesUnit.save();
-        //    if (newamenitiesUnit.Id == null) result.IsPass = false;
-        //    else result.IsPass = true;
-        //    result.Data = newamenitiesUnit;
-        //    return Ok(result);
-
-        //}
-
-
-        //[HttpPost("NewAmmenitiesUnit")]
-        //public ActionResult<DTOResult> NewAmmenitiesUnit([FromBody] DTOServicesUnit? newammenitiesUnit)
-        //{
-        //    DTOResult result = new DTOResult();
-        //    ServiceUnit com = _mapper.Map<ServiceUnit>(newammenitiesUnit);
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (com == null) result.IsPass = false;
-        //        else result.IsPass = true;
-        //        result.Data = com;
-        //        _ammenitiesUnit.insert(com);
-        //        _ammenitiesUnit.save();
-        //        //return Ok(result.Data);
-        //    }
-        //    else
-        //    {
-        //        result.Data = ModelState.Values.SelectMany(v => v.Errors)
-        //            .Select(e => e.ErrorMessage).ToList();
-        //    }
-
-        //    return result;
-        //}
-
     }
 }

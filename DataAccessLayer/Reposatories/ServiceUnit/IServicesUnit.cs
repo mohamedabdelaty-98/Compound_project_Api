@@ -9,10 +9,6 @@ namespace DataAccessLayer.Reposatories
 {
     public interface IServicesUnit:IGenericReposatory<ServiceUnit>
     {
-        public Service GetbyName(string name);
-
-        object Entry(ServiceUnit Ammenitiesunit);
-
-
+        public List<ServiceUnit> GetServicesUnitByUint(int UnitId);
     }
 }
