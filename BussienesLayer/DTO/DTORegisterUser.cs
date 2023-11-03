@@ -19,7 +19,7 @@ namespace BussienesLayer.DTO
         [Column(TypeName = "date")]
         public DateTime DateOfBirth { get; set; }
         [Column(TypeName = "varchar(10)")]
-        public Gender gender { get; set; }
+        public string gender { get; set; }
         [MaxLength(200)]
         public string Address { get; set; }
         [MaxLength(100)]
