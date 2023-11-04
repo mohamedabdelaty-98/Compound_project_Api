@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.Data;
+using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Reposatories
 {
-    public class CrudOperation<T> : ICrudOperation<T> where T : class
+    public class GenericReposatory<T> : IGenericReposatory<T> where T : class
     {
         private readonly Context context;
 
-        public CrudOperation(Context context)
+        public GenericReposatory(Context context)
         {
             this.context = context;
         }
@@ -40,7 +40,8 @@ namespace DataAccessLayer.Reposatories
         }
         public void update(T Entity)
         {
-            context.Set<T>().Update(Entity);
+            context.Entry(Entity).State = EntityState.Modified;
+            //context.Set<T>().Update(Entity);
         }
         public void Delete(int id)
         {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Reposatories
 {
-    public interface ICrudOperation<T> where T : class
+    public interface IGenericReposatory<T> where T : class
     {
         List<T> GetAll(params Expression<Func<T, object>>[] includeProperties);
         T GetById(int id);

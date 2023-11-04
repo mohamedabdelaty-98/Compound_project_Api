@@ -1,16 +1,8 @@
-using BussienesLayer.Reposatories;
-using Compound_project.AutoMapper;
-using Compound_project.Reposatories.LandmarkReposatory;
-using Compound_project.Reposatories.Landmarks;
-using Compound_project.Reposatories.LandMarksCompoundReposatory;
-using Compound_project.Reposatories.ReviewReposatory;
+
+using BussienesLayer.AutoMapper;
 using DataAccessLayer.Data;
-using DataAccessLayer.Reposatories.LandmarkReposatory;
-using DataAccessLayer.Reposatories.LandMarksCompoundReposatory;
-using DataAccessLayer.Reposatories.ReviewReposatory;
+using DataAccessLayer.Reposatories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.OpenApi.Models;
 
 namespace Compound_project
 {
@@ -25,6 +17,7 @@ namespace Compound_project
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
+
             //for test autorize in swagger
             builder.Services.AddSwaggerGen(swagger =>
             {
@@ -43,47 +36,12 @@ namespace Compound_project
                     Description="Enter Bearer [space] and then your valid token in the text input "
                 });
             });
-            //configration for dbcontext
-            builder.Services.AddDbContext<Context>(option =>
-            {
-                option.UseLazyLoadingProxies()
-                .UseSqlServer(builder.Configuration.GetConnectionString("sql"),
-                b=>b.MigrationsAssembly("Compound_project"));
-            });
+  
+            //Configration for DB
+            builder.RegsterationDB();
+
             //configration for automapper
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-            //Configuration for cors
-            builder.Services.AddCors(option =>
-                option.AddPolicy("AllowAnyOrigin", builder =>
-                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
-            );
-            builder.Services.AddScoped<IUnit, UnitRepo>();
-            builder.Services.AddScoped<IUnitComponent, UnitComponentRepo>();
-
-         //Configuration for Raghad
-
-
-
-
-
-         //Configuration for Shrouk
-
-
-
-
-         //Configuration for Men3m
-
-
-
-         //Configuration for Salah
-
-
-
-
-         //Configuration for Zaki
-
-
-
 
          //Configuration for Amr
 
@@ -96,9 +54,13 @@ namespace Compound_project
          builder.Services.AddScoped<IReviewOperationsReposatory, ReviewOperationsReposatory>();
 
          
+            //Configuration for cors
+            builder.RegsterationCors();
 
-         var app = builder.Build();
+            //Configuration for Services
+            builder.RegsterationService();
 
+            var app = builder.Build();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

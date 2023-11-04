@@ -59,12 +59,13 @@ namespace Compound_project.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("applications", (string)null);
+                    b.ToTable("applications");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Building", b =>
@@ -109,10 +110,32 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("CompoundId");
 
-                    b.ToTable("buildings", (string)null);
+                    b.ToTable("buildings");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.Component", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.BuildingImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BuildingId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuildingId");
+
+                    b.ToTable("BuildingImages");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.CComponent", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -127,7 +150,7 @@ namespace Compound_project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("components", (string)null);
+                    b.ToTable("components");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Compound", b =>
@@ -165,6 +188,9 @@ namespace Compound_project.Migrations
                     b.Property<double>("Latitude")
                         .HasColumnType("float");
 
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(150)");
+
                     b.Property<double>("Longitude")
                         .HasColumnType("float");
 
@@ -178,32 +204,10 @@ namespace Compound_project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("compounds", (string)null);
+                    b.ToTable("compounds");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.ImageBuilding", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BuildingId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BuildingId");
-
-                    b.ToTable("imageBuildings", (string)null);
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.ImageCompound", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.CompoundImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -222,7 +226,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("CompoundId");
 
-                    b.ToTable("ImageCompound", (string)null);
+                    b.ToTable("CompundImages");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.LandMarksCompound", b =>
@@ -250,7 +254,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("LandMarkId");
 
-                    b.ToTable("landMarksCompounds", (string)null);
+                    b.ToTable("landMarksCompounds");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Landmark", b =>
@@ -267,7 +271,7 @@ namespace Compound_project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("landmarks", (string)null);
+                    b.ToTable("landmarks");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Review", b =>
@@ -297,7 +301,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("reviews", (string)null);
+                    b.ToTable("reviews");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Service", b =>
@@ -320,7 +324,7 @@ namespace Compound_project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("services", (string)null);
+                    b.ToTable("services");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.ServiceBuilding", b =>
@@ -334,7 +338,7 @@ namespace Compound_project.Migrations
                     b.Property<int>("BuildingId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ServiceId")
+                    b.Property<int?>("ServiceId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -343,7 +347,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("serviceBuildings", (string)null);
+                    b.ToTable("serviceBuildings");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.ServiceUnit", b =>
@@ -354,7 +358,7 @@ namespace Compound_project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ServiceId")
+                    b.Property<int?>("ServiceId")
                         .HasColumnType("int");
 
                     b.Property<int>("UnitId")
@@ -366,7 +370,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("serviceUnits", (string)null);
+                    b.ToTable("serviceUnits");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.ServicesCompound", b =>
@@ -380,7 +384,7 @@ namespace Compound_project.Migrations
                     b.Property<int>("CompoundId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ServiceId")
+                    b.Property<int?>("ServiceId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -389,7 +393,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("servicesCompounds", (string)null);
+                    b.ToTable("servicesCompounds");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Unit", b =>
@@ -403,7 +407,7 @@ namespace Compound_project.Migrations
                     b.Property<double>("Area")
                         .HasColumnType("float");
 
-                    b.Property<int?>("BuildingId")
+                    b.Property<int>("BuildingId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -431,7 +435,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("BuildingId");
 
-                    b.ToTable("units", (string)null);
+                    b.ToTable("units");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.UnitComponent", b =>
@@ -461,7 +465,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("unitComponents", (string)null);
+                    b.ToTable("unitComponents");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.UnitImage", b =>
@@ -483,7 +487,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("unitImages", (string)null);
+                    b.ToTable("unitImages");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.User", b =>
@@ -599,7 +603,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("wishlists", (string)null);
+                    b.ToTable("wishlists");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.WishlistUnit", b =>
@@ -622,7 +626,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("WihslistId");
 
-                    b.ToTable("wishlistUnits", (string)null);
+                    b.ToTable("wishlistUnits");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -769,7 +773,7 @@ namespace Compound_project.Migrations
                     b.Navigation("compound");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.ImageBuilding", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.BuildingImage", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.Building", "building")
                         .WithMany("imageBuildings")
@@ -780,7 +784,7 @@ namespace Compound_project.Migrations
                     b.Navigation("building");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.ImageCompound", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.CompoundImage", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.Compound", "compound")
                         .WithMany("imageCompounds")
@@ -831,9 +835,7 @@ namespace Compound_project.Migrations
 
                     b.HasOne("DataAccessLayer.Models.Service", "service")
                         .WithMany("serviceBuildings")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ServiceId");
 
                     b.Navigation("building");
 
@@ -844,9 +846,7 @@ namespace Compound_project.Migrations
                 {
                     b.HasOne("DataAccessLayer.Models.Service", "service")
                         .WithMany("serviceUnits")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ServiceId");
 
                     b.HasOne("DataAccessLayer.Models.Unit", "unit")
                         .WithMany("serviceUnits")
@@ -869,9 +869,7 @@ namespace Compound_project.Migrations
 
                     b.HasOne("DataAccessLayer.Models.Service", "services")
                         .WithMany("servicesCompounds")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ServiceId");
 
                     b.Navigation("compound");
 
@@ -882,14 +880,16 @@ namespace Compound_project.Migrations
                 {
                     b.HasOne("DataAccessLayer.Models.Building", "building")
                         .WithMany("Units")
-                        .HasForeignKey("BuildingId");
+                        .HasForeignKey("BuildingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("building");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.UnitComponent", b =>
                 {
-                    b.HasOne("DataAccessLayer.Models.Component", "component")
+                    b.HasOne("DataAccessLayer.Models.CComponent", "component")
                         .WithMany("unitComponents")
                         .HasForeignKey("ComponentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1018,7 +1018,7 @@ namespace Compound_project.Migrations
                     b.Navigation("serviceBuildings");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.Component", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.CComponent", b =>
                 {
                     b.Navigation("unitComponents");
                 });

@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BussienesLayer.Reposatories
+namespace DataAccessLayer.Reposatories
 {
-    public class UnitComponentRepo : CrudOperation<UnitComponent>, IUnitComponent
+    public class UnitComponentRepo : GenericReposatory<UnitComponent>, IUnitComponent
     {
         private readonly Context context;
 

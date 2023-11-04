@@ -14,7 +14,7 @@ namespace DataAccessLayer.Models
         public int CompoundId { get; set; }
         public virtual Compound? compound { get; set; }
         [ForeignKey("services")]
-        public int ServiceId { get; set; }
+        public int? ServiceId { get; set; }
         public virtual Service? services { get; set; }
     }
 }
