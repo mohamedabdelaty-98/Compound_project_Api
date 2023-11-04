@@ -12,7 +12,7 @@ namespace DataAccessLayer.Models
     {
         public int Id { get; set; }
         [MaxLength(1000)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [ForeignKey("landmark")]
         public int LandMarkId { get; set; }
         public virtual Landmark? landmark { get; set; }

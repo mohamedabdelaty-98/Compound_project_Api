@@ -1,4 +1,9 @@
 ﻿using AutoMapper;
+
+using BussienesLayer.DTO.Compound;
+using BussienesLayer.DTO.LandmarkDTO;
+using BussienesLayer.DTO.LandMarksCompoundDTO;
+using BussienesLayer.DTO.ReviewDTO;
 using BussienesLayer.DTO;
 using DataAccessLayer.Models;
 
@@ -8,9 +13,11 @@ namespace BussienesLayer.AutoMapper
     {
         public AutoMapperProfile()
         {
-            CreateMap<Unit, DTOUnit>()
+
+         CreateMap<Unit, DTOUnit>()
           .ForMember(dest => dest.status, opt => opt.MapFrom(src => src.status.ToString()))
           .ForMember(dest => dest.BulidingNumber, opt => opt.MapFrom(src => src.building != null ? src.building.BulidingNumber : default));
+
 
             CreateMap<DTOUnit, Unit>()
          .ForMember(dest => dest.status, opt => opt.MapFrom(src => Enum.Parse(typeof(Status), src.status)))
@@ -67,6 +74,37 @@ namespace BussienesLayer.AutoMapper
                  .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.service.Description));
             CreateMap<DTOServicesUnit, ServiceUnit>()
                  .ForMember(dest => dest.Id, opt => opt.Ignore());
+                 
+                 //Amr
+     
+         CreateMap<LandMarksCompound, LandMarksCompound_IncludeLandmarks_IncludeCompoundDTO>()
+                .ForMember(dest => dest.landmark, opt => opt.MapFrom(src => src.landmark != null ? new LandmarkOperationsDTO { Name = src.landmark.Name } : null))
+                .ForMember(dest => dest.compound, opt => opt.MapFrom(src => src.compound != null ? new CompoundOperationsDTO 
+                { 
+                   Id=src.compound.Id,
+                   Name = src.compound.Name,
+                   Description = src.compound.Description,
+                   Address=src.compound.Address,
+                   Latitude=src.compound.Latitude,
+                   Longitude=src.compound.Longitude,
+                   DateAdded=src.compound.DateAdded,
+                   File=src.compound.File,
+                   Street_area=src.compound.Street_area,
+                   GreenArea=src.compound.GreenArea,
+                   BuildingArea=src.compound.BuildingArea
+                } : null));
+
+         CreateMap<Review, Review_IncludeUserDTO>()
+            .ForMember(dest => dest.FullName,
+            opt => opt.MapFrom(src => src.user.FName!=null ? src.user.FName+src.user.LName : null));
+
+
+
+      }
+
+   }
+}
         }
     }
 }
+
