@@ -23,8 +23,7 @@ namespace DataAccessLayer.Models
         public DateTime DateAdded { get; set; }
         [MaxLength(100)]
 
-        [Column(TypeName = "VARBINARY(MAX)")]
-        public byte[] File { get; set; }
+        public string File { get; set; }
 
         public double Street_area { get; set; }
         public double GreenArea { get; set; }

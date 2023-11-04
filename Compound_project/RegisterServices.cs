@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Compound_project
 {
@@ -41,6 +42,10 @@ namespace Compound_project
 
             //Configuration for Raghad
             builder.Services.AddScoped<IBuilding, BuildingRepo>();
+            builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add(new ConsumesAttribute("multipart/form-data"));
+            });
 
             //Configuration for Amr
             return builder;
@@ -73,32 +78,7 @@ namespace Compound_project
         }
 
 
-        //private static readonly IConfiguration Configuration;
-        //public static WebApplicationBuilder RegestriationJWTToken (this WebApplicationBuilder builder, IConfiguration   _Configuration)
-        //{
-        //    _Configuration = new ConfigurationBuilder();
 
-        //    //[Authoriz] used JWT Token in Check Authantiaction
-        //    builder.Services.AddAuthentication(options =>
-        //    {
-        //        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        //        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        //        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        //    }).AddJwtBearer(options => {
-        //        options.SaveToken = true;
-        //        options.RequireHttpsMetadata = false;
-        //        options.TokenValidationParameters = new TokenValidationParameters()
-        //        {
-        //            ValidateIssuer = true,
-        //            ValidIssuer = Configuration["JWT:ValidIssuer"],
-        //            ValidateAudience = true,
-        //            ValidAudience = Configuration["JWT:ValidAudience"],
-        //            IssuerSigningKey =
-        //            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:SecurityKey"]))
-        //        };
-        //    });
 
-        //    return builder;
-        //}
     }
 }
