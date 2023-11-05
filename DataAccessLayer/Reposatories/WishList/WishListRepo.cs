@@ -1,15 +1,9 @@
 using DataAccessLayer.Data;
 using DataAccessLayer.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.Reposatories
 {
-  public class WishListRepo : GenericReposatory<Wishlist>, IWishList
+    public class WishListRepo : GenericReposatory<Wishlist>, IWishList
   {
     private readonly Context context;
 

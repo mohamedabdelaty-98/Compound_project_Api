@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace BussienesLayer.DTO
 {
- public class DTOApplication
+    public class DTOApplication
   {
     public int Id { get; set; }
     public string SSN { get; set; }

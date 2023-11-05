@@ -1,6 +1,4 @@
 ﻿using BussienesLayer.DTO;
-using DataAccessLayer.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Compound_project.Controllers

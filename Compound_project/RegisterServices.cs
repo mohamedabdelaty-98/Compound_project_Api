@@ -10,7 +10,6 @@ using DataAccessLayer.Reposatories.ReviewReposatory;
 
 using Microsoft.EntityFrameworkCore;
 using DataAccessLayer.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
