@@ -47,6 +47,9 @@ namespace Compound_project
 
             //Configuration for Raghad
             builder.Services.AddScoped<IBuilding, BuildingRepo>();
+
+
+
             //Configuration for Amr
 
             builder.Services.AddScoped<ILandmarkReposatory, LandmarkReposatory>();

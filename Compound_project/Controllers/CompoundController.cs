@@ -61,7 +61,8 @@ namespace Compound_project.Controllers
                         await newcompound.File.CopyToAsync(stream);
                     }
                     Compound compound = _mapper.Map<Compound>(newcompound);
-                    compound.File = filePath;
+                    var fileUrl = $"/Uploads/{fileName}";
+                    compound.File = fileUrl;
 
                     _compound.insert(compound);
                     _compound.save();
