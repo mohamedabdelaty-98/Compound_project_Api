@@ -2,6 +2,7 @@
 using BussienesLayer.DTO.ReviewDTO;
 using BussienesLayer.DTO;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace BussienesLayer.AutoMapper
 {
@@ -42,7 +43,8 @@ namespace BussienesLayer.AutoMapper
             CreateMap<DTOUnitImage, UnitImage>();
 
             //Men3m
-            CreateMap<Compound, DTOCompound>();
+            CreateMap<Compound, DTOCompound>()
+                .ForMember(dest => dest.File, opt => opt.Ignore());
             CreateMap<DTOCompound, Compound>();
 
             //Raghad
