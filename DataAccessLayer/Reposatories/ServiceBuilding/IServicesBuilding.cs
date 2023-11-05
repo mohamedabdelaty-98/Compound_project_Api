@@ -9,7 +9,6 @@ namespace DataAccessLayer.Reposatories
 {
     public interface IServicesBuilding:IGenericReposatory<ServiceBuilding>
     {
-        object Entry(ServiceBuilding AmmenitiesBuilding);
-
+        public List<ServiceBuilding> GetServiceBuilding(int Buildingid);
     }
 }

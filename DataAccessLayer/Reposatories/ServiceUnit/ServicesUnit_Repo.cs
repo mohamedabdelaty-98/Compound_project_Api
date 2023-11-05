@@ -19,11 +19,10 @@ namespace DataAccessLayer.Reposatories
             this.context = context;
 
         }
-        public object Entry(ServiceUnit Ammenitiesunit)
-        {
-            throw new NotImplementedException();
-        }
 
-       
+        public List<ServiceUnit> GetServicesUnitByUint(int UnitId)
+        {
+            return context.serviceUnits.Where(su => su.UnitId == UnitId).ToList();
+        }
     }
 }

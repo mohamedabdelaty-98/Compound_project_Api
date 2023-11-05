@@ -10,99 +10,46 @@ namespace Compound_project.Controllers
     [ApiController]
     public class ServicesController : ControllerBase
     {
-        private readonly IServices _ammenities;
+        private readonly IServices _services;
         private readonly IMapper _mapper;
 
-        public ServicesController(IServices _Ammenities, IMapper _mapper)
+        public ServicesController(IServices _services, IMapper _mapper)
         {
-            this._ammenities = _Ammenities;
+            this._services = _services;
             this._mapper = _mapper;
         }
 
-        [HttpGet("GetAllAmmenities")]
-        public ActionResult<DTOResult> GetAllAmmenities()
+        [HttpGet("GetAllServices")]
+        public ActionResult<DTOResult> GetAllServices()
         {
-            List<Service> service = _ammenities.GetAll();
-            List<DTOServices> dTOAmmenities = service.Select(item => _mapper.Map<DTOServices>(item)).ToList();
-            //foreach (var dtoAmmenitiesCompound in dTOAmmenities)
-            //{
-                //dtoCompound.bulidingComponents = _compoundbuilding.GetUnitComponents(dtoCompound.Id)
-                //    .Select(c => _mapper.Map<DTOUnitComponent>(c)).ToList();
-            //}
+            List<Service> service = _services.GetAll();
+            List<DTOServices> dTOServices = service.Select(item => _mapper.Map<DTOServices>(item)).ToList();
             DTOResult result = new DTOResult();
-            if (dTOAmmenities == null || dTOAmmenities.Count == 0) result.IsPass = false;
-            else result.IsPass = true;
-            result.Data = dTOAmmenities;
+            result.IsPass = dTOServices.Count != 0 ? true : false;
+            result.Data = dTOServices;
             return result;
         }
 
-
-        [HttpPost("NewAmmenities")]
-        public ActionResult<DTOResult> NewAmmenities([FromBody] DTOServices? newammenities)
-        {
-            DTOResult result = new DTOResult();
-            Service com = _mapper.Map<Service>(newammenities);
-
-            if (ModelState.IsValid)
-            {
-                if (com == null) result.IsPass = false;
-                else result.IsPass = true;
-                result.Data = com;
-                _ammenities.insert(com);
-                _ammenities.save();
-                //return Ok(result.Data);
-            }
-            else
-            {
-                result.Data = ModelState.Values.SelectMany(v => v.Errors)
-                    .Select(e => e.ErrorMessage).ToList();
-            }
-
-            return result;
-        }
-
-
-        [HttpDelete("RemoveAmmenities")]
-        public ActionResult<DTOResult> RemoveAmmenities(int id)
+        [HttpDelete("DeleteServices/{id}")]
+        public ActionResult<DTOResult> DeleteServices(int id)
         {
             var result = new DTOResult();
-            Service deleted_object = _ammenities.GetById(id);
-            if (deleted_object != null)
+            Service service = _services.GetById(id);
+            if (service != null)
             {
-                _ammenities.Delete(id);
-                _ammenities.save();
+                _services.Delete(id);
+                _services.save();
                 result.IsPass = true;
-                result.Data ="deleted";
+                result.Data ="Deleted";
             }
             else
             {
                 result.IsPass = false;
-                result.Data = "not found";
+                result.Data = "Not Found";
 
             }
-            
             return result;
-
         }
-
-        [HttpPut("EditAmenities")]
-        public ActionResult<DTOResult> EditAmenities([FromBody] DTOServices? newamenities,int id)
-        {
-            Service oldCompound = _ammenities.GetById(id);
-            var result = new DTOResult();
-
-            _mapper.Map(newamenities, oldCompound);
-
-            
-            if (newamenities.Id == null) result.IsPass = false;
-            else result.IsPass = true;
-            _ammenities.update(oldCompound);
-            _ammenities.save();
-            result.Data = newamenities;
-            return Ok(result);
-
-        }
-
 
     }
 }

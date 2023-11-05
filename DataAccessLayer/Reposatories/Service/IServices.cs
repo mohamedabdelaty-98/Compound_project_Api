@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.Data;
+using DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace DataAccessLayer.Reposatories
 {
     public interface IServices:IGenericReposatory<Service>
     {
-        object Entry(Service Ammenities);
+        public Service GetbyName(string name);
     }
+
 }

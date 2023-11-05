@@ -23,11 +23,10 @@ namespace DataAccessLayer.Reposatories
             this.context = context;
 
         }
-        public object Entry(ServiceBuilding AmmenitiesBuilding)
-        {
-            throw new NotImplementedException();
-        }
 
-      
+        public List<ServiceBuilding> GetServiceBuilding(int Buildingid)
+        {
+            return context.serviceBuildings.Where(sb=>sb.BuildingId==Buildingid).ToList();
+        }
     }
 }
