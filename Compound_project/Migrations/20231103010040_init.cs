@@ -22,7 +22,7 @@ namespace Compound_project.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Budget = table.Column<double>(type: "float", nullable: false),
                     FloorNumber = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContactEmail = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
@@ -124,7 +124,7 @@ namespace Compound_project.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -151,11 +151,11 @@ namespace Compound_project.Migrations
                         column: x => x.CompoundId,
                         principalTable: "compounds",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ImageCompound",
+                name: "CompundImages",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -165,13 +165,13 @@ namespace Compound_project.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ImageCompound", x => x.Id);
+                    table.PrimaryKey("PK_CompundImages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ImageCompound_compounds_CompoundId",
+                        name: "FK_CompundImages_compounds_CompoundId",
                         column: x => x.CompoundId,
                         principalTable: "compounds",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -192,13 +192,13 @@ namespace Compound_project.Migrations
                         column: x => x.CompoundId,
                         principalTable: "compounds",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_landMarksCompounds_landmarks_LandMarkId",
                         column: x => x.LandMarkId,
                         principalTable: "landmarks",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -218,17 +218,17 @@ namespace Compound_project.Migrations
                         column: x => x.CompoundId,
                         principalTable: "compounds",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_servicesCompounds_services_ServiceId",
                         column: x => x.ServiceId,
                         principalTable: "services",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
-                name: "imageBuildings",
+                name: "BuildingImages",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -238,13 +238,13 @@ namespace Compound_project.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_imageBuildings", x => x.Id);
+                    table.PrimaryKey("PK_BuildingImages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_imageBuildings_buildings_BuildingId",
+                        name: "FK_BuildingImages_buildings_BuildingId",
                         column: x => x.BuildingId,
                         principalTable: "buildings",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -264,13 +264,13 @@ namespace Compound_project.Migrations
                         column: x => x.BuildingId,
                         principalTable: "buildings",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_serviceBuildings_services_ServiceId",
                         column: x => x.ServiceId,
                         principalTable: "services",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -296,7 +296,7 @@ namespace Compound_project.Migrations
                         column: x => x.BuildingId,
                         principalTable: "buildings",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -316,13 +316,13 @@ namespace Compound_project.Migrations
                         column: x => x.ServiceId,
                         principalTable: "services",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_serviceUnits_units_UnitId",
                         column: x => x.UnitId,
                         principalTable: "units",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -344,13 +344,13 @@ namespace Compound_project.Migrations
                         column: x => x.ComponentId,
                         principalTable: "components",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_unitComponents_units_UnitId",
                         column: x => x.UnitId,
                         principalTable: "units",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -370,7 +370,7 @@ namespace Compound_project.Migrations
                         column: x => x.UnitId,
                         principalTable: "units",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -417,7 +417,7 @@ namespace Compound_project.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -469,7 +469,7 @@ namespace Compound_project.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -491,7 +491,7 @@ namespace Compound_project.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -510,7 +510,7 @@ namespace Compound_project.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -530,13 +530,13 @@ namespace Compound_project.Migrations
                         column: x => x.UnitId,
                         principalTable: "units",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_wishlistUnits_wishlists_WihslistId",
                         column: x => x.WihslistId,
                         principalTable: "wishlists",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
@@ -584,18 +584,18 @@ namespace Compound_project.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BuildingImages_BuildingId",
+                table: "BuildingImages",
+                column: "BuildingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_buildings_CompoundId",
                 table: "buildings",
                 column: "CompoundId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_imageBuildings_BuildingId",
-                table: "imageBuildings",
-                column: "BuildingId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ImageCompound_CompoundId",
-                table: "ImageCompound",
+                name: "IX_CompundImages_CompoundId",
+                table: "CompundImages",
                 column: "CompoundId");
 
             migrationBuilder.CreateIndex(
@@ -737,10 +737,10 @@ namespace Compound_project.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "imageBuildings");
+                name: "BuildingImages");
 
             migrationBuilder.DropTable(
-                name: "ImageCompound");
+                name: "CompundImages");
 
             migrationBuilder.DropTable(
                 name: "landMarksCompounds");
