@@ -20,6 +20,8 @@ namespace Compound_project.Controllers
         [HttpGet("GetBuildingImages/{BuildingId}")]
         public ActionResult<DTOResult> GetBuildingImages(int BuildingId)
         {
+
+            List<byte[]> imageslist = new List<byte[]>();
             var result = new DTOResult();
             List<BuildingImage> buildingImages = _buildingImage.GetBuildingImages(BuildingId);
             List<DTOBuildingImage> dTOBuildingImages = buildingImages.Select(item => _mapper.Map<DTOBuildingImage>(item)).ToList();
@@ -32,10 +34,21 @@ namespace Compound_project.Controllers
             else
             {
                 result.IsPass = true;
-                result.Data = dTOBuildingImages;
+                foreach (var buildingImage in dTOBuildingImages)
+                {
+
+                    var fullpath = Path.Combine(Directory.GetCurrentDirectory(), buildingImage.ImageUrl);
+                    if (System.IO.File.Exists(fullpath))
+                    {
+                        // Read the file into a byte array.
+                        byte[] imageData = System.IO.File.ReadAllBytes(fullpath);
+                        imageslist.Add(imageData);
+                    }
+
+                }
+                result.Data = imageslist;
             }
             return result;
-
         }
         [HttpGet("GetAllImages")]
         public ActionResult<DTOResult> GetAllImages() {
