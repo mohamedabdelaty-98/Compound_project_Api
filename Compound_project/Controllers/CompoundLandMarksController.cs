@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BussienesLayer.DTO;
 using DataAccessLayer.Models;
-using DataAccessLayer.Reposatories;
 using DataAccessLayer.Reposatories.LandmarkReposatory;
 using DataAccessLayer.Reposatories.LandMarksCompoundReposatory;
 using Microsoft.AspNetCore.Mvc;

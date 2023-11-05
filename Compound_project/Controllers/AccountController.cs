@@ -28,7 +28,7 @@ namespace Compound_project.Controllers
 
 
         [HttpPost("Register")]
-        public async Task< ActionResult<DTOResult>> Register(DTORegisterUser userRegister)
+        public async Task<ActionResult<DTOResult>> Register(DTORegisterUser userRegister)
         {
             DTOResult result = new DTOResult();
             if (ModelState.IsValid)

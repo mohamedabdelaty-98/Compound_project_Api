@@ -1,15 +1,5 @@
 
 using BussienesLayer.AutoMapper;
-using DataAccessLayer.Data;
-using DataAccessLayer.Models;
-using DataAccessLayer.Reposatories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using System.Text;
 using Microsoft.OpenApi.Models;
 
 
@@ -53,33 +43,10 @@ namespace Compound_project
 
 
             //Configration for Identity
-            // builder.RegestriationIdentity();
-            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<Context>();
+            builder.RegestriationIdentity();
 
             //[Authoriz] used JWT Token in Check Authantiaction
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options => {
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateIssuer = true,
-                    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-                    ValidateAudience = true,
-                    ValidAudience = builder.Configuration["JWT:ValidAudiance"],
-                    IssuerSigningKey =
-                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Securitykey"]))
-                };
-            });
-
-            
-
-
-
+            builder.AuthenticationJWT();
         //configration for automapper
         builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
