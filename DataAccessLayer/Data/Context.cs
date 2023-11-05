@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,5 +38,10 @@ namespace DataAccessLayer.Data
         public DbSet<UnitImage> unitImages { get; set; }
         public DbSet<Wishlist> wishlists { get; set; }
         public DbSet<WishlistUnit> wishlistUnits { get; set; }
-    }
+
+      protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+      {
+         optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Compound_DB;Integrated Security=True;Encrypt=False");
+      }
+   }
 }

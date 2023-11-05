@@ -22,6 +22,7 @@ namespace Compound_project.Controllers
             this._mapper = _mapper;
             this._building = _building;
         }
+
         [HttpGet("GetAllCompounds")]
         public ActionResult<DTOResult> GetAllCompounds()
         {
@@ -29,16 +30,16 @@ namespace Compound_project.Controllers
             List<DTOCompound> dTOCompounds = compounds.Select(item => _mapper.Map<DTOCompound>(item)).ToList();
             foreach (var dtoCompound in dTOCompounds)
             {
-                dtoCompound.buildings = _building.FilterByCompoundNumber(dtoCompound.CompoundId)
+                dtoCompound.buildings = _building.FilterByCompoundNumber(dtoCompound.Id)
                    .Select(c => _mapper.Map<DTOBuilding>(c)).ToList();
             }
             DTOResult result = new DTOResult();
-            result.IsPass=dTOCompounds.Count!=0?true:false;
+            result.IsPass = dTOCompounds.Count != 0 ? true : false;
             result.Data = dTOCompounds;
             return result;
         }
         [HttpPost("NewCompound")]
-         public ActionResult<DTOResult> NewCompound (DTOCompound newcompound)
+        public async Task<ActionResult<DTOResult>> NewCompound ([FromForm] DTOCompound newcompound)
         {
             DTOResult result = new DTOResult();
 
@@ -46,11 +47,26 @@ namespace Compound_project.Controllers
             {
                 try
                 {
+                    var uploadDirectory = Path.Combine(Directory.GetCurrentDirectory(),"Uploads");
+                    if (!Directory.Exists(uploadDirectory))
+                    {
+                        Directory.CreateDirectory(uploadDirectory);
+                    }
+                    var fileName = $"{Guid.NewGuid()}_{newcompound.File.FileName}";
+                    var filePath = Path.Combine(uploadDirectory,fileName);
+                    var fileExtension = Path.GetExtension(newcompound.File.FileName);
+
+                    using ( var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await newcompound.File.CopyToAsync(stream);
+                    }
                     Compound compound = _mapper.Map<Compound>(newcompound);
+                    compound.File = filePath;
+
                     _compound.insert(compound);
                     _compound.save();
                     result.IsPass = true;
-                    result.Data = $"Created unit with ID {compound.Id}";
+                    result.Data = $"Created Compound with ID {compound.Id}";
                 }
                 catch(Exception ex)
                 {
@@ -67,6 +83,7 @@ namespace Compound_project.Controllers
             
             return result;
         }
+ 
         [HttpDelete("RemoveCompound")]
         public ActionResult<DTOResult> RemoveCompound(int id)
         {

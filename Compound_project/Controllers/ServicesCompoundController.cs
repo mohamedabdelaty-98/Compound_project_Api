@@ -57,7 +57,7 @@ namespace Compound_project.Controllers
                     Service serv = _services.GetbyName(dTOservicscompound.Name);
                     if (serv == null)
                     {
-                        serv = new Service() { Name = dTOservicscompound.Name, Description = dTOservicscompound.Description };
+                        serv = new Service() { Name = dTOservicscompound.Name, Description = dTOservicscompound.Description,IConName=dTOservicscompound.IConName };
                         _services.insert(serv);
                         _services.save();
                         dTOservicscompound.ServiceId = serv.Id;
@@ -103,7 +103,7 @@ namespace Compound_project.Controllers
                     Service serv = _services.GetbyName(dTOservicscompound.Name);
                     if (serv == null)
                     {
-                        serv = new Service() { Name = dTOservicscompound.Name, Description = dTOservicscompound.Description };
+                        serv = new Service() { Name = dTOservicscompound.Name, Description = dTOservicscompound.Description,IConName=dTOservicscompound.IConName };
                         _services.insert(serv);
                         _services.save();
                         dTOservicscompound.ServiceId = serv.Id;

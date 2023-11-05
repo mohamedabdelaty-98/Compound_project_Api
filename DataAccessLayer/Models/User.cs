@@ -15,7 +15,6 @@ namespace DataAccessLayer.Models
     }
     public class User :IdentityUser
     {
-        public string Id { get; set; }
         [MaxLength(20)]
         public string FName { get; set; }
         [MaxLength(20)]
@@ -29,7 +28,7 @@ namespace DataAccessLayer.Models
         [MaxLength(100)]
         public string Country{ get; set; }
         [ForeignKey("wishlist")]
-        public int WishlistID{ get; set; }
+        public int? WishlistID{ get; set; }
         public virtual Wishlist? wishlist { get; set; }
         public virtual List<Review>? reviews { get; set; } = new List<Review>();
 
