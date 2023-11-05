@@ -10,9 +10,9 @@ namespace BussienesLayer.AutoMapper
         public AutoMapperProfile()
         {
 
-         CreateMap<Unit, DTOUnit>()
-          .ForMember(dest => dest.status, opt => opt.MapFrom(src => src.status.ToString()))
-          .ForMember(dest => dest.BulidingNumber, opt => opt.MapFrom(src => src.building != null ? src.building.BulidingNumber : default));
+            CreateMap<Unit, DTOUnit>()
+             .ForMember(dest => dest.status, opt => opt.MapFrom(src => src.status.ToString()))
+             .ForMember(dest => dest.BulidingNumber, opt => opt.MapFrom(src => src.building != null ? src.building.BulidingNumber : default));
 
 
             CreateMap<DTOUnit, Unit>()
@@ -34,7 +34,7 @@ namespace BussienesLayer.AutoMapper
             CreateMap<UnitImage, DTOUnitImage>();
             CreateMap<User, DTORegisterUser>();
             CreateMap<DTORegisterUser, User>().ForMember(dest => dest.gender, opt => opt.MapFrom(src => src.gender.ToString()));
-              
+
 
 
             CreateMap<DTOCompoundImage, CompoundImage>();
@@ -88,12 +88,13 @@ namespace BussienesLayer.AutoMapper
 
             CreateMap<Review, Review_IncludeUserDTO>()
             .ForMember(dest => dest.FullName,
-            opt => opt.MapFrom(src => src.user.FName!=null ? src.user.FName+src.user.LName : null));
+            opt => opt.MapFrom(src => src.user.FName != null ? src.user.FName + src.user.LName : null));
 
 
 
-      }
+        }
 
 
+    }
 }
 
