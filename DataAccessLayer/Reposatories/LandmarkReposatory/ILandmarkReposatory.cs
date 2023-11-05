@@ -1,16 +1,9 @@
 ﻿using DataAccessLayer.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.Reposatories.LandmarkReposatory
 {
-   public interface ILandmarkReposatory
+    public interface ILandmarkReposatory:IGenericReposatory<Landmark>
    {
-      List<Landmark> GetLandmarks();
-
-      Landmark? GetById(int id);
+      public Landmark GetLandmarkByName(string name);
    }
 }

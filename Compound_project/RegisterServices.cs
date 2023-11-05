@@ -1,5 +1,9 @@
-﻿using DataAccessLayer.Data;
+﻿using Compound_project.Reposatories.ReviewReposatory;
+using DataAccessLayer.Data;
 using DataAccessLayer.Reposatories;
+using DataAccessLayer.Reposatories.LandmarkReposatory;
+using DataAccessLayer.Reposatories.LandMarksCompoundReposatory;
+using DataAccessLayer.Reposatories.ReviewReposatory;
 using Microsoft.EntityFrameworkCore;
 
 namespace Compound_project
@@ -35,6 +39,16 @@ namespace Compound_project
             builder.Services.AddScoped<IBuilding, BuildingRepo>();
 
             //Configuration for Amr
+
+            builder.Services.AddScoped<ILandmarkReposatory, LandmarkReposatory>();
+            builder.Services.AddScoped<ILandMarksCompoundReposatory, LandMarksCompoundReposatory>();
+            //builder.Services.AddScoped<ILandmarkReposatory, LandmarkReposatory>();
+            //builder.Services.AddScoped<IGetAllDTOReposatories, GetAllDTOReposatories>();
+            //builder.Services.AddScoped<ILandMarksCompoundReposatory, LandMarksCompoundReposatory>();
+            builder.Services.AddScoped<IReviewReposatory, ReviewReposatory>();
+            builder.Services.AddScoped<IReviewOperationsReposatory, ReviewOperationsReposatory>();
+
+
             return builder;
         }
 

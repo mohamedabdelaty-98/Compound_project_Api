@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
-using BussienesLayer.DTO.LandMarksCompoundDTO;
 using BussienesLayer.DTO.ReviewDTO;
 using Compound_project.Reposatories.ReviewReposatory;
 using DataAccessLayer.Models;
-using DataAccessLayer.Reposatories.LandMarksCompoundReposatory;
 using DataAccessLayer.Reposatories.ReviewReposatory;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Compound_project.Controllers
 {
-   [Route("api/[controller]")]
+    [Route("api/[controller]")]
    [ApiController]
    public class ReviewController : ControllerBase
    {

@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-
-using BussienesLayer.DTO.Compound;
-using BussienesLayer.DTO.LandmarkDTO;
-using BussienesLayer.DTO.LandMarksCompoundDTO;
 using BussienesLayer.DTO.ReviewDTO;
 using BussienesLayer.DTO;
 using DataAccessLayer.Models;
@@ -57,9 +53,12 @@ namespace BussienesLayer.AutoMapper
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
             //Salah
+            CreateMap<Service, DTOServices>();
             CreateMap<ServicesCompound, DTOServicesCompound>()
                  .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.services.Name))
+                 .ForMember(dest => dest.IConName, opt => opt.MapFrom(src => src.services.IConName))
                  .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.services.Description));
+
             CreateMap<DTOServicesCompound, ServicesCompound>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
@@ -74,27 +73,16 @@ namespace BussienesLayer.AutoMapper
                  .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.service.Description));
             CreateMap<DTOServicesUnit, ServiceUnit>()
                  .ForMember(dest => dest.Id, opt => opt.Ignore());
-                 
-                 //Amr
-     
-         CreateMap<LandMarksCompound, LandMarksCompound_IncludeLandmarks_IncludeCompoundDTO>()
-                .ForMember(dest => dest.landmark, opt => opt.MapFrom(src => src.landmark != null ? new LandmarkOperationsDTO { Name = src.landmark.Name } : null))
-                .ForMember(dest => dest.compound, opt => opt.MapFrom(src => src.compound != null ? new CompoundOperationsDTO 
-                { 
-                   Id=src.compound.Id,
-                   Name = src.compound.Name,
-                   Description = src.compound.Description,
-                   Address=src.compound.Address,
-                   Latitude=src.compound.Latitude,
-                   Longitude=src.compound.Longitude,
-                   DateAdded=src.compound.DateAdded,
-                   File=src.compound.File,
-                   Street_area=src.compound.Street_area,
-                   GreenArea=src.compound.GreenArea,
-                   BuildingArea=src.compound.BuildingArea
-                } : null));
 
-         CreateMap<Review, Review_IncludeUserDTO>()
+            //Amr
+            CreateMap<Landmark, DTOLandmark>();
+            CreateMap<LandMarksCompound, DTOLandMarksCompound>()
+                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.landmark.Name));
+            CreateMap<DTOLandMarksCompound, LandMarksCompound>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+
+            CreateMap<Review, Review_IncludeUserDTO>()
             .ForMember(dest => dest.FullName,
             opt => opt.MapFrom(src => src.user.FName!=null ? src.user.FName+src.user.LName : null));
 
@@ -103,8 +91,5 @@ namespace BussienesLayer.AutoMapper
       }
 
    }
-}
-        }
-    }
 }
 

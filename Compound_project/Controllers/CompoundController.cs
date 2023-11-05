@@ -29,7 +29,7 @@ namespace Compound_project.Controllers
             List<DTOCompound> dTOCompounds = compounds.Select(item => _mapper.Map<DTOCompound>(item)).ToList();
             foreach (var dtoCompound in dTOCompounds)
             {
-                dtoCompound.buildings = _building.FilterByCompoundNumber(dtoCompound.CompoundId)
+                dtoCompound.buildings = _building.FilterByCompoundNumber(dtoCompound.Id)
                    .Select(c => _mapper.Map<DTOBuilding>(c)).ToList();
             }
             DTOResult result = new DTOResult();
@@ -50,7 +50,7 @@ namespace Compound_project.Controllers
                     _compound.insert(compound);
                     _compound.save();
                     result.IsPass = true;
-                    result.Data = $"Created unit with ID {compound.Id}";
+                    result.Data = $"Created Compound with ID {compound.Id}";
                 }
                 catch(Exception ex)
                 {

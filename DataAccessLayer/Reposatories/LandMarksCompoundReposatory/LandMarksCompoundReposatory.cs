@@ -9,28 +9,24 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Reposatories.LandMarksCompoundReposatory
 {
-   public class LandMarksCompoundReposatory: ILandMarksCompoundReposatory
+   public class LandMarksCompoundReposatory: GenericReposatory<LandMarksCompound>,ILandMarksCompoundReposatory
    {
-      public List<LandMarksCompound> GetLandMarksCompounds()
-      {
-         using var Context = new Context();
-         return Context.landMarksCompounds.Include(l => l.landmark)
-            .Include(c=>c.compound)
-            .ToList();
-      }
-      public LandMarksCompound? GetById(int id)
-      {
-         using var Context = new Context();
-         return Context.landMarksCompounds.FirstOrDefault(l => l.Id == id);
-      }
+        private readonly Context context;
 
-      public List<LandMarksCompound> GetLandMarksCompounds(int CompoundId)
-      {
-         using var Context = new Context();
-         return Context.landMarksCompounds.Include(l => l.landmark)
-            .Include(c => c.compound)
-            .Where(c=>c.CompoundId==CompoundId)
-            .ToList();
-      }
-   }
+        public LandMarksCompoundReposatory(Context context) : base(context)
+        {
+            this.context = context;
+        }
+
+        public List<LandMarksCompound> GetCompoundlandmarks(int CompoundId)
+        {
+            List<LandMarksCompound> landMarksCompounds = context.landMarksCompounds.Where(obj => obj.CompoundId == CompoundId).ToList();
+            return landMarksCompounds;
+        }
+
+        public LandMarksCompound GetCompoundlandmarksDescription(int landmarkid)
+        {
+            return context.landMarksCompounds.FirstOrDefault(l => l.LandMarkId == landmarkid);
+        }
+    }
 }

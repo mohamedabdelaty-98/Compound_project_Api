@@ -1,60 +1,56 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DataAccessLayer.Reposatories.LandmarkReposatory;
-using Compound_project.Reposatories.Landmarks;
-using BussienesLayer.DTO.LandmarkDTO;
-using Compound_project.Reposatories.LandmarkReposatory;
+using AutoMapper;
+using BussienesLayer.DTO;
+using DataAccessLayer.Models;
 
 namespace Compound_project.Controllers
 {
-   [Route("api/[controller]")]
+    [Route("api/[controller]")]
    [ApiController]
    public class LandmarkController : ControllerBase
    {
-      private readonly ILandmarkOperationsReposatory _LandmarkOperationsReposatory;
-      public LandmarkController(ILandmarkOperationsReposatory _LandmarkOperationsReposatory)
-      {
-         this._LandmarkOperationsReposatory = _LandmarkOperationsReposatory;
+      private readonly ILandmarkReposatory _landmark;
+        private readonly IMapper _mapper;
 
-      }
-      
-      [HttpGet]
-      public IActionResult GetAll(IGetAllDTOReposatories _GetAllDTOReposatories)
-      {
-         return Ok(_GetAllDTOReposatories.GetAllDTO());
-      }
+        public LandmarkController(ILandmarkReposatory _landmark,IMapper _mapper)
+        {
+         this._landmark = _landmark;
+            this._mapper = _mapper;
+        }
 
-      [HttpPost]
-      public async Task<IActionResult> CreateLandmark(LandmarkOperationsDTO landmarkOperationsDTO)
-      {
-         LandmarkCreateReturn landmarkCreateReturn = await _LandmarkOperationsReposatory.Create(landmarkOperationsDTO);
-         if(landmarkCreateReturn.Landmark!=null)
-            return Created(landmarkCreateReturn.URL, new { landmarkCreateReturn.Landmark.Id, landmarkCreateReturn.Landmark.Name });
-         return BadRequest();
-      }
+        [HttpGet("GetAll")]
+        public ActionResult<DTOResult> GetAll()
+        {
+            List<Landmark> landmarks = _landmark.GetAll();
+            List<DTOLandmark> dTOLandmark =
+               landmarks.Select(item => _mapper.Map<DTOLandmark>(item)).ToList();
+            DTOResult result = new DTOResult();
+            result.IsPass = dTOLandmark.Count != 0 ? true : false;
+            result.Data = dTOLandmark;
+            return result;
+        }
+        [HttpDelete("DeleteLandmark/{id}")]
+        public ActionResult<DTOResult> DeleteLandmark(int id)
+        {
+            DTOResult result = new DTOResult();
+            Landmark landmark = _landmark.GetById(id);
+            if (landmark != null)
+            {
+                _landmark.Delete(id);
+                _landmark.save();
+                result.IsPass = true;
+                result.Data = "Deleted";
+            }
+            else
+            {
+                result.IsPass = false;
+                result.Data = "Landmark Not Found ";
+            }
+            return result;
+        }
 
-      [HttpPut("{id:int}")]
-      public async Task<IActionResult> UpdateLandmark(int id, LandmarkOperationsDTO landmarkOperationsDTO, ILandmarkReposatory _LandmarkReposatory)
-      {
-         if (ModelState.IsValid == true)
-         {
-            bool FindLandmark = await _LandmarkOperationsReposatory.Update(id, landmarkOperationsDTO, _LandmarkReposatory);
-            if (FindLandmark == true)
-               return StatusCode(204, landmarkOperationsDTO);
 
-            return BadRequest("Not Found Landmark");
-         }
-         return BadRequest("ModelState Not Valid");
-      }
-               
 
-      [HttpDelete("{id:int}")]
-      public async Task<IActionResult> DelteLandmark(int id, ILandmarkReposatory _LandmarkReposatory)
-      {
-        bool FindLandmark=  await _LandmarkOperationsReposatory.Delete(id, _LandmarkReposatory);
-         if(FindLandmark == true)
-            return StatusCode(204);
-         return BadRequest("Not Found Landmark");
-      }
-      
-   }
+    }
 }

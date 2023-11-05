@@ -1,15 +1,12 @@
-﻿using DataAccessLayer.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 namespace BussienesLayer.DTO
 {
-    public class DTOServicesCompound
+    public class DTOLandMarksCompound
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -17,8 +14,7 @@ namespace BussienesLayer.DTO
         public string? IConName { get; set; }
 
         public int? CompoundId { get; set; }
-        public int? ServiceId { get; set; }
-
+        public int? LandMarkId { get; set; }
 
     }
 }

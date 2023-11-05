@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Reposatories.LandmarkReposatory
 {
-   public class LandmarkReposatory: ILandmarkReposatory
-   {
-      public List<Landmark> GetLandmarks()
-      {
-         using var Context = new Context();
-         return Context.landmarks.Include(l => l.LandMarksCompounds).ToList();
-      }
+    public class LandmarkReposatory : GenericReposatory<Landmark>, ILandmarkReposatory
+    {
+        private readonly Context context;
 
-      public Landmark? GetById(int id)
-      {
-         using var Context = new Context();
-         return Context.landmarks.FirstOrDefault(l => l.Id == id);
-      }
-   }
+        public LandmarkReposatory(Context context) : base(context)
+        {
+            this.context = context;
+        }
+
+        public Landmark GetLandmarkByName(string name)
+        {
+            return context.landmarks.FirstOrDefault(l => l.Name.ToLower() == name.ToLower());
+        }
+    }
 }

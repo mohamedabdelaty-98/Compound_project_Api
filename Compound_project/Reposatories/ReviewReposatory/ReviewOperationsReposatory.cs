@@ -1,14 +1,12 @@
-﻿using BussienesLayer.DTO.LandMarksCompoundDTO;
-using BussienesLayer.DTO.ReviewDTO;
+﻿using BussienesLayer.DTO.ReviewDTO;
 using DataAccessLayer.Data;
 using DataAccessLayer.Models;
-using DataAccessLayer.Reposatories.LandMarksCompoundReposatory;
 using DataAccessLayer.Reposatories.ReviewReposatory;
 using Microsoft.EntityFrameworkCore;
 
 namespace Compound_project.Reposatories.ReviewReposatory
 {
-   public class ReviewOperationsReposatory : IReviewOperationsReposatory
+    public class ReviewOperationsReposatory : IReviewOperationsReposatory
    {
       public async Task AddLandMarkInDatabase(Review review)
       {

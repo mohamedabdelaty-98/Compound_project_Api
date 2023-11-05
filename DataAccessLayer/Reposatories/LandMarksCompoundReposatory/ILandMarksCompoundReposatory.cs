@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Reposatories.LandMarksCompoundReposatory
 {
-   public interface ILandMarksCompoundReposatory
+   public interface ILandMarksCompoundReposatory:IGenericReposatory<LandMarksCompound>
    {
-      List<LandMarksCompound> GetLandMarksCompounds();
-      List<LandMarksCompound> GetLandMarksCompounds(int CompoundId);
-      LandMarksCompound? GetById(int id);
+        public List<LandMarksCompound> GetCompoundlandmarks(int CompoundId);
+        public LandMarksCompound GetCompoundlandmarksDescription(int landmarkid);
    }
 }

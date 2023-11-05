@@ -24,7 +24,7 @@ namespace BussienesLayer.DTO
         public double GreenArea { get; set; }
         public double BuildingArea { get; set; }
         public string Location { get; set; }
-        public int CompoundId { get; set; }
+        //public int CompoundId { get; set; }
         public  List<DTOBuilding>? buildings { get; set; } = new List<DTOBuilding>();
 
 

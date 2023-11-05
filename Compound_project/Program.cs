@@ -3,6 +3,7 @@ using BussienesLayer.AutoMapper;
 using DataAccessLayer.Data;
 using DataAccessLayer.Reposatories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 namespace Compound_project
 {
@@ -43,17 +44,6 @@ namespace Compound_project
             //configration for automapper
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
-         //Configuration for Amr
-
-         builder.Services.AddScoped<ILandmarkOperationsReposatory, LandmarkOperationsReposatory>();
-         builder.Services.AddScoped<ILandmarksCompoundOperationsReposatory, LandmarksCompoundOperationsReposatory>();
-         builder.Services.AddScoped<ILandmarkReposatory, LandmarkReposatory>();
-         builder.Services.AddScoped<IGetAllDTOReposatories, GetAllDTOReposatories>();
-         builder.Services.AddScoped<ILandMarksCompoundReposatory, LandMarksCompoundReposatory>();
-         builder.Services.AddScoped<IReviewReposatory, ReviewReposatory>();
-         builder.Services.AddScoped<IReviewOperationsReposatory, ReviewOperationsReposatory>();
-
-         
             //Configuration for cors
             builder.RegsterationCors();
 
