@@ -179,8 +179,8 @@ namespace Compound_project.Migrations
 
                     b.Property<string>("File")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<double>("GreenArea")
                         .HasColumnType("float");

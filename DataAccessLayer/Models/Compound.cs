@@ -21,7 +21,7 @@ namespace DataAccessLayer.Models
         public double Longitude { get; set; }
         [Column(TypeName ="date")]
         public DateTime DateAdded { get; set; }
-        [MaxLength(100)]
+        [MaxLength(1000)]
 
         public string File { get; set; }
 
