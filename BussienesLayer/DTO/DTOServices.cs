@@ -14,10 +14,7 @@ namespace BussienesLayer.DTO
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-
-       // public   List<DTOAmmenitiesCompound>? servicesCompounds { get; set; } = new List<DTOAmmenitiesCompound>();
-        //public   List<DTOAmmenitiesBuilding>? serviceBuildings { get; set; } = new List<DTOAmmenitiesBuilding>();
-        //public   List<DTOAmmenitiesUnit>? serviceUnits { get; set; } = new List<DTOAmmenitiesUnit>();
+        public string? IConName { get; set; }
 
     }
 }

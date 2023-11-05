@@ -9,8 +9,6 @@ namespace DataAccessLayer.Reposatories
 {
     public interface IServicesCompound:IGenericReposatory<ServicesCompound>
     {
-        object Entry(ServicesCompound Ammenitiescompound);
-
-
+        List<ServicesCompound> GetServicesCompound(int CompoundID);
     }
 }

@@ -98,7 +98,7 @@ namespace Compound_project.Controllers
                     _compound.insert(compound);
                     _compound.save();
                     result.IsPass = true;
-                    result.Data = $"Created unit with ID {compound.Id}";
+                    result.Data = $"Created Compound with ID {compound.Id}";
                 }
                 catch(Exception ex)
                 {

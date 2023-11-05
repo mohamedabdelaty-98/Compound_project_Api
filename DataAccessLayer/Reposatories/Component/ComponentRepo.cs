@@ -19,7 +19,7 @@ namespace DataAccessLayer.Reposatories
 
         public CComponent GetbyName(string name)
         {
-            return context.components.FirstOrDefault(c=>c.Name==name);
+            return context.components.FirstOrDefault(c=>c.Name.ToLower()==name.ToLower());
         }
     }
 }

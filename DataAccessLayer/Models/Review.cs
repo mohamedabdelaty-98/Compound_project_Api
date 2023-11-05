@@ -17,7 +17,7 @@ namespace DataAccessLayer.Models
         [Column(TypeName ="date")]
         public DateTime DatePosted { get; set; }
         [ForeignKey("user")]
-        public string UserId { get; set; }
+        public string UserId020 { get; set; }
         public virtual User? user { get; set; }
     }
 }

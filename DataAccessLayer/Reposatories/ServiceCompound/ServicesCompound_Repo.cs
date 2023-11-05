@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +19,10 @@ namespace DataAccessLayer.Reposatories
 
         }
 
-       
-        public object Entry(ServicesCompound Ammenitiescompound)
+        public List<ServicesCompound> GetServicesCompound(int CompoundID)
         {
-            throw new NotImplementedException();
+            List<ServicesCompound> servicesCompounds = context.servicesCompounds.Where(sc => sc.CompoundId == CompoundID).ToList();
+            return servicesCompounds;
         }
     }
 }
