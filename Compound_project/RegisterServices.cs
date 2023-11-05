@@ -1,15 +1,27 @@
 ﻿using Compound_project.Reposatories.ReviewReposatory;
 using DataAccessLayer.Data;
 using DataAccessLayer.Reposatories;
+
+using Microsoft.AspNetCore.Identity;
+
 using DataAccessLayer.Reposatories.LandmarkReposatory;
 using DataAccessLayer.Reposatories.LandMarksCompoundReposatory;
 using DataAccessLayer.Reposatories.ReviewReposatory;
+
 using Microsoft.EntityFrameworkCore;
+using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Compound_project
 {
     public static class RegisterServices
     {
+       
         public static WebApplicationBuilder RegsterationService(this WebApplicationBuilder builder) 
         {
             builder.Services.AddScoped<IUnit, UnitRepo>();
@@ -37,6 +49,10 @@ namespace Compound_project
 
             //Configuration for Raghad
             builder.Services.AddScoped<IBuilding, BuildingRepo>();
+            builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add(new ConsumesAttribute("multipart/form-data"));
+            });
 
             //Configuration for Amr
 
@@ -71,5 +87,15 @@ namespace Compound_project
            );
             return builder;
         }
+
+        public static WebApplicationBuilder RegestriationIdentity(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<DbContext>();    
+            return builder;
+        }
+
+
+
+
     }
 }

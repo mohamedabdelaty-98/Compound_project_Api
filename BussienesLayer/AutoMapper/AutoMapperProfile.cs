@@ -32,6 +32,10 @@ namespace BussienesLayer.AutoMapper
             CreateMap<CompoundImage, DTOCompoundImage>();
             CreateMap<BuildingImage, DTOBuildingImage>();
             CreateMap<UnitImage, DTOUnitImage>();
+            CreateMap<User, DTORegisterUser>();
+            CreateMap<DTORegisterUser, User>().ForMember(dest => dest.gender, opt => opt.MapFrom(src => src.gender.ToString()));
+              
+
 
             CreateMap<DTOCompoundImage, CompoundImage>();
             CreateMap<DTOBuildingImage, BuildingImage>();
@@ -90,6 +94,6 @@ namespace BussienesLayer.AutoMapper
 
       }
 
-   }
+
 }
 

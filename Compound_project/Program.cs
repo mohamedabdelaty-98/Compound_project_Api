@@ -1,14 +1,24 @@
 
 using BussienesLayer.AutoMapper;
 using DataAccessLayer.Data;
+using DataAccessLayer.Models;
 using DataAccessLayer.Reposatories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
+using Microsoft.OpenApi.Models;
+
 
 namespace Compound_project
 {
     public class Program
     {
+
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -41,8 +51,37 @@ namespace Compound_project
             //Configration for DB
             builder.RegsterationDB();
 
-            //configration for automapper
-            builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+            //Configration for Identity
+            // builder.RegestriationIdentity();
+            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<Context>();
+
+            //[Authoriz] used JWT Token in Check Authantiaction
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options => {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+                    ValidateAudience = true,
+                    ValidAudience = builder.Configuration["JWT:ValidAudiance"],
+                    IssuerSigningKey =
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Securitykey"]))
+                };
+            });
+
+            
+
+
+
+        //configration for automapper
+        builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
             //Configuration for cors
             builder.RegsterationCors();
@@ -58,6 +97,7 @@ namespace Compound_project
                 app.UseSwaggerUI();
             }
             app.UseCors("AllowAnyOrigin");
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

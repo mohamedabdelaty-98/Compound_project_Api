@@ -571,7 +571,7 @@ namespace Compound_project.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int>("WishlistID")
+                    b.Property<int?>("WishlistID")
                         .HasColumnType("int");
 
                     b.Property<string>("gender")
@@ -927,9 +927,7 @@ namespace Compound_project.Migrations
                 {
                     b.HasOne("DataAccessLayer.Models.Wishlist", "wishlist")
                         .WithMany()
-                        .HasForeignKey("WishlistID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WishlistID");
 
                     b.Navigation("wishlist");
                 });
