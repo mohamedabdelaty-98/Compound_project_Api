@@ -188,6 +188,9 @@ namespace Compound_project.Migrations
                     b.Property<double>("Latitude")
                         .HasColumnType("float");
 
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(150)");
+
                     b.Property<double>("Longitude")
                         .HasColumnType("float");
 
@@ -238,7 +241,10 @@ namespace Compound_project.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("IConName")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
@@ -263,7 +269,6 @@ namespace Compound_project.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -290,13 +295,13 @@ namespace Compound_project.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserId020")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId020");
 
                     b.ToTable("reviews");
                 });
@@ -311,6 +316,10 @@ namespace Compound_project.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("IConName")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
@@ -335,7 +344,7 @@ namespace Compound_project.Migrations
                     b.Property<int>("BuildingId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ServiceId")
+                    b.Property<int?>("ServiceId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -355,7 +364,7 @@ namespace Compound_project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ServiceId")
+                    b.Property<int?>("ServiceId")
                         .HasColumnType("int");
 
                     b.Property<int>("UnitId")
@@ -381,7 +390,7 @@ namespace Compound_project.Migrations
                     b.Property<int>("CompoundId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ServiceId")
+                    b.Property<int?>("ServiceId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -815,7 +824,7 @@ namespace Compound_project.Migrations
                 {
                     b.HasOne("DataAccessLayer.Models.User", "user")
                         .WithMany("reviews")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserId020")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -832,9 +841,7 @@ namespace Compound_project.Migrations
 
                     b.HasOne("DataAccessLayer.Models.Service", "service")
                         .WithMany("serviceBuildings")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ServiceId");
 
                     b.Navigation("building");
 
@@ -845,9 +852,7 @@ namespace Compound_project.Migrations
                 {
                     b.HasOne("DataAccessLayer.Models.Service", "service")
                         .WithMany("serviceUnits")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ServiceId");
 
                     b.HasOne("DataAccessLayer.Models.Unit", "unit")
                         .WithMany("serviceUnits")
@@ -870,9 +875,7 @@ namespace Compound_project.Migrations
 
                     b.HasOne("DataAccessLayer.Models.Service", "services")
                         .WithMany("servicesCompounds")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ServiceId");
 
                     b.Navigation("compound");
 

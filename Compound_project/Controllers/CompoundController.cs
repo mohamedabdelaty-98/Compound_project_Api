@@ -23,14 +23,6 @@ namespace Compound_project.Controllers
             this._building = _building;
         }
 
-        //private byte[] ReadFileData(IFormFile file)
-        //{
-        //    using (var stream = new MemoryStream())
-        //    {
-        //        file.CopyTo(stream);
-        //        return stream.ToArray();
-        //    }
-        //} 
         [HttpGet("GetAllCompounds")]
         public ActionResult<DTOResult> GetAllCompounds()
         {
@@ -38,40 +30,16 @@ namespace Compound_project.Controllers
             List<DTOCompound> dTOCompounds = compounds.Select(item => _mapper.Map<DTOCompound>(item)).ToList();
             foreach (var dtoCompound in dTOCompounds)
             {
-                dtoCompound.buildings = _building.FilterByCompoundNumber(dtoCompound.CompoundId)
+                dtoCompound.buildings = _building.FilterByCompoundNumber(dtoCompound.Id)
                    .Select(c => _mapper.Map<DTOBuilding>(c)).ToList();
             }
             DTOResult result = new DTOResult();
-            result.IsPass=dTOCompounds.Count!=0?true:false;
+            result.IsPass = dTOCompounds.Count != 0 ? true : false;
             result.Data = dTOCompounds;
             return result;
         }
-        //[HttpPost("NewCompound")]
-        // public Task<ActionResult<DTOResult>> NewCompound ([FromBody]DTOCompound? newcompound )
-        //{
-        //    DTOResult result = new DTOResult();
-        //    Compound com = _mapper.Map<Compound>(newcompound);
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (com == null) result.IsPass = false;
-        //        else result.IsPass = true;
-        //        result.Data = com;
-        //        _compound.insert(com);
-        //        _compound.save();
-        //        //return Ok(result.Data);
-        //    }
-        //    else
-        //    {
-        //        result.Data = ModelState.Values.SelectMany(v => v.Errors)
-        //            .Select(e => e.ErrorMessage).ToList();
-        //    }
-
-        //    return result;
-        //}
-
         [HttpPost("NewCompound")]
-         public ActionResult<DTOResult> NewCompound (DTOCompound newcompound)
+        public async Task<ActionResult<DTOResult>> NewCompound ([FromForm] DTOCompound newcompound)
         {
             DTOResult result = new DTOResult();
 
@@ -79,11 +47,26 @@ namespace Compound_project.Controllers
             {
                 try
                 {
+                    var uploadDirectory = Path.Combine(Directory.GetCurrentDirectory(),"Uploads");
+                    if (!Directory.Exists(uploadDirectory))
+                    {
+                        Directory.CreateDirectory(uploadDirectory);
+                    }
+                    var fileName = $"{Guid.NewGuid()}_{newcompound.File.FileName}";
+                    var filePath = Path.Combine(uploadDirectory,fileName);
+                    var fileExtension = Path.GetExtension(newcompound.File.FileName);
+
+                    using ( var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await newcompound.File.CopyToAsync(stream);
+                    }
                     Compound compound = _mapper.Map<Compound>(newcompound);
+                    compound.File = filePath;
+
                     _compound.insert(compound);
                     _compound.save();
                     result.IsPass = true;
-                    result.Data = $"Created unit with ID {compound.Id}";
+                    result.Data = $"Created Compound with ID {compound.Id}";
                 }
                 catch(Exception ex)
                 {

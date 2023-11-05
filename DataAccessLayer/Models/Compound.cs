@@ -23,12 +23,14 @@ namespace DataAccessLayer.Models
         public DateTime DateAdded { get; set; }
         [MaxLength(100)]
 
-        [Column(TypeName = "VARBINARY(MAX)")]
-        public byte[] File { get; set; }
+        public string File { get; set; }
 
         public double Street_area { get; set; }
         public double GreenArea { get; set; }
         public double BuildingArea { get; set; }
+        [Column(TypeName ="nvarchar(150)")]
+        public string? Location { get; set; }
+
         public virtual List<Building>? buildings { get; set; } = new List<Building>();
         public virtual List<LandMarksCompound>? landMarksCompounds { get; set; } = new List<LandMarksCompound>();
         public virtual List<CompoundImage>? imageCompounds { get; set; } = new List<CompoundImage>();

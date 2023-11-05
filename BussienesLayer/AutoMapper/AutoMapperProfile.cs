@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using BussienesLayer.DTO.ReviewDTO;
 using BussienesLayer.DTO;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace BussienesLayer.AutoMapper
 {
@@ -8,9 +10,11 @@ namespace BussienesLayer.AutoMapper
     {
         public AutoMapperProfile()
         {
+
             CreateMap<Unit, DTOUnit>()
-          .ForMember(dest => dest.status, opt => opt.MapFrom(src => src.status.ToString()))
-          .ForMember(dest => dest.BulidingNumber, opt => opt.MapFrom(src => src.building != null ? src.building.BulidingNumber : default));
+             .ForMember(dest => dest.status, opt => opt.MapFrom(src => src.status.ToString()))
+             .ForMember(dest => dest.BulidingNumber, opt => opt.MapFrom(src => src.building != null ? src.building.BulidingNumber : default));
+
 
             CreateMap<DTOUnit, Unit>()
          .ForMember(dest => dest.status, opt => opt.MapFrom(src => Enum.Parse(typeof(Status), src.status)))
@@ -31,7 +35,7 @@ namespace BussienesLayer.AutoMapper
             CreateMap<UnitImage, DTOUnitImage>();
             CreateMap<User, DTORegisterUser>();
             CreateMap<DTORegisterUser, User>().ForMember(dest => dest.gender, opt => opt.MapFrom(src => src.gender.ToString()));
-              
+
 
 
             CreateMap<DTOCompoundImage, CompoundImage>();
@@ -39,7 +43,8 @@ namespace BussienesLayer.AutoMapper
             CreateMap<DTOUnitImage, UnitImage>();
 
             //Men3m
-            CreateMap<Compound, DTOCompound>();
+            CreateMap<Compound, DTOCompound>()
+                .ForMember(dest => dest.File, opt => opt.Ignore());
             CreateMap<DTOCompound, Compound>();
 
             //Raghad
@@ -52,44 +57,46 @@ namespace BussienesLayer.AutoMapper
             CreateMap<Application, DTOApplication>();
             CreateMap<DTOApplication, Application>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
-           
 
-
-
-
-
-
-
-
-
-
-
-
-
-            CreateMap<ServiceUnit, DTOServicesUnit>();
-            CreateMap<DTOServicesUnit, ServiceUnit>();
-
+            //Salah
             CreateMap<Service, DTOServices>();
-            CreateMap<DTOServices, Service>();
+            CreateMap<ServicesCompound, DTOServicesCompound>()
+                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.services.Name))
+                 .ForMember(dest => dest.IConName, opt => opt.MapFrom(src => src.services.IConName))
+                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.services.Description));
 
-            CreateMap<ServiceBuilding, DTOServicesBuilding>();
-            CreateMap<DTOServicesBuilding, ServiceBuilding>();
+            CreateMap<DTOServicesCompound, ServicesCompound>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
 
-            CreateMap<ServicesCompound, DTOServicesCompound>();
-            CreateMap<DTOServicesCompound, ServicesCompound>();
+            CreateMap<ServiceBuilding, DTOServicesBuilding>()
+                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.service.Name))
+                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.service.Description));
+            CreateMap<DTOServicesBuilding, ServiceBuilding>()
+                 .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            CreateMap<ServiceUnit, DTOServicesUnit>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.service.Name))
+                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.service.Description));
+            CreateMap<DTOServicesUnit, ServiceUnit>()
+                 .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            //Amr
+            CreateMap<Landmark, DTOLandmark>();
+            CreateMap<LandMarksCompound, DTOLandMarksCompound>()
+                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.landmark.Name));
+            CreateMap<DTOLandMarksCompound, LandMarksCompound>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
 
 
-            CreateMap<Compound, DTOCompound>();
-            CreateMap<DTOCompound, Compound>();
+            CreateMap<Review, Review_IncludeUserDTO>()
+            .ForMember(dest => dest.FullName,
+            opt => opt.MapFrom(src => src.user.FName != null ? src.user.FName + src.user.LName : null));
 
 
-
-            CreateMap<Building, DTOBuilding>()
-                .ForMember(dest => dest.status, opt=> opt.MapFrom(src=>src.status.ToString()));
-
-            CreateMap<DTOBuilding, Building>()
-                .ForMember(dest => dest.status, opt => opt.MapFrom(src => Enum.Parse(typeof(Status), src.status)));
 
         }
+
+
     }
 }
+
