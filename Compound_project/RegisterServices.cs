@@ -79,8 +79,8 @@ namespace Compound_project
         {
             builder.Services.AddCors(option =>
                option.AddPolicy("AllowAnyOrigin", builder =>
-               builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
-           );
+               builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().WithExposedHeaders("content-disposition")
+           ));
             return builder;
         }
 

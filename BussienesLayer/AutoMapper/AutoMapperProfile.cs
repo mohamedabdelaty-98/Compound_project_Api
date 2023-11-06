@@ -52,6 +52,12 @@ namespace BussienesLayer.AutoMapper
                 .ForMember(dest => dest.status, opt => opt.MapFrom(src => src.status.ToString()));
             CreateMap<DTOBuilding, Building>()
                 .ForMember(dest => dest.status, opt => opt.MapFrom(src => Enum.Parse(typeof(Status), src.status)));
+            CreateMap<Compound, DTOCompound>()
+            .ForMember(dest => dest.File, opt => opt.Ignore());
+
+
+
+
 
             //Zaki
             CreateMap<Application, DTOApplication>();
