@@ -6,6 +6,7 @@ namespace DataAccessLayer.Reposatories
     {
         List<Unit> FilterByStatus();
         List<Unit> FilterByNumOfFloor(int num);
+        List<int> getFloors(int compoundnunm);
         List<Unit> FilterByBuildingNumber(int num);
         List<Unit> FilterByNumberOfRoom(int num);
         List<Unit> FilterByAll(int FloorNum,int BuildingNum,int NumOfRoom);

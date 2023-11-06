@@ -13,6 +13,7 @@ using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Compound_project
 {
@@ -46,6 +47,7 @@ namespace Compound_project
 
             //Configuration for Raghad
             builder.Services.AddScoped<IBuilding, BuildingRepo>();
+           
             //Configuration for Amr
 
             builder.Services.AddScoped<ILandmarkReposatory, LandmarkReposatory>();

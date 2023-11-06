@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNetCore.Http;
+
 namespace BussienesLayer.DTO
 {
     public class DTOCompound

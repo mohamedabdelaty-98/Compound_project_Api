@@ -2,7 +2,7 @@
 using BussienesLayer.DTO.ReviewDTO;
 using BussienesLayer.DTO;
 using DataAccessLayer.Models;
-
+using Microsoft.AspNetCore.Http;
 namespace BussienesLayer.AutoMapper
 {
     public class AutoMapperProfile : Profile
@@ -69,6 +69,7 @@ namespace BussienesLayer.AutoMapper
 
             CreateMap<ServiceBuilding, DTOServicesBuilding>()
                  .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.service.Name))
+                 .ForMember(dest => dest.IConName, opt => opt.MapFrom(src => src.service.IConName))
                  .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.service.Description));
             CreateMap<DTOServicesBuilding, ServiceBuilding>()
                  .ForMember(dest => dest.Id, opt => opt.Ignore());
