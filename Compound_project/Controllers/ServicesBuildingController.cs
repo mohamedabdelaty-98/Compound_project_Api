@@ -58,7 +58,7 @@ namespace Compound_project.Controllers
                     Service serv = _services.GetbyName(dTOservicsbuilding.Name);
                     if (serv == null)
                     {
-                        serv = new Service() { Name = dTOservicsbuilding.Name ,Description = dTOservicsbuilding.Description };
+                        serv = new Service() { Name = dTOservicsbuilding.Name ,Description = dTOservicsbuilding.Description,IConName=dTOservicsbuilding.IConName };
                         _services.insert(serv);
                         _services.save();
                         dTOservicsbuilding.ServiceId = serv.Id;
@@ -101,7 +101,7 @@ namespace Compound_project.Controllers
                     Service serv = _services.GetbyName(dTOservicsbuilding.Name);
                     if (serv == null)
                     {
-                        serv = new Service() { Name = dTOservicsbuilding.Name, Description = dTOservicsbuilding.Description };
+                        serv = new Service() { Name = dTOservicsbuilding.Name, Description = dTOservicsbuilding.Description,IConName= dTOservicsbuilding.IConName };
                         _services.insert(serv);
                         _services.save();
                         dTOservicsbuilding.ServiceId = serv.Id;
@@ -109,9 +109,11 @@ namespace Compound_project.Controllers
                     else
                     {
                         dTOservicsbuilding.ServiceId = serv.Id;
-                        if (serv.Description.ToLower() != dTOservicsbuilding.Description.ToLower())
+                        if (serv.Description.ToLower() != dTOservicsbuilding.Description.ToLower()
+                             || serv.IConName.ToLower() != dTOservicsbuilding.IConName.ToLower())
                         {
                             serv.Description = dTOservicsbuilding.Description;
+                            serv.IConName = dTOservicsbuilding.IConName;
                             _services.update(serv);
                             _services.save();
                         }

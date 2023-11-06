@@ -9,7 +9,7 @@ namespace DataAccessLayer.Reposatories
         public List<Building> FilterBasedOnUnitStatus();
         public List<Building> FilterBasedOnUnitFloor(int num);
         public List<Building> FilterBasedOnUnitNumBedRooms(int num);
-
+     
 
 
 

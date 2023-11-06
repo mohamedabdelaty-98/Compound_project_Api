@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BussienesLayer.DTO;
-using Compound_project.Migrations;
 using DataAccessLayer.Models;
 using DataAccessLayer.Reposatories;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +13,14 @@ namespace Compound_project.Controllers
         private readonly IBuilding _building;
         private readonly IMapper _mapper;
         private readonly IUnit _unit;
+       
 
         public BuildingController(IBuilding building, IMapper mapper, IUnit unit)
         {
             _building = building;
             _mapper = mapper;
             _unit = unit;
+      
         }
 
         private DTOResult GetBuildingsCommonLogic(List<Building> buildings)
