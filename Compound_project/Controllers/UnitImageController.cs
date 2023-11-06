@@ -3,6 +3,8 @@ using BussienesLayer.DTO;
 using DataAccessLayer.Reposatories;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Net.Mime;
 
 namespace Compound_project.Controllers
 {
@@ -20,6 +22,7 @@ namespace Compound_project.Controllers
         [HttpGet("GetUnitImages/{UnitId}")]
         public ActionResult<DTOResult> GetUnitImages(int UnitId)
         {
+            List<byte[]>imageslist= new List<byte[]>();
             var result = new DTOResult();
             List<UnitImage> unitImages = _unitImage.GetUnitImages(UnitId);
             List<DTOUnitImage> dTOUnitImages = unitImages.Select(item => _mapper.Map<DTOUnitImage>(item)).ToList();
@@ -32,7 +35,19 @@ namespace Compound_project.Controllers
             else
             {
                 result.IsPass = true;
-                result.Data = dTOUnitImages;
+                foreach (var unitImage in dTOUnitImages)
+                {
+
+                    var fullpath = Path.Combine(Directory.GetCurrentDirectory(), unitImage.ImageUrl);
+                    if (System.IO.File.Exists(fullpath))
+                    {
+                        // Read the file into a byte array.
+                        byte[] imageData = System.IO.File.ReadAllBytes(fullpath);
+                        imageslist.Add(imageData);
+                    }
+
+                }
+                result.Data = imageslist;
             }
             return result;
 

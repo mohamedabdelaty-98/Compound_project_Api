@@ -4,6 +4,9 @@ using DataAccessLayer.Models;
 using DataAccessLayer.Reposatories;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.IO;
+using static System.Net.Mime.MediaTypeNames;
+using System.Net.Sockets;
 
 namespace Compound_project.Controllers
 {
@@ -32,11 +35,43 @@ namespace Compound_project.Controllers
                 dtoCompound.buildings = _building.FilterByCompoundNumber(dtoCompound.Id)
                    .Select(c => _mapper.Map<DTOBuilding>(c)).ToList();
             }
+
+       
+
             DTOResult result = new DTOResult();
             result.IsPass = dTOCompounds.Count != 0 ? true : false;
             result.Data = dTOCompounds;
             return result;
         }
+
+        [HttpGet("DownloadFile/{id}")]
+        public ActionResult DownloadFile(int id)
+        {
+            Compound compound = _compound.GetById(id);
+
+            if (compound == null)
+            {
+                return NotFound("Compound not found");
+            }
+
+            var fileUrl = compound.File;
+            var fullPath = Path.Combine(Directory.GetCurrentDirectory(), fileUrl);
+
+            if (System.IO.File.Exists(fullPath))
+            {
+                var fileBytes = System.IO.File.ReadAllBytes(fullPath);
+
+         
+                string contentType = "application/octet-stream";
+
+                return File(fileBytes, contentType, Path.GetFileName(fullPath));
+            }
+            else
+            {
+                return NotFound("File not found");
+            }
+        }
+
         [HttpPost("NewCompound")]
         public async Task<ActionResult<DTOResult>> NewCompound ([FromForm] DTOCompound newcompound)
         {
@@ -60,7 +95,8 @@ namespace Compound_project.Controllers
                         await newcompound.File.CopyToAsync(stream);
                     }
                     Compound compound = _mapper.Map<Compound>(newcompound);
-                    compound.File = filePath;
+                    var fileUrl = $"Uploads/{fileName}";
+                    compound.File = fileUrl;
 
                     _compound.insert(compound);
                     _compound.save();

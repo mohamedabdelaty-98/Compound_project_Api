@@ -47,7 +47,7 @@ namespace Compound_project
 
             //Configuration for Raghad
             builder.Services.AddScoped<IBuilding, BuildingRepo>();
-           
+
             //Configuration for Amr
 
             builder.Services.AddScoped<ILandmarkReposatory, LandmarkReposatory>();
@@ -77,8 +77,8 @@ namespace Compound_project
         {
             builder.Services.AddCors(option =>
                option.AddPolicy("AllowAnyOrigin", builder =>
-               builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
-           );
+               builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().WithExposedHeaders("content-disposition")
+           ));
             return builder;
         }
 
