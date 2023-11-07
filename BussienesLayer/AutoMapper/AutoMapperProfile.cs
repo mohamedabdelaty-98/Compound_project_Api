@@ -54,6 +54,9 @@ namespace BussienesLayer.AutoMapper
             CreateMap<Compound, DTOCompound>()
             .ForMember(dest => dest.File, opt => opt.Ignore());
 
+            CreateMap<ReviewDTO, Review>();
+           
+
 
 
 

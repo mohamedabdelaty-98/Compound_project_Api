@@ -1,12 +1,19 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Models;
+using DataAccessLayer.Reposatories.LandmarkReposatory;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Reposatories.ReviewReposatory
 {
-    public class ReviewReposatory: IReviewReposatory
+    public class ReviewReposatory : GenericReposatory<Review>, IReviewReposatory
    {
-      public Review? GetById(int id)
+        private readonly Context context;
+
+        public ReviewReposatory(Context context) : base(context)
+        {
+            this.context = context;
+        }
+        public Review? GetById(int id)
       {
          using var Context = new Context();
          return Context.reviews.FirstOrDefault(l => l.Id == id);
