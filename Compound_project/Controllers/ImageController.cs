@@ -30,7 +30,7 @@ namespace Compound_project.Controllers
             
         }
 
-        [HttpPost("UploadUnitImage")]
+        [HttpPost("UploadUnitImage/{Id}")]
         public async Task <ActionResult<DTOResult>> UploadUnitImage(IFormFile file,int Id)//dtounitimage,buildingimage,
         {
             UnitImage unitImage = new UnitImage();
@@ -49,7 +49,7 @@ namespace Compound_project.Controllers
                 {
                     Directory.CreateDirectory(uploadDir);
                 }
-                var FileName = $"{file.FileName}_{Guid.NewGuid()}";
+                var FileName = $"{Guid.NewGuid()}_{file.FileName}";
                 var filePath = Path.Combine(uploadDir, FileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
@@ -74,7 +74,7 @@ namespace Compound_project.Controllers
             }
         }
 
-        [HttpPost("UploadBuildingImage")]
+        [HttpPost("UploadBuildingImage/{Id}")]
         public async Task<ActionResult<DTOResult>> UploadBuildingImage(IFormFile file, int Id)
         {
             BuildingImage buildingImage = new BuildingImage();
@@ -93,7 +93,7 @@ namespace Compound_project.Controllers
                 {
                     Directory.CreateDirectory(uploadDir);
                 }
-                var FileName = $"{file.FileName}_{Guid.NewGuid()}";
+                var FileName = $"{Guid.NewGuid()}_{file.FileName}";
                 var filePath = Path.Combine(uploadDir, FileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
@@ -101,7 +101,6 @@ namespace Compound_project.Controllers
                     await file.CopyToAsync(stream);
                 }
                 //store uploaded file to the database
-
                 var imageUrl = $"/Uploads/{FileName}";
                 buildingImage.ImageUrl = imageUrl;
                 _buildingImage.insert(buildingImage);
@@ -118,7 +117,7 @@ namespace Compound_project.Controllers
             }
         }
 
-        [HttpPost("UploadCompoundImage")]
+        [HttpPost("UploadCompoundImage/{Id}")]
         public async Task<ActionResult<DTOResult>> UploadCompoundImage(IFormFile file, int Id)
         {
             CompoundImage compoundImage = new CompoundImage();
@@ -137,7 +136,7 @@ namespace Compound_project.Controllers
                 {
                     Directory.CreateDirectory(uploadDir);
                 }
-                var FileName = $"{file.FileName}_{Guid.NewGuid()}";
+                var FileName = $"{Guid.NewGuid()}_{file.FileName}";
                 var filePath = Path.Combine(uploadDir, FileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
