@@ -64,10 +64,12 @@ namespace Compound_project.Controllers
 
          
                 string contentType = "application/octet-stream";
-
+               
                 return File(fileBytes, contentType, Path.GetFileName(fullPath));
+                
             }
             else
+
             {
                 return NotFound("File not found");
             }
