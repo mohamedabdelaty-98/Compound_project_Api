@@ -45,6 +45,10 @@ namespace BussienesLayer.AutoMapper
             CreateMap<Compound, DTOCompound>()
                 .ForMember(dest => dest.File, opt => opt.Ignore());
             CreateMap<DTOCompound, Compound>();
+            CreateMap<DTOUser, User>();
+            CreateMap<User, DTOUser>();
+
+
 
             //Raghad
             CreateMap<Building, DTOBuilding>()
