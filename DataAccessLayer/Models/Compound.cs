@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.Models
 {
@@ -20,8 +15,8 @@ namespace DataAccessLayer.Models
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         [Column(TypeName ="date")]
-        public DateTime DateAdded { get; set; }
-        [MaxLength(100)]
+        public DateTime? DateAdded { get; set; }
+        [MaxLength(1000)]
 
         public string File { get; set; }
 

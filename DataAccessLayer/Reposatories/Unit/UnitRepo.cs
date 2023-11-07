@@ -1,11 +1,6 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Models;
-using DataAccessLayer.Reposatories;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.Reposatories
 {
@@ -50,6 +45,12 @@ namespace DataAccessLayer.Reposatories
             u.Floor==FloorNum && u.building.BulidingNumber==BuildingNum
             && u.NumberOfBedrooms==NumOfRoom).ToList();
             
+        }
+        public List<int> getFloors(int compoundnunm)
+        {
+            List<Unit> units= context.units.Where(u => u.status == Status.active &&
+            u.building.CompoundId==compoundnunm).ToList();
+            return units.Select(f => f.Floor).ToList();
         }
     }
 }

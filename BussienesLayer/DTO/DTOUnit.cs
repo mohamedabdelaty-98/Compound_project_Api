@@ -1,6 +1,4 @@
-﻿using DataAccessLayer.Models;
-
-namespace BussienesLayer.DTO
+﻿namespace BussienesLayer.DTO
 {
     public class DTOUnit
     {

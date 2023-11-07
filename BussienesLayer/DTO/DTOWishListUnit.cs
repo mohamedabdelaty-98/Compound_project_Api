@@ -1,14 +1,8 @@
 using DataAccessLayer.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BussienesLayer.DTO
 {
-  public class DTOWishListUnit
+    public class DTOWishListUnit
   {
     public int Id { get; set; }
    

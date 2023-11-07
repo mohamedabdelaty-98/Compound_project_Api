@@ -10,10 +10,10 @@ using DataAccessLayer.Reposatories.ReviewReposatory;
 
 using Microsoft.EntityFrameworkCore;
 using DataAccessLayer.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Compound_project
 {
@@ -47,6 +47,7 @@ namespace Compound_project
 
             //Configuration for Raghad
             builder.Services.AddScoped<IBuilding, BuildingRepo>();
+
             //Configuration for Amr
 
             builder.Services.AddScoped<ILandmarkReposatory, LandmarkReposatory>();
@@ -76,8 +77,8 @@ namespace Compound_project
         {
             builder.Services.AddCors(option =>
                option.AddPolicy("AllowAnyOrigin", builder =>
-               builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
-           );
+               builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().WithExposedHeaders("content-disposition")
+           ));
             return builder;
         }
 

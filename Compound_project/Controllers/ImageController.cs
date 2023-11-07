@@ -1,6 +1,12 @@
-﻿using BussienesLayer.DTO;
+
+﻿using AutoMapper;
+using BussienesLayer.DTO;
 using DataAccessLayer.Models;
+using DataAccessLayer.Reposatories;
 using Microsoft.AspNetCore.Http;
+
+﻿using BussienesLayer.DTO;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Compound_project.Controllers
@@ -10,10 +16,25 @@ namespace Compound_project.Controllers
 
     public class ImageController : ControllerBase
     {
+        private readonly ICompoundImage _compoundImage;
+        private readonly IUnitImage _unitImage;
+        private readonly IBuildingImage _buildingImage;
+        private readonly IMapper _mapper;
 
-        [HttpPost("UploadImage")]
-        public async Task <ActionResult<DTOResult>> UploadImage(IFormFile file,DTOUnit _unit)//dtounitimage,buildingimage,
+        public ImageController(ICompoundImage compoundImage, IUnitImage unitImage, IBuildingImage buildingImage, IMapper mapper)
         {
+            _compoundImage = compoundImage;
+            _unitImage = unitImage;
+            _buildingImage = buildingImage;
+            _mapper = mapper;
+            
+        }
+
+        [HttpPost("UploadUnitImage")]
+        public async Task <ActionResult<DTOResult>> UploadUnitImage(IFormFile file,int Id)//dtounitimage,buildingimage,
+        {
+            UnitImage unitImage = new UnitImage();
+            unitImage.UnitId = Id; 
             DTOResult result = new DTOResult();
             if(file == null|| file.Length == 0)
             {
@@ -36,10 +57,11 @@ namespace Compound_project.Controllers
                     await file.CopyToAsync(stream);
                 }
                 //store uploaded file to the database
-                
-
-           
+              
                 var imageUrl = $"/Uploads/{FileName}";
+                unitImage.ImageUrl = imageUrl;
+                _unitImage.insert(unitImage);
+                _unitImage.save();
                 result.IsPass = true;
                 result.Data = "File Uploaded Successfully";
                 return result;
@@ -51,6 +73,95 @@ namespace Compound_project.Controllers
                 return result;
             }
         }
+
+        [HttpPost("UploadBuildingImage")]
+        public async Task<ActionResult<DTOResult>> UploadBuildingImage(IFormFile file, int Id)
+        {
+            BuildingImage buildingImage = new BuildingImage();
+            buildingImage.BuildingId = Id;
+            DTOResult result = new DTOResult();
+            if (file == null || file.Length == 0)
+            {
+                result.IsPass = false;
+                result.Data = "No Images Uploaded";
+            }
+            try
+            {
+                var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+
+                if (!Directory.Exists(uploadDir))
+                {
+                    Directory.CreateDirectory(uploadDir);
+                }
+                var FileName = $"{file.FileName}_{Guid.NewGuid()}";
+                var filePath = Path.Combine(uploadDir, FileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                //store uploaded file to the database
+
+                var imageUrl = $"/Uploads/{FileName}";
+                buildingImage.ImageUrl = imageUrl;
+                _buildingImage.insert(buildingImage);
+                _buildingImage.save();
+                result.IsPass = true;
+                result.Data = "File Uploaded Successfully";
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.IsPass = false;
+                result.Data = "An error occurred while processing the file";
+                return result;
+            }
+        }
+
+        [HttpPost("UploadCompoundImage")]
+        public async Task<ActionResult<DTOResult>> UploadCompoundImage(IFormFile file, int Id)
+        {
+            CompoundImage compoundImage = new CompoundImage();
+             compoundImage.CompoundId= Id;
+            DTOResult result = new DTOResult();
+            if (file == null || file.Length == 0)
+            {
+                result.IsPass = false;
+                result.Data = "No Images Uploaded";
+            }
+            try
+            {
+                var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+
+                if (!Directory.Exists(uploadDir))
+                {
+                    Directory.CreateDirectory(uploadDir);
+                }
+                var FileName = $"{file.FileName}_{Guid.NewGuid()}";
+                var filePath = Path.Combine(uploadDir, FileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                //store uploaded file to the database
+
+                var imageUrl = $"/Uploads/{FileName}";
+                compoundImage.ImageUrl = imageUrl;
+                _compoundImage.insert(compoundImage);
+                _compoundImage.save();
+                result.IsPass = true;
+                result.Data = "File Uploaded Successfully";
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.IsPass = false;
+                result.Data = "An error occurred while processing the file";
+                return result;
+            }
+        }
+
     }
        
 }

@@ -20,6 +20,8 @@ namespace Compound_project.Controllers
         [HttpGet("GetCompoundImages/{CompoundId}")]
         public ActionResult<DTOResult> GetCompoundImages(int CompoundId)
         {
+
+            List<byte[]> imageslist = new List<byte[]>();
             var result = new DTOResult();
             List<CompoundImage> compoundImages = _compoundImage.GetCompoundImages(CompoundId);
             List<DTOCompoundImage> dTOCompoundImages = compoundImages.Select(item => _mapper.Map<DTOCompoundImage>(item)).ToList();
@@ -32,10 +34,21 @@ namespace Compound_project.Controllers
             else
             {
                 result.IsPass = true;
-                result.Data = dTOCompoundImages;
+                foreach (var compoundimage in dTOCompoundImages)
+                {
+
+                    var fullpath = Path.Combine(Directory.GetCurrentDirectory(), compoundimage.ImageUrl);
+                    if (System.IO.File.Exists(fullpath))
+                    {
+                        // Read the file into a byte array.
+                        byte[] imageData = System.IO.File.ReadAllBytes(fullpath);
+                        imageslist.Add(imageData);
+                    }
+
+                }
+                result.Data = imageslist;
             }
             return result;
-
         }
 
         [HttpGet("GetAllImages")]
