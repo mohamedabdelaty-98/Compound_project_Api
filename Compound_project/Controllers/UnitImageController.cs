@@ -14,10 +14,13 @@ namespace Compound_project.Controllers
     {
         private readonly IUnitImage _unitImage;
         private readonly IMapper _mapper;
-        public UnitImageController(IUnitImage unitImage,IMapper mapper)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+
+        public UnitImageController(IUnitImage unitImage,IMapper mapper, IWebHostEnvironment hostingEnvironment)
         {
             this._unitImage = unitImage;
             this._mapper = mapper;
+            _hostingEnvironment = hostingEnvironment;
         }
         [HttpGet("GetUnitImages/{UnitId}")]
         public ActionResult<DTOResult> GetUnitImages(int UnitId)
@@ -38,7 +41,7 @@ namespace Compound_project.Controllers
                 foreach (var unitImage in dTOUnitImages)
                 {
 
-                    var fullpath = Path.Combine(Directory.GetCurrentDirectory(), unitImage.ImageUrl);
+                    var fullpath = _hostingEnvironment.ContentRootPath + unitImage.ImageUrl;
                     if (System.IO.File.Exists(fullpath))
                     {
                         // Read the file into a byte array.

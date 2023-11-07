@@ -12,10 +12,12 @@ namespace Compound_project.Controllers
     {
         private readonly IBuildingImage _buildingImage;
         private readonly IMapper _mapper;
-        public BuildingImageController(IBuildingImage buildingImage, IMapper mapper)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public BuildingImageController(IBuildingImage buildingImage, IMapper mapper, IWebHostEnvironment hostingEnvironment)
         {
             this._buildingImage = buildingImage;
             this._mapper = mapper;
+            _hostingEnvironment = hostingEnvironment;
         }
         [HttpGet("GetBuildingImages/{BuildingId}")]
         public ActionResult<DTOResult> GetBuildingImages(int BuildingId)
@@ -37,7 +39,7 @@ namespace Compound_project.Controllers
                 foreach (var buildingImage in dTOBuildingImages)
                 {
 
-                    var fullpath = Path.Combine(Directory.GetCurrentDirectory(), buildingImage.ImageUrl);
+                    var fullpath = _hostingEnvironment.ContentRootPath+ buildingImage.ImageUrl;
                     if (System.IO.File.Exists(fullpath))
                     {
                         // Read the file into a byte array.

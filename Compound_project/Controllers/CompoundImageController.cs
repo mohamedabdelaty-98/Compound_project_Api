@@ -12,10 +12,13 @@ namespace Compound_project.Controllers
     {
         private readonly ICompoundImage _compoundImage;
         private readonly IMapper _mapper;
-        public CompoundImageController(ICompoundImage compoundImage,IMapper mapper)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+
+        public CompoundImageController(ICompoundImage compoundImage,IMapper mapper, IWebHostEnvironment hostingEnvironment)
         {
             this._compoundImage = compoundImage;
             this._mapper = mapper;
+            _hostingEnvironment = hostingEnvironment;
         }
         [HttpGet("GetCompoundImages/{CompoundId}")]
         public ActionResult<DTOResult> GetCompoundImages(int CompoundId)
@@ -37,7 +40,7 @@ namespace Compound_project.Controllers
                 foreach (var compoundimage in dTOCompoundImages)
                 {
 
-                    var fullpath = Path.Combine(Directory.GetCurrentDirectory(), compoundimage.ImageUrl);
+                    var fullpath = _hostingEnvironment.ContentRootPath + compoundimage.ImageUrl;
                     if (System.IO.File.Exists(fullpath))
                     {
                         // Read the file into a byte array.

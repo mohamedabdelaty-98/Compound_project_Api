@@ -64,6 +64,7 @@ namespace Compound_project
                 app.UseSwaggerUI();
             }
             app.UseCors("AllowAnyOrigin");
+            app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -14,7 +14,7 @@ namespace BussienesLayer.DTO
     public string PhoneNumber { get; set; }
    public double Budget { get; set; }
    public string ContactEmail { get; set; }
-        public int FloorNumber { get; set; }
+        public int? FloorNumber { get; set; }
 
         public string UserId { get; set; }
  
