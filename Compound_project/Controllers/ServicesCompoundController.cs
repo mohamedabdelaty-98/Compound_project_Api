@@ -111,9 +111,11 @@ namespace Compound_project.Controllers
                     else
                     {
                         dTOservicscompound.ServiceId = serv.Id;
-                        if (serv.Description.ToLower() != dTOservicscompound.Description.ToLower())
+                        if (serv.Description.ToLower() != dTOservicscompound.Description.ToLower()
+                            || serv.IConName.ToLower()!=dTOservicscompound.IConName.ToLower())
                         {
                             serv.Description = dTOservicscompound.Description;
+                            serv.IConName = dTOservicscompound.IConName;
                             _services.update(serv);
                             _services.save();
                         }

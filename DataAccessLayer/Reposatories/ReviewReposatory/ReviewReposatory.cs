@@ -1,15 +1,10 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.Reposatories.ReviewReposatory
 {
-   public class ReviewReposatory: IReviewReposatory
+    public class ReviewReposatory: IReviewReposatory
    {
       public Review? GetById(int id)
       {

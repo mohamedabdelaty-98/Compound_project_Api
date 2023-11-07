@@ -64,6 +64,15 @@ namespace Compound_project.Controllers
             result.Data = dTOUnits;
             return result;
         }
+        [HttpGet("getfloors/{num}")]
+        public ActionResult<DTOResult> getfloors(int num)
+        {
+            List<int> floor=_unit.getFloors(num);
+            DTOResult result=new DTOResult();
+            result.IsPass = floor.Count != 0 ? true : false;
+            result.Data = floor;
+            return result;
+        }
         [HttpGet("UnitInBuilding/{num}")]
         public ActionResult<DTOResult> UnitInBuilding(int num)
         {

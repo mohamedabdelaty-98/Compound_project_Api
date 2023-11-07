@@ -1,7 +1,5 @@
 using AutoMapper;
 using BussienesLayer.DTO;
-using Compound_project.Migrations;
-using DataAccessLayer.Models;
 using DataAccessLayer.Reposatories;
 using Microsoft.AspNetCore.Mvc;
 using Application = DataAccessLayer.Models.Application;
