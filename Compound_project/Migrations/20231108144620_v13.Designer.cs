@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Compound_project.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231108042017_v15")]
-    partial class v15
+    [Migration("20231108144620_v13")]
+    partial class v13
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -507,7 +507,6 @@ namespace Compound_project.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -516,7 +515,6 @@ namespace Compound_project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -577,7 +575,6 @@ namespace Compound_project.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("gender")
-                        .IsRequired()
                         .HasColumnType("varchar(10)");
 
                     b.HasKey("Id");

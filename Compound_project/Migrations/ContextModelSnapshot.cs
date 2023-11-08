@@ -64,7 +64,7 @@ namespace Compound_project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("applications", (string)null);
+                    b.ToTable("applications");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Building", b =>
@@ -109,7 +109,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("CompoundId");
 
-                    b.ToTable("buildings", (string)null);
+                    b.ToTable("buildings");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.BuildingImage", b =>
@@ -131,7 +131,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("BuildingId");
 
-                    b.ToTable("BuildingImages", (string)null);
+                    b.ToTable("BuildingImages");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.CComponent", b =>
@@ -149,7 +149,7 @@ namespace Compound_project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("components", (string)null);
+                    b.ToTable("components");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Compound", b =>
@@ -203,7 +203,7 @@ namespace Compound_project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("compounds", (string)null);
+                    b.ToTable("compounds");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.CompoundImage", b =>
@@ -225,7 +225,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("CompoundId");
 
-                    b.ToTable("CompundImages", (string)null);
+                    b.ToTable("CompundImages");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.LandMarksCompound", b =>
@@ -256,7 +256,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("LandMarkId");
 
-                    b.ToTable("landMarksCompounds", (string)null);
+                    b.ToTable("landMarksCompounds");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Landmark", b =>
@@ -272,7 +272,7 @@ namespace Compound_project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("landmarks", (string)null);
+                    b.ToTable("landmarks");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Review", b =>
@@ -302,7 +302,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("UserId020");
 
-                    b.ToTable("reviews", (string)null);
+                    b.ToTable("reviews");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Service", b =>
@@ -329,7 +329,7 @@ namespace Compound_project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("services", (string)null);
+                    b.ToTable("services");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.ServiceBuilding", b =>
@@ -352,7 +352,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("serviceBuildings", (string)null);
+                    b.ToTable("serviceBuildings");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.ServiceUnit", b =>
@@ -375,7 +375,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("serviceUnits", (string)null);
+                    b.ToTable("serviceUnits");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.ServicesCompound", b =>
@@ -398,7 +398,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("servicesCompounds", (string)null);
+                    b.ToTable("servicesCompounds");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Unit", b =>
@@ -440,7 +440,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("BuildingId");
 
-                    b.ToTable("units", (string)null);
+                    b.ToTable("units");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.UnitComponent", b =>
@@ -470,7 +470,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("unitComponents", (string)null);
+                    b.ToTable("unitComponents");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.UnitImage", b =>
@@ -492,7 +492,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("unitImages", (string)null);
+                    b.ToTable("unitImages");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.User", b =>
@@ -504,7 +504,6 @@ namespace Compound_project.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -513,7 +512,6 @@ namespace Compound_project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -574,7 +572,6 @@ namespace Compound_project.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("gender")
-                        .IsRequired()
                         .HasColumnType("varchar(10)");
 
                     b.HasKey("Id");
@@ -608,7 +605,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("wishlists", (string)null);
+                    b.ToTable("wishlists");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.WishlistUnit", b =>
@@ -631,7 +628,7 @@ namespace Compound_project.Migrations
 
                     b.HasIndex("WihslistId");
 
-                    b.ToTable("wishlistUnits", (string)null);
+                    b.ToTable("wishlistUnits");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
