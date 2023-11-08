@@ -21,10 +21,10 @@ namespace DataAccessLayer.Reposatories
              
         }
 
-        public List<Unit> FilterByNumOfFloor(int num)
+        public List<Unit> FilterByNumOfFloor(int num, int compoundid)
         {
             return context.units.Where(u => u.status == Status.active &&
-            u.Floor==num).ToList();
+            u.Floor==num&&u.building.CompoundId==compoundid).ToList();
         }
 
         public List<Unit> FilterByNumberOfRoom(int num)
@@ -52,5 +52,13 @@ namespace DataAccessLayer.Reposatories
             u.building.CompoundId==compoundnunm).ToList();
             return units.Select(f => f.Floor).ToList();
         }
+        public List<int> getBedroomNumber(int compoundnunm)
+        {
+            List<Unit> units = context.units.Where(u => u.status == Status.active &&
+            u.building.CompoundId == compoundnunm).ToList();
+            return units.Select(f => f.NumberOfBedrooms).ToList();
+        }
+
+
     }
 }

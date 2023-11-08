@@ -49,10 +49,10 @@ namespace Compound_project.Controllers
             result.Data = dTOUnits;
             return result;
         }
-        [HttpGet("UnitsInFloor/{num}")]
-        public ActionResult<DTOResult> UnitsInFloor(int num)
+        [HttpGet("UnitsInFloor/{num}/{compoundid}")]
+        public ActionResult<DTOResult> UnitsInFloor(int num,int compoundid)
         {
-            List<Unit> units = _unit.FilterByNumOfFloor(num);
+            List<Unit> units = _unit.FilterByNumOfFloor(num,compoundid);
             List<DTOUnit> dTOUnits = units.Select(item => _mapper.Map<DTOUnit>(item)).ToList();
             foreach (var dtoUnit in dTOUnits)
             {
@@ -71,6 +71,15 @@ namespace Compound_project.Controllers
             DTOResult result=new DTOResult();
             result.IsPass = floor.Count != 0 ? true : false;
             result.Data = floor;
+            return result;
+        }
+        [HttpGet("getbedroomsnumber/{num}")]
+        public ActionResult<DTOResult> getbedroomsnumber(int num)
+        {
+            List<int> bedroomsnumber = _unit.getBedroomNumber(num);
+            DTOResult result = new DTOResult();
+            result.IsPass = bedroomsnumber.Count != 0 ? true : false;
+            result.Data = bedroomsnumber;
             return result;
         }
         [HttpGet("UnitInBuilding/{num}")]

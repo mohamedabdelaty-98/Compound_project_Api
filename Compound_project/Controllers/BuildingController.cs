@@ -57,19 +57,48 @@ namespace Compound_project.Controllers
         }
 
 
-        [HttpGet("BuildingsBasedUnitFloor/{num}")]
-        public ActionResult<DTOResult> BuildingsBasedUnitFloor(int num)
+        [HttpGet("BuildingsBasedUnitFloor/{num}/{compoundid}")]
+        public ActionResult<DTOResult> BuildingsBasedUnitFloor(int num,int compoundid)
         {
-            List<Building> buildings = _building.FilterBasedOnUnitFloor(num);
+            List<Building> buildings = _building.FilterBasedOnUnitFloor(num,compoundid);
+            DTOResult result = GetBuildingsCommonLogic(buildings);
+            return result;
+        }
+        [HttpGet("getBuildingsNumber/{num}")]
+        public ActionResult<DTOResult> getBuildingsNumber(int num)
+        {
+            List<int> buildingnumber = _building.getBuildings(num);
+            DTOResult result = new DTOResult();
+            result.IsPass = buildingnumber.Count != 0 ? true : false;
+            result.Data = buildingnumber;
+            return result;
+        }
+        [HttpGet("getBuildingsByBuildingNumber/{buildingnumber}/{compoundnumber}")]
+        public ActionResult<DTOResult> getBuildingsByBuildingNumber(int buildingnumber, int compoundnumber)
+        {
+            List<Building> buildings = _building.FilterBasedOnBuildingNumber(buildingnumber, compoundnumber);
+            DTOResult result = GetBuildingsCommonLogic(buildings);
+            return result;
+        }
+        [HttpGet("getbuildingbyBigarea/{area}/{compoundnumber}")]
+        public ActionResult<DTOResult> getbuildingbyBigarea(int area, int compoundnumber)
+        {
+            List<Building> buildings = _building.FilterBasedOnUnitareaGreaterthan(area, compoundnumber);
+            DTOResult result = GetBuildingsCommonLogic(buildings);
+            return result;
+        }
+        [HttpGet("getbuildingbysmallarea/{area}/{compoundnumber}")]
+        public ActionResult<DTOResult> getbuildingbysmallarea(int area, int compoundnumber)
+        {
+            List<Building> buildings = _building.FilterBasedOnUnitareaLessthan(area, compoundnumber);
             DTOResult result = GetBuildingsCommonLogic(buildings);
             return result;
         }
 
-
-        [HttpGet("BuildingsUnitNumBedRooms/{num}")]
-        public ActionResult<DTOResult> BuildingsUnitNumBedRooms(int num)
+        [HttpGet("BuildingsUnitNumBedRooms/{num}/{compoundid}")]
+        public ActionResult<DTOResult> BuildingsUnitNumBedRooms(int num,int compoundid)
         {
-            List<Building> buildings = _building.FilterBasedOnUnitNumBedRooms(num);
+            List<Building> buildings = _building.FilterBasedOnUnitNumBedRooms(num, compoundid);
             DTOResult result = GetBuildingsCommonLogic(buildings);
             return result;
         }
@@ -84,10 +113,10 @@ namespace Compound_project.Controllers
         }
 
 
-        [HttpGet("BuildingsUnitActive")]
-        public ActionResult<DTOResult> BuildingsUnitActive()
+        [HttpGet("BuildingsUnitActive/{num}")]
+        public ActionResult<DTOResult> BuildingsUnitActive(int num)
         {
-            List<Building> buildings = _building.FilterBasedOnUnitStatus();
+            List<Building> buildings = _building.FilterBasedOnUnitStatus(num);
             DTOResult result = GetBuildingsCommonLogic(buildings);
             return result;
         }

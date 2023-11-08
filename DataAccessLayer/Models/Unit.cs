@@ -7,6 +7,7 @@ namespace DataAccessLayer.Models
     {
         public int Id { get; set; }
         public int UnitNumber { get; set; }
+        
         public int Floor { get; set; }
         [MaxLength(1000)]
         public string Description { get; set; }
