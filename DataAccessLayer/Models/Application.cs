@@ -13,7 +13,7 @@ namespace DataAccessLayer.Models
         public string PhoneNumber { get; set; }
         public double Budget { get; set; }
         public int FloorNumber { get; set; }
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         [MaxLength(100)]
         public string ContactEmail { get; set; }
     }

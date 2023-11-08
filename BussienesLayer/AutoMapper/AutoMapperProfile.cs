@@ -101,9 +101,11 @@ namespace BussienesLayer.AutoMapper
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
 
-            CreateMap<Review, Review_IncludeUserDTO>()
-            .ForMember(dest => dest.FullName,
-            opt => opt.MapFrom(src => src.user.FName != null ? src.user.FName + src.user.LName : null));
+            CreateMap<Review, DTOReviews>()
+            .ForMember(dest => dest.FName,
+            opt => opt.MapFrom(src => src.user.FName))
+            .ForMember(dest => dest.LName,
+            opt => opt.MapFrom(src => src.user.LName));
 
 
 
