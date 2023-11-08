@@ -13,11 +13,11 @@ namespace BussienesLayer.DTO
         [Column(TypeName = "date")]
         public DateTime DateOfBirth { get; set; }
         [Column(TypeName = "varchar(10)")]
-        public string gender { get; set; }
+        public string? gender { get; set; }
         [MaxLength(200)]
-        public string Address { get; set; }
+        public string? Address { get; set; }
         [MaxLength(100)]
-        public string Country { get; set; }
+        public string? Country { get; set; }
         public string Email { get; set; }
         public string userName { get; set; }
         public string Password { get; set; }
