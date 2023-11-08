@@ -45,6 +45,10 @@ namespace BussienesLayer.AutoMapper
             CreateMap<Compound, DTOCompound>()
                 .ForMember(dest => dest.File, opt => opt.Ignore());
             CreateMap<DTOCompound, Compound>();
+            CreateMap<DTOUser, User>();
+            CreateMap<User, DTOUser>();
+
+
 
             //Raghad
             CreateMap<Building, DTOBuilding>()
@@ -53,6 +57,9 @@ namespace BussienesLayer.AutoMapper
                 .ForMember(dest => dest.status, opt => opt.MapFrom(src => Enum.Parse(typeof(Status), src.status)));
             CreateMap<Compound, DTOCompound>()
             .ForMember(dest => dest.File, opt => opt.Ignore());
+
+            CreateMap<ReviewDTO, Review>();
+           
 
 
 
@@ -94,9 +101,11 @@ namespace BussienesLayer.AutoMapper
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
 
-            CreateMap<Review, Review_IncludeUserDTO>()
-            .ForMember(dest => dest.FullName,
-            opt => opt.MapFrom(src => src.user.FName != null ? src.user.FName + src.user.LName : null));
+            CreateMap<Review, DTOReviews>()
+            .ForMember(dest => dest.FName,
+            opt => opt.MapFrom(src => src.user.FName))
+            .ForMember(dest => dest.LName,
+            opt => opt.MapFrom(src => src.user.LName));
 
 
 

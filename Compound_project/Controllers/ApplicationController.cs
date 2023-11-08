@@ -51,7 +51,7 @@ namespace Compound_project.Controllers
             return result;
     }
     [HttpPost("AddApplication")]
-    public ActionResult<DTOResult> AddApplication(DTOApplication dTOApplication)
+    public ActionResult<DTOResult> AddApplication([FromForm]DTOApplication dTOApplication)
     {
             DTOResult result = new DTOResult();
 
@@ -74,8 +74,9 @@ namespace Compound_project.Controllers
             else
             {
                 result.IsPass = false;
-                result.Data = ModelState.Values.SelectMany(v => v.Errors)
-                    .Select(e => e.ErrorMessage).ToList();
+                result.Data = string.Join("\n", ModelState.Values
+       .SelectMany(v => v.Errors)
+       .Select(e => e.ErrorMessage));
             }
 
             return result;

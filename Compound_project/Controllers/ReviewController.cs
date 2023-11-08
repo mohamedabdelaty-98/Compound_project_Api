@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using BussienesLayer.DTO;
 using BussienesLayer.DTO.ReviewDTO;
 using Compound_project.Reposatories.ReviewReposatory;
 using DataAccessLayer.Models;
+using DataAccessLayer.Reposatories;
 using DataAccessLayer.Reposatories.ReviewReposatory;
+using DataAccessLayer.Reposatories.UserReposatory;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Compound_project.Controllers
@@ -12,13 +15,17 @@ namespace Compound_project.Controllers
    public class ReviewController : ControllerBase
    {
       private readonly IMapper _mapper;
+        private readonly IReviewReposatory _reviewReposatory;
+        private readonly IUser _user;
       private readonly IReviewOperationsReposatory _ReviewOperationsReposatory;
 
       public ReviewController(IReviewOperationsReposatory _ReviewOperationsReposatory,
-         IMapper _mapper)
+         IMapper _mapper, IReviewReposatory _reviewReposatory,IUser _user)
       {
          this._ReviewOperationsReposatory = _ReviewOperationsReposatory;
          this._mapper = _mapper;
+            this._reviewReposatory = _reviewReposatory;
+            this._user = _user;
       }
       
       [HttpPost]
@@ -72,6 +79,18 @@ namespace Compound_project.Controllers
 
          return Ok(landMarksCompoundsDTO);
       }
+
+        [HttpGet("GetAllReviews")]
+
+        public ActionResult<DTOResult> GetAllReviews()
+        {
+            List<Review> reviews = _reviewReposatory.GetAll(r=>r.user);
+            List<DTOReviews> dtoreviews = reviews.Select(item => _mapper.Map<DTOReviews>(item)).ToList();
+            DTOResult result = new DTOResult();
+            result.IsPass = dtoreviews.Count != 0 ? true : false;
+            result.Data = dtoreviews;
+            return result;
+        }
 
 
    }

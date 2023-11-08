@@ -2,8 +2,8 @@
 
 namespace DataAccessLayer.Reposatories.ReviewReposatory
 {
-    public interface IReviewReposatory
-   {
+    public interface IReviewReposatory : IGenericReposatory<Review>
+    {
       List<Review> GetReviewByUserId(string UserId);
       Review? GetById(int id);
    }

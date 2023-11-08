@@ -7,5 +7,6 @@
       public string? ReviewText { get; set; }
       public DateTime DatePosted { get; set; }
       public string? FullName { get;}
+
    }
 }

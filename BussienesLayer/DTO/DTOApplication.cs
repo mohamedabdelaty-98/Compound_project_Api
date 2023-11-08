@@ -10,7 +10,7 @@ namespace BussienesLayer.DTO
    public string ContactEmail { get; set; }
         public int? FloorNumber { get; set; }
 
-        public string UserId { get; set; }
+   public string? UserId { get; set; }
  
 
   }
