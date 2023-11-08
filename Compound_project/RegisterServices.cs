@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using DataAccessLayer.Reposatories.UserReposatory;
 
 namespace Compound_project
 {
@@ -33,6 +34,8 @@ namespace Compound_project
 
             //Configuration for Men3m
             builder.Services.AddScoped<ICompound, CompoundRepo>();
+            builder.Services.AddScoped<IUser, UserRepo>();
+
 
             //Configuration for Salah
             builder.Services.AddScoped<IServices, Services_Repo>();
