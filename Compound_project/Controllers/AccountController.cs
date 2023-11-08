@@ -32,7 +32,7 @@ namespace Compound_project.Controllers
             DTOResult result = new DTOResult();
             if (ModelState.IsValid)
             {
-               User UserModel= mapper.Map<User>(userRegister);
+                User UserModel= mapper.Map<User>(userRegister);
                IdentityResult identityresult = await userManager.CreateAsync(UserModel, userRegister.Password);
                 if(identityresult.Succeeded)
                 {
@@ -62,7 +62,7 @@ namespace Compound_project.Controllers
 
             if (ModelState.IsValid)
             {
-                User user = await userManager.FindByNameAsync(userLogin.userName);
+                User user = await userManager.FindByEmailAsync(userLogin.email);
                 if (user != null && await userManager.CheckPasswordAsync(user, userLogin.password)) {
 
                    

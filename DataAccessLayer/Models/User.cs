@@ -17,11 +17,11 @@ namespace DataAccessLayer.Models
         [Column(TypeName ="date")]
         public DateTime DateOfBirth { get; set; }
         [Column(TypeName ="varchar(10)")]
-        public Gender gender{ get; set; }
+        public Gender? gender{ get; set; }
         [MaxLength(200)]
-        public string Address{ get; set; }
+        public string? Address{ get; set; }
         [MaxLength(100)]
-        public string Country{ get; set; }
+        public string? Country{ get; set; }
         [ForeignKey("wishlist")]
         public int? WishlistID{ get; set; }
         public virtual Wishlist? wishlist { get; set; }
