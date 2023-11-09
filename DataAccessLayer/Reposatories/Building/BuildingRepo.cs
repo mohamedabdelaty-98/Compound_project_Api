@@ -62,7 +62,7 @@ namespace DataAccessLayer.Reposatories
         {
             List<Unit> units = _context.units.Where(u => u.status == Status.active &&
             u.building.CompoundId == compoundnunm).ToList();
-            return units.Select(b => b.building.BulidingNumber).ToList();
+            return units.Select(b => b.building.BulidingNumber).Distinct().ToList();
         }
     }
 }

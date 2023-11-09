@@ -11,9 +11,10 @@ namespace BussienesLayer.DTO
         public int Id { get; set; }
         public int Rating { get; set; }
         public string? ReviewText { get; set; }
-        public DateTime DatePosted { get; set; }
-        public string FName { get; set;}
-        public string LName { get; set;}
+        public DateTime? DatePosted { get; set; }
+        public string UserName { get; set;}
+        public string UserId020 { get; set; }
+
 
     }
 

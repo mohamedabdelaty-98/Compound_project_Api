@@ -19,8 +19,8 @@ namespace DataAccessLayer.Models
         [Column(TypeName ="date")]
         public DateTime DateAdded { get; set; }
         public double SizeArea { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
         public virtual List<Unit>? Units { get; set; } = new List<Unit>();
         public virtual List<BuildingImage>? imageBuildings { get; set; } = new List<BuildingImage>();
         public virtual List<ServiceBuilding>? serviceBuildings { get; set; } = new List<ServiceBuilding>();

@@ -18,7 +18,7 @@ namespace DataAccessLayer.Models
         public DateTime? DateAdded { get; set; }
         [MaxLength(1000)]
 
-        public string File { get; set; }
+        public string? File { get; set; }
 
         public double Street_area { get; set; }
         public double GreenArea { get; set; }

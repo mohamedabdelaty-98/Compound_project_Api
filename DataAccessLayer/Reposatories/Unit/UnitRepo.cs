@@ -50,13 +50,13 @@ namespace DataAccessLayer.Reposatories
         {
             List<Unit> units= context.units.Where(u => u.status == Status.active &&
             u.building.CompoundId==compoundnunm).ToList();
-            return units.Select(f => f.Floor).ToList();
+            return units.Select(f => f.Floor).Distinct().ToList();
         }
         public List<int> getBedroomNumber(int compoundnunm)
         {
             List<Unit> units = context.units.Where(u => u.status == Status.active &&
             u.building.CompoundId == compoundnunm).ToList();
-            return units.Select(f => f.NumberOfBedrooms).ToList();
+            return units.Select(f => f.NumberOfBedrooms).Distinct().ToList();
         }
 
 

@@ -102,10 +102,13 @@ namespace BussienesLayer.AutoMapper
 
 
             CreateMap<Review, DTOReviews>()
-            .ForMember(dest => dest.FName,
-            opt => opt.MapFrom(src => src.user.FName))
-            .ForMember(dest => dest.LName,
-            opt => opt.MapFrom(src => src.user.LName));
+            .ForMember(dest => dest.UserName,
+            opt => opt.MapFrom(src => src.user.UserName));
+
+            CreateMap<DTOReviews, Review>()
+                .ForPath(dest => dest.user.UserName,
+            opt => opt.MapFrom(src => src.UserName));
+
 
 
 

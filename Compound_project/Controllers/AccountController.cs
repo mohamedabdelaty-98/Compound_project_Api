@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BussienesLayer.DTO;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -104,6 +105,62 @@ namespace Compound_project.Controllers
                 }
 
             }
+            return result;
+        }
+        [HttpPost("AddUsertoRole")]
+        public async Task<ActionResult<DTOResult>> AddUsertoRole(string username)
+        {
+            DTOResult result = new DTOResult();
+            var user =await userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                result.IsPass = false;
+                result.Data = "User Not Found";
+                return result;
+            }
+            var addtorole = await userManager.AddToRoleAsync(user, "Admin");
+            if(addtorole.Succeeded) {
+                result.IsPass = true;
+                result.Data = "User added to admin role successfully";
+            }
+            else
+            {
+                result.IsPass = false;
+                result.Data = "Failed to add user to admin role";
+            }
+            return result;
+
+        }
+
+        [HttpGet("GetUserRole/{username}")]
+        public async Task<ActionResult<DTOResult>> GetUserRole(string username)
+        {
+            DTOResult result=new DTOResult();
+            var user = await userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                result.IsPass=false;
+                result.Data = "User Not Found";
+                return result;
+            }
+
+            var roles = await userManager.GetRolesAsync(user);
+            if (roles.Any())
+            {
+                result.IsPass = true;
+                result.Data = roles.First();
+                return result;
+            }
+
+            return result;
+        }
+        [HttpPost("Logout")]
+        public ActionResult<DTOResult> Logout()
+        {
+            HttpContext.SignOutAsync();
+            DTOResult result = new DTOResult();
+            result.IsPass = true;
+            result.Data = "Signed out successfully";
             return result;
         }
     }

@@ -89,10 +89,10 @@ namespace Compound_project.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<double>("Latitude")
+                    b.Property<double?>("Latitude")
                         .HasColumnType("float");
 
-                    b.Property<double>("Longitude")
+                    b.Property<double?>("Longitude")
                         .HasColumnType("float");
 
                     b.Property<int>("NumberOfFloor")
@@ -177,7 +177,6 @@ namespace Compound_project.Migrations
                         .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("File")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 

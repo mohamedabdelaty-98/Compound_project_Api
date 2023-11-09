@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BussienesLayer.DTO;
 using BussienesLayer.DTO.ReviewDTO;
+using Compound_project.Migrations;
 using Compound_project.Reposatories.ReviewReposatory;
 using DataAccessLayer.Models;
 using DataAccessLayer.Reposatories;
@@ -16,59 +17,46 @@ namespace Compound_project.Controllers
    {
       private readonly IMapper _mapper;
         private readonly IReviewReposatory _reviewReposatory;
-        private readonly IUser _user;
-      private readonly IReviewOperationsReposatory _ReviewOperationsReposatory;
-
       public ReviewController(IReviewOperationsReposatory _ReviewOperationsReposatory,
          IMapper _mapper, IReviewReposatory _reviewReposatory,IUser _user)
       {
-         this._ReviewOperationsReposatory = _ReviewOperationsReposatory;
+     
          this._mapper = _mapper;
             this._reviewReposatory = _reviewReposatory;
-            this._user = _user;
-      }
-      
-      [HttpPost]
-      public async Task<IActionResult> CreateReview(ReviewDTO _LandMarksCompoundDTO)
-      {
-         ReviewCreateReturn landmarksCompundCreateReturn = await _ReviewOperationsReposatory.Create(_LandMarksCompoundDTO);
-         if (landmarksCompundCreateReturn.review != null)
-            return Created(landmarksCompundCreateReturn.URL
-               , new
-               {
-                  landmarksCompundCreateReturn.review.Rating,
-                  landmarksCompundCreateReturn.review.ReviewText,
-                  landmarksCompundCreateReturn.review.DatePosted,
-                  landmarksCompundCreateReturn.review.UserId020
-               });
-
-         return BadRequest();
       }
 
-      [HttpPut("{id:int}")]
-      public async Task<IActionResult> UpdateLandmark(int id, ReviewDTO reviewDTO, IReviewReposatory _ReviewReposatory)
-      {
-         if (ModelState.IsValid == true)
-         {
-            bool FindReview = await _ReviewOperationsReposatory.Update(id, reviewDTO, _ReviewReposatory);
-            if (FindReview == true)
-               return StatusCode(204, reviewDTO);
+        [HttpPost("InsertReview")]
+        public ActionResult<DTOResult> InsertReview(DTOReviews dTOReviews)
+        {
+            DTOResult result = new DTOResult();
 
-            return BadRequest("Not Found Landmark");
-         }
-         return BadRequest("ModelState Not Valid");
-      }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Review review = _mapper.Map<Review>(dTOReviews);
+                    _reviewReposatory.insert(review);
+                    _reviewReposatory.save();
+                    result.IsPass = true;
+                    result.Data = $"Created unit with ID {review.Id}";
+                }
+                catch (Exception ex)
+                {
+                    result.IsPass = false;
+                    result.Data = dTOReviews;
+                }
+            }
+            else
+            {
+                result.IsPass = false;
+                result.Data = ModelState.Values.SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage).ToList();
+            }
 
-      [HttpDelete("{id:int}")]
-      public async Task<IActionResult> DelteLandmark(int id, IReviewReposatory _ReviewReposatory)
-      {
-         bool FindReview = await _ReviewOperationsReposatory.Delete(id, _ReviewReposatory);
-         if (FindReview == true)
-            return StatusCode(204);
-         return BadRequest("Not Found Landmark");
-      }
-      [HttpGet("{UserId}")]
-      public IActionResult GetRevieByUserId(string UserId, IReviewReposatory _ReviewReposatory)
+            return result;
+        }
+        [HttpGet("GetReviewsbyUserId/{UserId}")]
+      public IActionResult GetReviewsbyUserId(string UserId, IReviewReposatory _ReviewReposatory)
       {
 
          List<Review> landMarksCompounds = _ReviewReposatory.GetReviewByUserId(UserId);
@@ -80,8 +68,9 @@ namespace Compound_project.Controllers
          return Ok(landMarksCompoundsDTO);
       }
 
+   
+        
         [HttpGet("GetAllReviews")]
-
         public ActionResult<DTOResult> GetAllReviews()
         {
             List<Review> reviews = _reviewReposatory.GetAll(r=>r.user);
